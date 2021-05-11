@@ -26,14 +26,14 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    marginBottom:"7rem",
+    marginBottom:"6.5rem",
 },
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    backgroundColor:"#594DF5"
+    backgroundColor:"#115DBF"
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -125,7 +125,7 @@ export default function PersistentDrawerRight() {
       >
         <Toolbar>
           <Typography variant="h6" noWrap className={classes.title}>
-            <img src={Logo} width="250" height="100" />
+            <img alt="TEAyuda" src={Logo} width="250" height="100" />
           </Typography>
           <IconButton
             color="inherit"
@@ -134,7 +134,7 @@ export default function PersistentDrawerRight() {
             onClick={handleDrawerOpen}
             className={clsx(open && classes.hide)}
           >
-            <MenuIcon />
+            <MenuIcon style={{width:"70", height:"40"}} />
           </IconButton>
         </Toolbar>
       </AppBar>
