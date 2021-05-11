@@ -5,7 +5,7 @@ import Logo from "./assets/LogoBlancoBrillante.png";
 const FooterPage = () => {
     const useStyles = makeStyles((theme) => ({
         container: {
-            backgroundColor:"#594DF5",
+            backgroundColor:"#115DBF",
         },
         title:{
             color:"white",
@@ -22,7 +22,7 @@ const FooterPage = () => {
       <MDBContainer fluid className="text-md-left">
         <MDBRow>
           <MDBCol md="6" >
-            <div className="offset-md-3"><img src={Logo} width="380" height="185" /></div>
+            <div className="offset-md-3"><img alt="TEAyuda" src={Logo} width="250" height="100" /></div>
           </MDBCol>
           <MDBCol md="4">
             <h5 className={classes.title1}>Contacto</h5>
