@@ -9,7 +9,6 @@ import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import {Top5entidades} from "./components/Top5entidades";
-import imagen from "./components/assets/person-icon.png";
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -55,7 +54,13 @@ export default function Cartilla() {
             width: '100%',
             maxWidth: 600,
             marginLeft:"1rem"
-        }
+        },
+        avatar:{
+            width:"4rem",
+            height:"4rem",
+            marginTop:"0.5rem", 
+            marginRight:"0.5rem",
+        },
     }));
     const classes = useStyles();
     //const history= useHistory();
@@ -82,12 +87,12 @@ export default function Cartilla() {
                 <label className={classes.labels} for="entidad">Seleccione una entidad</label><br />
                 <select className={classes.select} value={entidadSelected} id="entidad" name="entidadlist" form="entidadform" onChange={(e) =>{onEntidad(e.target.value)}}>
                     <option value="" disabled selected>Seleccione una entidad</option>
-                    <option value="especialista">Especialista</option>
-                    <option value="instituto">Instituto</option>
-                    <option value="actividad">Actividad</option>
+                    <option value="Profesionales">Especialista</option>
+                    <option value="Instituciones">Instituto</option>
+                    <option value="Actividades">Actividad</option>
                 </select>
             </div>
-        )
+        );
     }
     const localidades = () =>{
         return(
@@ -120,17 +125,17 @@ export default function Cartilla() {
     const search = () =>{
         return(
             <div class="col-md-3 mb-2 my-auto">
-                    {entidadSelected === "especialista" ? (
+                    {entidadSelected === "Profesionales" ? (
                     <div>
                         <label className={classes.labels} for="search">Buscar por especialidad</label><br />
                     </div>) 
                     : <div />}
-                    {entidadSelected === "actividad" ? (
+                    {entidadSelected === "Actividades" ? (
                     <div>
                         <label className={classes.labels} for="search">Buscar por actividad</label><br />
                     </div>) 
                     : <div />}
-                    {entidadSelected === "instituto" ? (
+                    {entidadSelected === "Instituciones" ? (
                     <div>
                         <label className={classes.labels} for="search">Buscar por grado</label><br />
                     </div>) 
@@ -168,14 +173,17 @@ export default function Cartilla() {
             </div>
         )
     }
+    const seeMoreInfo = (value) =>{
+        console.log(value)
+    }
     const listEntidades = () =>{
         return(
             <div className={classes.root}>
                 {Top5entidades.map((value) => (
-                <List class="ml-md-auto">
+                <List class="ml-md-auto ml-sm-auto">
                     <ListItem alignItems="flex-start">
                         <ListItemAvatar>
-                            <Avatar alt="imagen" src={imagen} />
+                            <Avatar alt="imagen" className={classes.avatar} src={value.image} />
                         </ListItemAvatar>
                             <ListItemText
                                 primary={value.nombre + " " +value.apellido}
@@ -234,7 +242,7 @@ export default function Cartilla() {
                                     >Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
                                     ): <div />}
                                     <ListItemSecondaryAction>
-                                        <IconButton >
+                                        <IconButton onClick={() => {seeMoreInfo(value)}} >
                                             <VisibilityIcon />
                                         </IconButton>
                                     </ListItemSecondaryAction>
@@ -258,7 +266,7 @@ export default function Cartilla() {
                 {resetFilter()}
                 <Divider className={classes.divider}/>
             </div>
-            <div class="col-11 p-3">
+            <div class="col-11 p-4">
                 {listEntidades()}
             </div>
         </div>
