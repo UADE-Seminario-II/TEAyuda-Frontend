@@ -40,6 +40,7 @@ export default function Cartilla() {
         divider:{
             backgroundColor:"black",
             marginTop:"1.5rem",
+            width:"100%"
         },
         select:{
             width:"13.8rem",
@@ -53,7 +54,7 @@ export default function Cartilla() {
         root:{
             width: '100%',
             maxWidth: 600,
-            marginLeft:"6rem"
+            marginLeft:"1rem"
         }
     }));
     const classes = useStyles();
@@ -77,7 +78,7 @@ export default function Cartilla() {
     }
     const entidades = () =>{
         return(
-            <div class="col-md-2 mb-md-1 my-auto offset-md-1">
+            <div class="col-md-2 mb-2 my-auto offset-md-1">
                 <label className={classes.labels} for="entidad">Seleccione una entidad</label><br />
                 <select className={classes.select} value={entidadSelected} id="entidad" name="entidadlist" form="entidadform" onChange={(e) =>{onEntidad(e.target.value)}}>
                     <option value="" disabled selected>Seleccione una entidad</option>
@@ -90,7 +91,7 @@ export default function Cartilla() {
     }
     const localidades = () =>{
         return(
-            <div class="col-md-2 mb-md-1 my-auto">
+            <div class="col-md-2 mb-2 my-auto">
                 <label className={classes.labels}for="localidad">Seleccione una localidad</label><br />
                 <select className={classes.select} value={localidadSelected} id="localidad" name="localidadlist" form="localidadform" onChange={(e) =>{onLocalidad(e.target.value)}}>
                     <option value="" disabled selected>Seleccione una localidad</option>
@@ -103,7 +104,7 @@ export default function Cartilla() {
     }
     const ratings = () =>{
         return(
-            <div class="col-md-2 mb-md-1 my-auto">
+            <div class="col-md-2 mb-2 my-auto">
                 <label className={classes.labels} for="rating">Valoración</label><br />
                 <select className={classes.select} value={ratingSelected} id="rating" name="ratinglist" form="ratingform" onChange={(e) =>{onRating(e.target.value)}}>
                     <option value="" disabled selected>Seleccione una valoración</option>
@@ -118,7 +119,7 @@ export default function Cartilla() {
     }
     const search = () =>{
         return(
-            <div class="col-md-3 mb-md-1 my-auto">
+            <div class="col-md-3 mb-2 my-auto">
                     {entidadSelected === "especialista" ? (
                     <div>
                         <label className={classes.labels} for="search">Buscar por especialidad</label><br />
@@ -160,7 +161,7 @@ export default function Cartilla() {
     }
     const resetFilter = () =>{
         return(
-            <div class="col-md-2 mb-md-1 my-auto">
+            <div class="col-md-2 mb-1 my-auto">
                 <Button variant="outlined" size="medium" color="primary" className={classes.margin} onClick={resetFilters}>
                     Resetear filtros
                 </Button>
@@ -169,7 +170,7 @@ export default function Cartilla() {
     }
     const listEntidades = () =>{
         return(
-            <div class="mx-sm-auto" className={classes.root}>
+            <div className={classes.root}>
                 {Top5entidades.map((value) => (
                 <List class="ml-md-auto">
                     <ListItem alignItems="flex-start">
@@ -232,7 +233,7 @@ export default function Cartilla() {
                                         color="textPrimary"
                                     >Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
                                     ): <div />}
-                                     <ListItemSecondaryAction>
+                                    <ListItemSecondaryAction>
                                         <IconButton >
                                             <VisibilityIcon />
                                         </IconButton>
@@ -257,7 +258,9 @@ export default function Cartilla() {
                 {resetFilter()}
                 <Divider className={classes.divider}/>
             </div>
-            {listEntidades()}
+            <div class="col-11 p-3">
+                {listEntidades()}
+            </div>
         </div>
     );
 }
