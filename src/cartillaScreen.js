@@ -8,7 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import {Top5entidades} from "./components/Top5entidades";
+// import {Top5entidades} from "./components/Top5entidades";
 import imagen from "./components/assets/person-icon.png";
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
@@ -63,8 +63,22 @@ export default function Cartilla() {
     const [localidadSelected, setLocalidadSelected]=useState("");
     const [ratingSelected, setRatingSelected]=useState("");
     const [disableSearch, setDisableSearch]=useState(true);
+    const [listaResults, setListaResults]=useState([]);
+
+    const url="https://sip2-backend.herokuapp.com/";
+    
+    // useEffect(() => {
+    // }, [])
+
     const onEntidad = (value) =>{
         setEntidadSelected(value);
+        console.log(url+value);
+        fetch(url+value)
+            .then(res => res.json())
+            .then( (result) => {
+                setListaResults(result);
+            })
+        
         if(value!==""){
             setDisableSearch(false);
         }
@@ -82,9 +96,9 @@ export default function Cartilla() {
                 <label className={classes.labels} for="entidad">Seleccione una entidad</label><br />
                 <select className={classes.select} value={entidadSelected} id="entidad" name="entidadlist" form="entidadform" onChange={(e) =>{onEntidad(e.target.value)}}>
                     <option value="" disabled selected>Seleccione una entidad</option>
-                    <option value="especialista">Especialista</option>
-                    <option value="instituto">Instituto</option>
-                    <option value="actividad">Actividad</option>
+                    <option value="Profesionales">Especialista</option>
+                    <option value="Instituciones">Instituto</option>
+                    <option value="Actividades">Actividad</option>
                 </select>
             </div>
         )
@@ -120,17 +134,17 @@ export default function Cartilla() {
     const search = () =>{
         return(
             <div class="col-md-3 mb-2 my-auto">
-                    {entidadSelected === "especialista" ? (
+                    {entidadSelected === "Profesionales" ? (
                     <div>
                         <label className={classes.labels} for="search">Buscar por especialidad</label><br />
                     </div>) 
                     : <div />}
-                    {entidadSelected === "actividad" ? (
+                    {entidadSelected === "Actividades" ? (
                     <div>
                         <label className={classes.labels} for="search">Buscar por actividad</label><br />
                     </div>) 
                     : <div />}
-                    {entidadSelected === "instituto" ? (
+                    {entidadSelected === "Instituciones" ? (
                     <div>
                         <label className={classes.labels} for="search">Buscar por grado</label><br />
                     </div>) 
@@ -158,6 +172,7 @@ export default function Cartilla() {
         setDisableSearch(true);
         setLocalidadSelected("");
         setRatingSelected("");
+        setListaResults([]);
     }
     const resetFilter = () =>{
         return(
@@ -171,8 +186,9 @@ export default function Cartilla() {
     const listEntidades = () =>{
         return(
             <div className={classes.root}>
-                {Top5entidades.map((value) => (
-                <List class="ml-md-auto">
+                {/* {Top5entidades.map((value) => ( */}
+                {listaResults.map((value) => (
+                    <List class="ml-sm-auto ml-md-auto">
                     <ListItem alignItems="flex-start">
                         <ListItemAvatar>
                             <Avatar alt="imagen" src={imagen} />
@@ -187,7 +203,7 @@ export default function Cartilla() {
                                         className={classes.inline}
                                         color="textPrimary"
                                     >
-                                        {"Especialidad médica: "+ " " + value.especialidad}
+                                        {"Especialidad médica: "+ value.especialidad}
                                     </Typography>
                                     <br />
                                     <Typography
@@ -196,7 +212,7 @@ export default function Cartilla() {
                                         className={classes.inline}
                                         color="textPrimary"
                                     >
-                                        {"Localidad: "+ " " + value.localidad}
+                                        {"Localidad: "+ value.localidad}
                                     </Typography>
                                     {value.rating === "1" ?(
                                     <Typography
