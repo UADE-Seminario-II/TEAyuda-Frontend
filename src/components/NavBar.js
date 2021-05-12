@@ -97,18 +97,22 @@ export default function PersistentDrawerRight() {
   };
   const Redirect = (text) =>{
       if(text==="Home"){
+        setOpen(false);
         history.push({
             pathname: '/Home',
         })
       }else if(text==="LogIn"){
+        setOpen(false);
         history.push({
             pathname: '/LogIn',
         })
       }else if(text==="Cartilla"){
+        setOpen(false);
         history.push({
             pathname: '/Cartilla',
         })
       }else if(text==="Experiencias"){
+        setOpen(false);
         history.push({
             pathname: '/Experiencias',
         })
