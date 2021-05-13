@@ -68,6 +68,7 @@ export default function Cartilla() {
     const [localidadSelected, setLocalidadSelected]=useState("");
     const [ratingSelected, setRatingSelected]=useState("");
     const [disableSearch, setDisableSearch]=useState(true);
+    const [buscado,setBuscado]=useState("");
     const onEntidad = (value) =>{
         setEntidadSelected(value);
         if(value!==""){
@@ -122,6 +123,9 @@ export default function Cartilla() {
             </div>
         )
     }
+    const onSearch = (value) =>{
+        setBuscado(value);
+    }
     const search = () =>{
         return(
             <div class="col-md-3 mb-2 my-auto">
@@ -151,6 +155,8 @@ export default function Cartilla() {
                         form="searchform"
                         type="text"
                         placeholder="Buscar"
+                        value={buscado}
+                        onChange={(e) =>{onSearch(e.target.value)}}
                         disabled={disableSearch}
                         className={classes.input}
                         
@@ -160,6 +166,7 @@ export default function Cartilla() {
     }
     const resetFilters = () =>{
         setEntidadSelected("");
+        setBuscado("");
         setDisableSearch(true);
         setLocalidadSelected("");
         setRatingSelected("");
