@@ -23,7 +23,15 @@ export default function Home() {
             marginTop:"3rem",
             marginBottom:"5%",
             maxWidth: 345,
-            marginLeft:"32%"
+            marginLeft:"32%",
+            padding:"3%"
+          },
+          root1: {
+            marginTop:"3rem",
+            marginBottom:"5%",
+            maxWidth: 345,
+            marginLeft:"32%",
+            padding:"4.5%"
           },
           media: {
             height: 350,
@@ -49,14 +57,14 @@ export default function Home() {
                         Cartilla
                       </Typography>
                       <Typography variant="body2" color="textSecondary" component="p">
-                        Busque profesionales, instituciones y actividades especializadas en el TEA
+                        Busque profesionales, instituciones y actividades especializadas en el TEA (Transtorno del Espectro Autista)
                       </Typography>
                     </CardContent>
                   </CardActionArea>
                 </Card>
               </div>
               <div class="col-md-4">  
-                <Card className={classes.root}>
+                <Card className={classes.root1}>
                   <CardActionArea onClick={() => history.push({pathname:'/Experiencias'})}>
                     <CardMedia
                       className={classes.media}
