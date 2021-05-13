@@ -27,7 +27,7 @@ export default function Home() {
           },
           media: {
             height: 350,
-            backgroundSize:"contain"
+            backgroundSize:"contain",
           },
     }));
     const classes = useStyles();

@@ -1,6 +1,6 @@
 import React, {useState}  from "react";
 import { makeStyles } from '@material-ui/core/styles';
-//import { useHistory} from "react-router-dom";
+import { useHistory} from "react-router-dom";
 import {LocalidadesB} from "./components/LocalidadesB";
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
@@ -63,7 +63,7 @@ export default function Cartilla() {
         },
     }));
     const classes = useStyles();
-    //const history= useHistory();
+    const history= useHistory();
     const [entidadSelected, setEntidadSelected]=useState("");
     const [localidadSelected, setLocalidadSelected]=useState("");
     const [ratingSelected, setRatingSelected]=useState("");
@@ -174,7 +174,7 @@ export default function Cartilla() {
         )
     }
     const seeMoreInfo = (value) =>{
-        console.log(value)
+        history.push({pathname:`/Cartilla/${value.nombre}${value.apellido}`,state:value})
     }
     const listEntidades = () =>{
         return(
