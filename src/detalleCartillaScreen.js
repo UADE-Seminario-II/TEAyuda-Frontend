@@ -59,7 +59,7 @@ export default function DetalleCartillaScreen(props) {
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
       };
-    
+      
       const handleClose = () => {
         setAnchorEl(null);
       };
