@@ -75,12 +75,12 @@ export default function Cartilla() {
 
     useEffect(() => {
         fetch(url+"localidades")
-        .then((res) => {res.json()})
-        .then(result => {
+        .then(res => res.json())
+        .then((result) => {
             setLocalidadesB(result);
-        }, [])
-        console.log(LocalidadesB);
-    });
+        })
+        // console.log(LocalidadesB);
+    }, []);
        
     const onEntidad = (value) =>{
         setEntidadSelected(value);
@@ -114,9 +114,9 @@ export default function Cartilla() {
                 <label className={classes.labels}for="localidad">Seleccione una localidad</label><br />
                 <select className={classes.select} value={localidadSelected} id="localidad" name="localidadlist" form="localidadform" onChange={(e) =>{onLocalidad(e.target.value)}}>
                     <option value="" disabled selected>Seleccione una localidad</option>
-                        {LocalidadesB.map((value) => (
-                        <option value={value.localidad}>{value.localidad}</option>
-                        ))}
+                    {LocalidadesB.map((value) => (
+                    <option value={value.localidad}>{value.localidad}</option>
+                    ))}
                 </select>
             </div>
         )
@@ -281,7 +281,7 @@ export default function Cartilla() {
         <div className={classes.Cartilla}>
             <div class="col-12 row p-3">
                 {entidades()}
-                {/* {localidades()} */}
+                {localidades()}
                 {ratings()}
                 {search()}
                 {resetFilter()}
