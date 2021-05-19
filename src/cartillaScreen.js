@@ -156,6 +156,7 @@ export default function Cartilla() {
                         type="text"
                         placeholder="Buscar"
                         value={buscado}
+                        autoComplete="off"
                         onChange={(e) =>{onSearch(e.target.value)}}
                         disabled={disableSearch}
                         className={classes.input}
