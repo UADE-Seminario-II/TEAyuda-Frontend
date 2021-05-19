@@ -206,43 +206,6 @@ export default function Cartilla() {
                         />
                 </div>
             )
-            return(
-                <div class="col-md-3 mb-2 my-auto">
-                        {entidadSelected === "" ? (
-                        <div>
-                            <label className={classes.labels} for="search">Seleccione una entidad para empezar</label><br />
-                        </div>) 
-                        : <div />}
-                        {entidadSelected === "Profesional" ? (
-                        <div>
-                            <label className={classes.labels} for="search">Buscar por especialidad</label><br />
-                        </div>) 
-                        : <div />}
-                        {entidadSelected === "Actividad" ? (
-                        <div>
-                            <label className={classes.labels} for="search">Buscar por actividad</label><br />
-                        </div>) 
-                        : <div />}
-                        {entidadSelected === "Institucion" ? (
-                        <div>
-                            <label className={classes.labels} for="search">Buscar por grado</label><br />
-                        </div>) 
-                        : <div />}
-                        <input
-                            id="search"
-                            name="searchlist" 
-                            form="searchform"
-                            type="text"
-                            placeholder="Buscar"
-                            value={buscado}
-                            autoComplete="off"
-                            onChange={(e) =>{onSearch(e.target.value)}}
-                            disabled={disableSearch}
-                            className={classes.input}
-                            
-                        />
-                </div>
-            )
         }
     }
     const resetFilters = () =>{
@@ -292,37 +255,37 @@ export default function Cartilla() {
                                         className={classes.inline}
                                         color="textPrimary"
                                     >
-                                        {"Localidad: "+ value.localidad}
+                                        {"Localidad: "+ value.localidad.localidad}
                                     </Typography>
-                                    {value.rating === "1" ?(
+                                    {value.valoracionPromedio === 1.0 ?(
                                     <Typography
                                         component="span"
                                         variant="body2"
                                         color="textPrimary"
                                     >Valoración: &#9733;</Typography>
                                     ): <div />}
-                                    {value.rating === "2" ?(
+                                    {value.valoracionPromedio === 2.0 ?(
                                     <Typography
                                         component="span"
                                         variant="body2"
                                         color="textPrimary"
                                     >Valoración: &#9733;&#9733;</Typography>
                                     ): <div />}
-                                    {value.rating === "3" ?(
+                                    {value.valoracionPromedio === 3.0 ?(
                                     <Typography
                                         component="span"
                                         variant="body2"
                                         color="textPrimary"
                                     >Valoración: &#9733;&#9733;&#9733;</Typography>
                                     ): <div />}
-                                    {value.rating === "4" ?(
+                                    {value.valoracionPromedio === 4.0 ?(
                                     <Typography
                                         component="span"
                                         variant="body2"
                                         color="textPrimary"
                                     >Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
                                     ): <div />}
-                                    {value.rating === "5" ?(
+                                    {value.valoracionPromedio === 5.0 ?(
                                     <Typography
                                         component="span"
                                         variant="body2"
