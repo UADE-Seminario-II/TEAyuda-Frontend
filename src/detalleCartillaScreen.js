@@ -70,7 +70,7 @@ export default function DetalleCartillaScreen(props) {
       <div className={classes.DetalleEntidad}>
         <div class="col-12 row mb-5">
             <div class="col-lg-3 col-md-8 col-sm-12 mt-5">
-                <img src={entidad.image} style={{marginLeft:"5rem"}}height="500px" class="img-fluid" alt="Responsive image" />
+                <img src={entidad.imagen} style={{marginLeft:"5rem"}}height="500px" class="img-fluid" alt="Responsive image" />
             </div>
             <div class="col-lg-7 col-md-4 col-sm-12 row">
                 <div className={classes.Titulo}>
@@ -80,32 +80,32 @@ export default function DetalleCartillaScreen(props) {
                     Especialidad: {entidad.especialidad}<br />
                     Dirreción: {entidad.direccion} {entidad.piso}<br />
                     Teléfono: {entidad.telefono}<br />
-                    E-mail: {entidad.mail}<br />
+                    E-mail: {entidad.email}<br />
                     Matrícula: {entidad.matricula}<br />
-                    {entidad.rating === "1" ?
+                    {entidad.valoracionPromedio === 1.0 ?
                         <div>
                             Valoración: 1 estrella (&#9733;)<br /> 
-                        </div>: console.log("no")
+                        </div>: null
                     }
-                    {entidad.rating === "2" ?
+                    {entidad.valoracionPromedio === 2.0 ?
                         <div>
                             Valoración: 2 estrellas (&#9733;&#9733;)<br /> 
-                        </div>: console.log("no")
+                        </div>: null
                     }
-                    {entidad.rating === "3" ?
+                    {entidad.valoracionPromedio === 3.0 ?
                         <div>
                             Valoración: 3 estrellas (&#9733;&#9733;&#9733;)<br /> 
-                        </div>: console.log("no")
+                        </div>: null
                     }
-                    {entidad.rating === "4" ?
+                    {entidad.valoracionPromedio === 4.0 ?
                         <div>
                             Valoración: 4 estrellas (&#9733;&#9733;&#9733;&#9733;)<br /> 
-                        </div>: console.log("no")
+                        </div>: null
                     }
-                    {entidad.rating === "5" ?
+                    {entidad.valoracionPromedio === 5.0 ?
                         <div>
                             Valoración: 5 estrellas (&#9733;&#9733;&#9733;&#9733;&#9733;)<br /> 
-                        </div>: console.log("no")
+                        </div>: null
                     }
                 </div>
             </div>
@@ -134,7 +134,7 @@ export default function DetalleCartillaScreen(props) {
                 <Typography className={classes.typography}>Se ha copiado el link al portapapeles!</Typography>
             </Popover>
                     <Button variant="outlined" size="medium" color="primary" className={classes.margin} onClick={() => history.push({pathname:'/Experiencias'})}>
-                        Ver experiencias
+                        Añadir experiencia
                     </Button>
         </div>
         <div className={classes.footer}>

@@ -14,6 +14,8 @@ import Avatar from '@material-ui/core/Avatar';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import IconButton from '@material-ui/core/IconButton';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 export default function Cartilla() {
     const useStyles = makeStyles((theme) => ({
         Cartilla:{
@@ -72,6 +74,7 @@ export default function Cartilla() {
     const [LocalidadesB, setLocalidadesB]=useState([]);
 
     const [ratingSelected, setRatingSelected]=useState("");
+    const [copyResult, setCopyResult]=useState([]);
     
     const [disableSearch, setDisableSearch]=useState(true);
     const [buscado,setBuscado]=useState("");
@@ -83,6 +86,7 @@ export default function Cartilla() {
         .then(res => res.json())
         .then((result) => {
             setResultados(result);
+            setCopyResult(result);
         });
         fetch(url+"localidades")
         .then(res => res.json())
@@ -102,16 +106,102 @@ export default function Cartilla() {
         setEntidadSelected(value);
         if(value!==""){
             setDisableSearch(false);
+            if(ratingSelected !=="" && localidadSelected !==""){
+                setResultados(
+                    copyResult.filter((valor) =>
+                        (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected)) 
+                    ))
+            }else if(ratingSelected ==="" && localidadSelected !==""){
+                setResultados(
+                    copyResult.filter((valor) =>
+                        (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected))
+                    ))
+            }else if(ratingSelected !=="" && localidadSelected ===""){
+                setResultados(
+                    copyResult.filter((valor) =>
+                        (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio))
+                    ))
+            }else{
+                setResultados(
+                    copyResult.filter((valor) =>
+                        valor.entidad.match(value)
+                    ))
+            }
         }else{
             setDisableSearch(true);
         }
         console.log(value)
     }
     const onLocalidad= (value) =>{
-        setLocalidadSelected(value);
+        if(value === null){
+            setResultados(copyResult)
+            if(entidadSelected !== "" && ratingSelected !== ""){
+                setResultados(
+                    copyResult.filter((valor) =>
+                        valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio)
+                    ))
+            }else if(entidadSelected!== "" && ratingSelected ===""){
+                setResultados(
+                    copyResult.filter((valor) =>
+                        valor.entidad.match(entidadSelected)
+                    ))
+            }else if(entidadSelected=== "" && ratingSelected !==""){
+                setResultados(
+                    copyResult.filter((valor) =>
+                        ratingSelected.match(valor.valoracionPromedio)
+                    ))
+            }
+        }else{
+            setLocalidadSelected(value.localidad);
+            if(entidadSelected !== "" && ratingSelected !== ""){
+                setResultados(
+                copyResult.filter((valor) =>
+                    valor.localidad.localidad.match(value.localidad) && valor.entidad.match(entidadSelected)  && ratingSelected.match(valor.valoracionPromedio)
+                ))
+            }else if(entidadSelected !=="" && ratingSelected ===""){
+                setResultados(
+                    copyResult.filter((valor) =>
+                        valor.localidad.localidad.match(value.localidad) && valor.entidad.match(entidadSelected)
+                    ))
+            }else if(entidadSelected ==="" && ratingSelected !==""){
+                setResultados(
+                    copyResult.filter((valor) =>
+                        valor.localidad.localidad.match(value.localidad) && ratingSelected.match(valor.valoracionPromedio)
+                    ))
+            }
+            else{
+                setLocalidadSelected(value.localidad);
+                setResultados(
+                copyResult.filter((valor) =>
+                    valor.localidad.localidad.match(value.localidad)
+                )) 
+            }
+        }
     }
     const onRating = (value) =>{
         setRatingSelected(value);
+            if(localidadSelected !== "" && entidadSelected!== ""){
+                setResultados(
+                    copyResult.filter((valor) =>
+                        (valor.localidad.localidad.match(localidadSelected) && value.match(valor.valoracionPromedio) && valor.entidad.match(entidadSelected))
+                    ))
+            }else if(localidadSelected ==="" && entidadSelected !== ""){
+                setResultados(
+                    copyResult.filter((valor) =>
+                        (valor.entidad.match(entidadSelected) && value.match(valor.valoracionPromedio))
+                    ))
+            }else if(localidadSelected !=="" && entidadSelected === ""){
+                setResultados(
+                    copyResult.filter((valor) =>
+                        (valor.localidad.localidad.match(localidadSelected) && value.match(valor.valoracionPromedio))
+                    ))
+            }
+            else {
+                setResultados(
+                    copyResult.filter((valor) =>
+                        value.match(valor.valoracionPromedio)
+                    ))
+            }
     }
     const entidades = () =>{
         return(
@@ -120,7 +210,7 @@ export default function Cartilla() {
                 <select className={classes.select} value={entidadSelected} id="entidad" name="entidadlist" form="entidadform" onChange={(e) =>{onEntidad(e.target.value)}}>
                     <option value="" disabled selected>Seleccione una entidad</option>
                     <option value="Profesional">Especialista</option>
-                    <option value="Institucion">Instituto</option>
+                    <option value="Institucion">Institucion</option>
                     <option value="Actividad">Actividad</option>
                 </select>
             </div>
@@ -132,13 +222,22 @@ export default function Cartilla() {
         }else{
             return(
                 <div class="col-md-2 mb-2 my-auto">
-                    <label className={classes.labels}for="localidad">Seleccione una localidad</label><br />
+                    {/*<label className={classes.labels}for="localidad">Seleccione una localidad</label><br />
                     <select className={classes.select} value={localidadSelected} id="localidad" name="localidadlist" form="localidadform" onChange={(e) =>{onLocalidad(e.target.value)}}>
                         <option value="" disabled selected>Seleccione una localidad</option>
                         {LocalidadesB.map((value) => (
                         <option value={value.localidad}>{value.localidad}</option>
                         ))}
-                    </select>
+                        </select>*/}
+                    <label className={classes.labels}for="localidad">Seleccione una localidad</label><br />
+                     <Autocomplete
+                        id="combo-box-demo"
+                        options={LocalidadesB}
+                        getOptionLabel={(option) => option.localidad}
+                        onChange={(event, value) =>{onLocalidad(value)}}
+                        style={{ width: 300 }}
+                        renderInput={(params) => <TextField style={{width:"13.8rem", backgroundColor:"white"}}  {...params} placeholder="Seleccione una localidad"/>}
+                    />
                 </div>
             )
         }
@@ -152,11 +251,11 @@ export default function Cartilla() {
                     <label className={classes.labels} for="rating">Valoración</label><br />
                     <select className={classes.select} value={ratingSelected} id="rating" name="ratinglist" form="ratingform" onChange={(e) =>{onRating(e.target.value)}}>
                         <option value="" disabled selected>Seleccione una valoración</option>
-                        <option value="1">1 estrella (&#9733;)</option>
-                        <option value="2">2 estrellas (&#9733;&#9733;)</option>
-                        <option value="3">3 estrellas (&#9733;&#9733;&#9733;)</option>
-                        <option value="4">4 estrellas (&#9733;&#9733;&#9733;&#9733;)</option>
-                        <option value="5">5 estrellas (&#9733;&#9733;&#9733;&#9733;&#9733;)</option>
+                        <option value={1}>1 estrella (&#9733;)</option>
+                        <option value={2}>2 estrellas (&#9733;&#9733;)</option>
+                        <option value={3}>3 estrellas (&#9733;&#9733;&#9733;)</option>
+                        <option value={4}>4 estrellas (&#9733;&#9733;&#9733;&#9733;)</option>
+                        <option value={5}>5 estrellas (&#9733;&#9733;&#9733;&#9733;&#9733;)</option>
                     </select>
                 </div>
             )
@@ -214,6 +313,7 @@ export default function Cartilla() {
         setDisableSearch(true);
         setLocalidadSelected("");
         setRatingSelected("");
+        setResultados(copyResult)
     }
     const resetFilter = () =>{
         return(
@@ -234,7 +334,7 @@ export default function Cartilla() {
                 <List class="ml-md-auto ml-sm-auto">
                     <ListItem alignItems="flex-start">
                         <ListItemAvatar>
-                            <Avatar alt="imagen" className={classes.avatar} src={value.image} />
+                            <Avatar alt="imagen" className={classes.avatar} src={value.imagen} />
                         </ListItemAvatar>
                             <ListItemText
                                 primary={value.nombre + " " +value.apellido}
