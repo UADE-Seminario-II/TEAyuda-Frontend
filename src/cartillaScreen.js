@@ -1,7 +1,7 @@
-import React, {useState}  from "react";
+import React, {useEffect, useState}  from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory} from "react-router-dom";
-import {LocalidadesB} from "./components/LocalidadesB";
+// import {LocalidadesB} from "./components/LocalidadesB";
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -68,7 +68,20 @@ export default function Cartilla() {
     const [localidadSelected, setLocalidadSelected]=useState("");
     const [ratingSelected, setRatingSelected]=useState("");
     const [disableSearch, setDisableSearch]=useState(true);
+    const [LocalidadesB, setLocalidadesB]=useState([]);
     const [buscado,setBuscado]=useState("");
+   
+    const url= "https://sip2-backend.herokuapp.com/"
+
+    useEffect(() => {
+        fetch(url+"localidades")
+        .then((res) => {res.json()})
+        .then(result => {
+            setLocalidadesB(result);
+        }, [])
+        console.log(LocalidadesB);
+    });
+       
     const onEntidad = (value) =>{
         setEntidadSelected(value);
         if(value!==""){
@@ -267,7 +280,7 @@ export default function Cartilla() {
         <div className={classes.Cartilla}>
             <div class="col-12 row p-3">
                 {entidades()}
-                {localidades()}
+                {/* {localidades()} */}
                 {ratings()}
                 {search()}
                 {resetFilter()}
