@@ -86,6 +86,8 @@ export default function Cartilla() {
         setEntidadSelected(value);
         if(value!==""){
             setDisableSearch(false);
+        }else{
+            setDisableSearch(true);
         }
         console.log(value)
     }
@@ -109,74 +111,86 @@ export default function Cartilla() {
         );
     }
     const localidades = () =>{
-        return(
-            <div class="col-md-2 mb-2 my-auto">
-                <label className={classes.labels}for="localidad">Seleccione una localidad</label><br />
-                <select className={classes.select} value={localidadSelected} id="localidad" name="localidadlist" form="localidadform" onChange={(e) =>{onLocalidad(e.target.value)}}>
-                    <option value="" disabled selected>Seleccione una localidad</option>
-                    {LocalidadesB.map((value) => (
-                    <option value={value.localidad}>{value.localidad}</option>
-                    ))}
-                </select>
-            </div>
-        )
+        if(disableSearch === true){
+            return null;
+        }else{
+            return(
+                <div class="col-md-2 mb-2 my-auto">
+                    <label className={classes.labels}for="localidad">Seleccione una localidad</label><br />
+                    <select className={classes.select} value={localidadSelected} id="localidad" name="localidadlist" form="localidadform" onChange={(e) =>{onLocalidad(e.target.value)}}>
+                        <option value="" disabled selected>Seleccione una localidad</option>
+                        {LocalidadesB.map((value) => (
+                        <option value={value.localidad}>{value.localidad}</option>
+                        ))}
+                    </select>
+                </div>
+            )
+        }
     }
     const ratings = () =>{
-        return(
-            <div class="col-md-2 mb-2 my-auto">
-                <label className={classes.labels} for="rating">Valoración</label><br />
-                <select className={classes.select} value={ratingSelected} id="rating" name="ratinglist" form="ratingform" onChange={(e) =>{onRating(e.target.value)}}>
-                    <option value="" disabled selected>Seleccione una valoración</option>
-                    <option value="1">1 estrella (&#9733;)</option>
-                    <option value="2">2 estrellas (&#9733;&#9733;)</option>
-                    <option value="3">3 estrellas (&#9733;&#9733;&#9733;)</option>
-                    <option value="4">4 estrellas (&#9733;&#9733;&#9733;&#9733;)</option>
-                    <option value="5">5 estrellas (&#9733;&#9733;&#9733;&#9733;&#9733;)</option>
-                </select>
-            </div>
-        )
+        if(disableSearch === true){
+            return null;
+        }else{
+            return(
+                <div class="col-md-2 mb-2 my-auto">
+                    <label className={classes.labels} for="rating">Valoración</label><br />
+                    <select className={classes.select} value={ratingSelected} id="rating" name="ratinglist" form="ratingform" onChange={(e) =>{onRating(e.target.value)}}>
+                        <option value="" disabled selected>Seleccione una valoración</option>
+                        <option value="1">1 estrella (&#9733;)</option>
+                        <option value="2">2 estrellas (&#9733;&#9733;)</option>
+                        <option value="3">3 estrellas (&#9733;&#9733;&#9733;)</option>
+                        <option value="4">4 estrellas (&#9733;&#9733;&#9733;&#9733;)</option>
+                        <option value="5">5 estrellas (&#9733;&#9733;&#9733;&#9733;&#9733;)</option>
+                    </select>
+                </div>
+            )
+        }
     }
     const onSearch = (value) =>{
         setBuscado(value);
     }
     const search = () =>{
-        return(
-            <div class="col-md-3 mb-2 my-auto">
-                    {entidadSelected === "Profesionales" ? (
-                    <div>
-                        <label className={classes.labels} for="search">Buscar por especialidad</label><br />
-                    </div>) 
-                    : <div />}
-                    {entidadSelected === "Actividades" ? (
-                    <div>
-                        <label className={classes.labels} for="search">Buscar por actividad</label><br />
-                    </div>) 
-                    : <div />}
-                    {entidadSelected === "Instituciones" ? (
-                    <div>
-                        <label className={classes.labels} for="search">Buscar por grado</label><br />
-                    </div>) 
-                    : <div />}
-                    {entidadSelected === "" ? (
-                    <div>
-                        <label className={classes.labels} for="search">Seleccione una entidad para comenzar a buscar</label><br />
-                    </div>) 
-                    : <div />}
-                    <input
-                        id="search"
-                        name="searchlist" 
-                        form="searchform"
-                        type="text"
-                        placeholder="Buscar"
-                        value={buscado}
-                        autoComplete="off"
-                        onChange={(e) =>{onSearch(e.target.value)}}
-                        disabled={disableSearch}
-                        className={classes.input}
-                        
-                    />
-            </div>
-        )
+        if(disableSearch === true){
+            return null;
+        }else{
+            return(
+                <div class="col-md-3 mb-2 my-auto">
+                        {entidadSelected === "Profesionales" ? (
+                        <div>
+                            <label className={classes.labels} for="search">Buscar por especialidad</label><br />
+                        </div>) 
+                        : <div />}
+                        {entidadSelected === "Actividades" ? (
+                        <div>
+                            <label className={classes.labels} for="search">Buscar por actividad</label><br />
+                        </div>) 
+                        : <div />}
+                        {entidadSelected === "Instituciones" ? (
+                        <div>
+                            <label className={classes.labels} for="search">Buscar por grado</label><br />
+                        </div>) 
+                        : <div />}
+                        {entidadSelected === "" ? (
+                        <div>
+                            <label className={classes.labels} for="search">Seleccione una entidad para comenzar a buscar</label><br />
+                        </div>) 
+                        : <div />}
+                        <input
+                            id="search"
+                            name="searchlist" 
+                            form="searchform"
+                            type="text"
+                            placeholder="Buscar"
+                            value={buscado}
+                            autoComplete="off"
+                            onChange={(e) =>{onSearch(e.target.value)}}
+                            disabled={disableSearch}
+                            className={classes.input}
+                            
+                        />
+                </div>
+            )
+        }
     }
     const resetFilters = () =>{
         setEntidadSelected("");
