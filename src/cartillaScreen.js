@@ -1,6 +1,6 @@
-import React, {useEffect, useState}  from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import { useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 // import {LocalidadesList} from "./components/LocalidadesList";
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
@@ -16,198 +16,225 @@ import IconButton from '@material-ui/core/IconButton';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import LinearProgress from '@material-ui/core/LinearProgress';
+
 export default function Cartilla() {
     const useStyles = makeStyles((theme) => ({
-        Cartilla:{
-          backgroundColor:"#F2EFEB",
+        Cartilla: {
+            backgroundColor: "#F2EFEB",
         },
-        footer:{
-            marginTop:"21rem"
+        footer: {
+            marginTop: "21rem"
         },
-        margin:{
-            color:"white",
-            backgroundColor:"#D27805",
+        margin: {
+            color: "white",
+            backgroundColor: "#D27805",
             '&:hover': {
-                backgroundColor:"#E89907",
+                backgroundColor: "#E89907",
             }
         },
-        labels:{
-            fontSize:"1rem",
+        labels: {
+            fontSize: "1rem",
         },
-        input:{
-            height:"2rem",
-            width:"13.8rem",
+        input: {
+            height: "2rem",
+            width: "13.8rem",
         },
-        divider:{
-            backgroundColor:"black",
-            marginTop:"1.5rem",
-            width:"100%"
+        divider: {
+            backgroundColor: "black",
+            marginTop: "1.5rem",
+            width: "100%"
         },
-        select:{
-            width:"13.8rem",
-            height:"2rem",
+        select: {
+            width: "13.8rem",
+            height: "2rem",
         },
-        listdivider:{
-            backgroundColor:"black",
-            marginTop:"1.5rem",
-            maxWidth:"35rem"
+        listdivider: {
+            backgroundColor: "black",
+            marginTop: "1.5rem",
+            maxWidth: "35rem"
         },
-        root:{
+        root: {
             width: '100%',
             maxWidth: 600,
-            marginLeft:"1rem"
+            marginLeft: "1rem"
         },
-        avatar:{
-            width:"4rem",
-            height:"4rem",
-            marginTop:"0.5rem", 
-            marginRight:"0.5rem",
+        avatar: {
+            width: "4rem",
+            height: "4rem",
+            marginTop: "0.5rem",
+            marginRight: "0.5rem",
         },
     }));
     const classes = useStyles();
-    const history= useHistory();
-    
-    const [entidadSelected, setEntidadSelected]=useState("");
-    const [resultados, setResultados]=useState([]);
+    const history = useHistory();
 
-    const [localidadSelected, setLocalidadSelected]=useState("");
-    const [LocalidadesB, setLocalidadesB]=useState([]);
+    const [entidadSelected, setEntidadSelected] = useState("");
+    const [resultados, setResultados] = useState([]);
+    const [copyResult, setCopyResult] = useState([]);
 
-    const [ratingSelected, setRatingSelected]=useState("");
-    const [copyResult, setCopyResult]=useState([]);
-    
-    const [disableSearch, setDisableSearch]=useState(true);
-    const [buscado,setBuscado]=useState("");
-   
-    const url= "https://sip2-backend.herokuapp.com/"
+    const [localidadSelected, setLocalidadSelected] = useState("");
+    const [LocalidadesB, setLocalidadesB] = useState([]);
+
+    const [ratingSelected, setRatingSelected] = useState("");
+
+    const [disableSearch, setDisableSearch] = useState(true);
+    const [buscado, setBuscado] = useState("");
+
+    const [error, setError] = useState(null);
+    const [isLoaded, setIsLoaded] = useState(false);
+
+
+    const url = "https://sip2-backend.herokuapp.com/"
 
     useEffect(() => {
-        fetch(url+"search/top6")
-        .then(res => res.json())
-        .then((result) => {
-            setResultados(result);
-            setCopyResult(result);
-        });
-        fetch(url+"localidades")
-        .then(res => res.json())
-        .then((result) => {
-            setLocalidadesB(result);
-        });
+        fetch(url + "search/top6")
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    setIsLoaded(true);
+                    setResultados(result);
+                    setCopyResult(result);
+                },
+                (error) => {
+                    setIsLoaded(true);
+                    setError(error);
+                }
+            )
+        fetch(url + "localidades")
+            .then(res => res.json())
+            .then((result) => {
+                setLocalidadesB(result);
+            })
     }, []);
-    
-    const onEntidad = (value) =>{
-        
-        // fetch(url+"search/"+value)
-        // .then(res => res.json())
-        // .then((result) => {
-        //     setResultados(result);
-        // });
-        
+
+    const onEntidad = (value) => {
+        setIsLoaded(false);
+        fetch(url + "search/" + value)
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    setIsLoaded(true);
+                    setResultados(result);
+                    // setCopyResult(result);
+                },
+                (error) => {
+                    setIsLoaded(true);
+                    setError(error);
+                }
+            );
+
         setEntidadSelected(value);
-        if(value!==""){
+        if (value !== "") {
             setDisableSearch(false);
-            if(ratingSelected !=="" && localidadSelected !==""){
-                setResultados(
-                    copyResult.filter((valor) =>
-                        (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected)) 
-                    ))
-            }else if(ratingSelected ==="" && localidadSelected !==""){
-                setResultados(
-                    copyResult.filter((valor) =>
-                        (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected))
-                    ))
-            }else if(ratingSelected !=="" && localidadSelected ===""){
-                setResultados(
-                    copyResult.filter((valor) =>
-                        (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio))
-                    ))
-            }else{
-                setResultados(
-                    copyResult.filter((valor) =>
-                        valor.entidad.match(value)
-                    ))
-            }
-        }else{
+
+// Vale la pena hacer este filtro?
+
+        //     if (ratingSelected !== "" && localidadSelected !== "") {
+        //         setResultados(
+        //             resultados.filter((valor) =>
+        //                 (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected))
+        //             ))
+        //     } else if (ratingSelected === "" && localidadSelected !== "") {
+        //         setResultados(
+        //             resultados.filter((valor) =>
+        //                 (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected))
+        //             ))
+        //     } else if (ratingSelected !== "" && localidadSelected === "") {
+        //         setResultados(
+        //             resultados.filter((valor) =>
+        //                 (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio))
+        //             ))
+        //     } else {
+        //         setResultados(
+        //             resultados.filter((valor) =>
+        //                 valor.entidad.match(value)
+        //             ))
+        //     }
+        }
+        else {
             setDisableSearch(true);
         }
-        console.log(value)
+        // console.log(value)
     }
-    const onLocalidad= (value) =>{
-        if(value === null){
+    const onLocalidad = (value) => {
+        if (value === null) {
             setResultados(copyResult)
-            if(entidadSelected !== "" && ratingSelected !== ""){
+            if (entidadSelected !== "" && ratingSelected !== "") {
                 setResultados(
-                    copyResult.filter((valor) =>
+                    resultados.filter((valor) =>
                         valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio)
                     ))
-            }else if(entidadSelected!== "" && ratingSelected ===""){
+            } else if (entidadSelected !== "" && ratingSelected === "") {
                 setResultados(
-                    copyResult.filter((valor) =>
+                    resultados.filter((valor) =>
                         valor.entidad.match(entidadSelected)
                     ))
-            }else if(entidadSelected=== "" && ratingSelected !==""){
+            } else if (entidadSelected === "" && ratingSelected !== "") {
                 setResultados(
-                    copyResult.filter((valor) =>
+                    resultados.filter((valor) =>
                         ratingSelected.match(valor.valoracionPromedio)
                     ))
             }
-        }else{
+        } else {
             setLocalidadSelected(value.localidad);
-            if(entidadSelected !== "" && ratingSelected !== ""){
+            if (entidadSelected !== "" && ratingSelected !== "") {
                 setResultados(
-                copyResult.filter((valor) =>
-                    valor.localidad.localidad.match(value.localidad) && valor.entidad.match(entidadSelected)  && ratingSelected.match(valor.valoracionPromedio)
-                ))
-            }else if(entidadSelected !=="" && ratingSelected ===""){
+                    resultados.filter((valor) =>
+                        valor.localidad.localidad.match(value.localidad) && valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio)
+                    ))
+            } else if (entidadSelected !== "" && ratingSelected === "") {
                 setResultados(
-                    copyResult.filter((valor) =>
+                    resultados.filter((valor) =>
                         valor.localidad.localidad.match(value.localidad) && valor.entidad.match(entidadSelected)
                     ))
-            }else if(entidadSelected ==="" && ratingSelected !==""){
+            } else if (entidadSelected === "" && ratingSelected !== "") {
                 setResultados(
-                    copyResult.filter((valor) =>
+                    resultados.filter((valor) =>
                         valor.localidad.localidad.match(value.localidad) && ratingSelected.match(valor.valoracionPromedio)
                     ))
             }
-            else{
+            else {
                 setLocalidadSelected(value.localidad);
                 setResultados(
-                copyResult.filter((valor) =>
-                    valor.localidad.localidad.match(value.localidad)
-                )) 
+                    resultados.filter((valor) =>
+                        valor.localidad.localidad.match(value.localidad)
+                    ))
             }
         }
     }
-    const onRating = (value) =>{
+    const onRating = (value) => {
         setRatingSelected(value);
-            if(localidadSelected !== "" && entidadSelected!== ""){
-                setResultados(
-                    copyResult.filter((valor) =>
-                        (valor.localidad.localidad.match(localidadSelected) && value.match(valor.valoracionPromedio) && valor.entidad.match(entidadSelected))
-                    ))
-            }else if(localidadSelected ==="" && entidadSelected !== ""){
-                setResultados(
-                    copyResult.filter((valor) =>
-                        (valor.entidad.match(entidadSelected) && value.match(valor.valoracionPromedio))
-                    ))
-            }else if(localidadSelected !=="" && entidadSelected === ""){
-                setResultados(
-                    copyResult.filter((valor) =>
-                        (valor.localidad.localidad.match(localidadSelected) && value.match(valor.valoracionPromedio))
-                    ))
-            }
-            else {
-                setResultados(
-                    copyResult.filter((valor) =>
-                        value.match(valor.valoracionPromedio)
-                    ))
-            }
+        if (localidadSelected !== "" && entidadSelected !== "") {
+            setResultados(
+                resultados.filter((valor) =>
+                    (valor.localidad.localidad.match(localidadSelected) && value.match(valor.valoracionPromedio) && valor.entidad.match(entidadSelected))
+                ))
+        } else if (localidadSelected === "" && entidadSelected !== "") {
+            setResultados(
+                resultados.filter((valor) => {
+                    console.log(valor);
+                    (valor.entidad.match(entidadSelected) && value.match(valor.valoracionPromedio));
+                }
+                ))
+        } else if (localidadSelected !== "" && entidadSelected === "") {
+            setResultados(
+                resultados.filter((valor) =>
+                    (valor.localidad.localidad.match(localidadSelected) && value.match(valor.valoracionPromedio))
+                ))
+        }
+        else {
+            setResultados(
+                resultados.filter((valor) =>
+                    value.match(valor.valoracionPromedio)
+                ))
+        }
     }
-    const entidades = () =>{
-        return(
+    const entidades = () => {
+        return (
             <div class="col-md-2 mb-2 my-auto offset-md-1">
                 <label className={classes.labels} for="entidad">Seleccione una entidad</label><br />
-                <select className={classes.select} value={entidadSelected} id="entidad" name="entidadlist" form="entidadform" onChange={(e) =>{onEntidad(e.target.value)}}>
+                <select className={classes.select} value={entidadSelected} id="entidad" name="entidadlist" form="entidadform" onChange={(e) => { onEntidad(e.target.value) }}>
                     <option value="" disabled selected>Seleccione una entidad</option>
                     <option value="Profesional">Especialista</option>
                     <option value="Institucion">Institucion</option>
@@ -216,40 +243,40 @@ export default function Cartilla() {
             </div>
         );
     }
-    const localidades = () =>{
-        if(disableSearch === true){
+    const localidades = () => {
+        if (disableSearch === true) {
             return null;
-        }else{
-            return(
-                <div class="col-md-2 mb-2 my-auto">
-                    {/*<label className={classes.labels}for="localidad">Seleccione una localidad</label><br />
+        }
+        else return (
+            <div class="col-md-2 mb-2 my-auto">
+                {/*<label className={classes.labels}for="localidad">Seleccione una localidad</label><br />
                     <select className={classes.select} value={localidadSelected} id="localidad" name="localidadlist" form="localidadform" onChange={(e) =>{onLocalidad(e.target.value)}}>
                         <option value="" disabled selected>Seleccione una localidad</option>
                         {LocalidadesB.map((value) => (
                         <option value={value.localidad}>{value.localidad}</option>
                         ))}
                         </select>*/}
-                    <label className={classes.labels}for="localidad">Seleccione una localidad</label><br />
-                     <Autocomplete
-                        id="combo-box-demo"
-                        options={LocalidadesB}
-                        getOptionLabel={(option) => option.localidad}
-                        onChange={(event, value) =>{onLocalidad(value)}}
-                        style={{ width: 300 }}
-                        renderInput={(params) => <TextField style={{width:"13.8rem", backgroundColor:"white"}}  {...params} placeholder="Seleccione una localidad"/>}
-                    />
-                </div>
-            )
-        }
+                <label className={classes.labels} for="localidad">Seleccione una localidad</label><br />
+                <Autocomplete
+                    id="combo-box-demo"
+                    options={LocalidadesB}
+                    getOptionLabel={(option) => option.localidad}
+                    onChange={(event, value) => { onLocalidad(value) }}
+                    style={{ width: 300 }}
+                    renderInput={(params) => <TextField style={{ width: "13.8rem", backgroundColor: "white" }}  {...params} placeholder="Seleccione una localidad" />}
+                />
+            </div>
+        )
     }
-    const ratings = () =>{
-        if(disableSearch === true){
+
+    const ratings = () => {
+        if (disableSearch === true) {
             return null;
-        }else{
-            return(
+        } else {
+            return (
                 <div class="col-md-2 mb-2 my-auto">
                     <label className={classes.labels} for="rating">Valoración</label><br />
-                    <select className={classes.select} value={ratingSelected} id="rating" name="ratinglist" form="ratingform" onChange={(e) =>{onRating(e.target.value)}}>
+                    <select className={classes.select} value={ratingSelected} id="rating" name="ratinglist" form="ratingform" onChange={(e) => { onRating(e.target.value) }}>
                         <option value="" disabled selected>Seleccione una valoración</option>
                         <option value={1}>1 estrella (&#9733;)</option>
                         <option value={2}>2 estrellas (&#9733;&#9733;)</option>
@@ -261,62 +288,60 @@ export default function Cartilla() {
             )
         }
     }
-    const onSearch = (value) =>{
+    const onSearch = (value) => {
         setBuscado(value);
     }
-    const search = () =>{
-        if(disableSearch === true){
-            return null;
-        }else{
-            return(
-                <div class="col-md-3 mb-2 my-auto">
-                        {entidadSelected === "Profesional" ? (
-                        <div>
-                            <label className={classes.labels} for="search">Buscar por especialidad</label><br />
-                        </div>) 
-                        : <div />}
-                        {entidadSelected === "Actividad" ? (
-                        <div>
-                            <label className={classes.labels} for="search">Buscar por actividad</label><br />
-                        </div>) 
-                        : <div />}
-                        {entidadSelected === "Institucion" ? (
-                        <div>
-                            <label className={classes.labels} for="search">Buscar por grado</label><br />
-                        </div>) 
-                        : <div />}
-                        {entidadSelected === "" ? (
-                        <div>
-                            <label className={classes.labels} for="search">Seleccione una entidad para comenzar a buscar</label><br />
-                        </div>) 
-                        : <div />}
-                        <input
-                            id="search"
-                            name="searchlist" 
-                            form="searchform"
-                            type="text"
-                            placeholder="Buscar"
-                            value={buscado}
-                            autoComplete="off"
-                            onChange={(e) =>{onSearch(e.target.value)}}
-                            disabled={disableSearch}
-                            className={classes.input}
-                            
-                        />
-                </div>
-            )
-        }
+    const search = () => {
+        if (disableSearch === true) return null;
+        else return (
+            <div class="col-md-3 mb-2 my-auto">
+                {entidadSelected === "Profesional" ? (
+                    <div>
+                        <label className={classes.labels} for="search">Buscar por especialidad</label><br />
+                    </div>)
+                    : <div />}
+                {entidadSelected === "Actividad" ? (
+                    <div>
+                        <label className={classes.labels} for="search">Buscar por actividad</label><br />
+                    </div>)
+                    : <div />}
+                {entidadSelected === "Institucion" ? (
+                    <div>
+                        <label className={classes.labels} for="search">Buscar por grado</label><br />
+                    </div>)
+                    : <div />}
+                {entidadSelected === "" ? (
+                    <div>
+                        <label className={classes.labels} for="search">Seleccione una entidad para comenzar a buscar</label><br />
+                    </div>)
+                    : <div />}
+                <input
+                    id="search"
+                    name="searchlist"
+                    form="searchform"
+                    type="text"
+                    placeholder="Buscar"
+                    value={buscado}
+                    autoComplete="off"
+                    onChange={(e) => { onSearch(e.target.value) }}
+                    disabled={disableSearch}
+                    className={classes.input}
+
+                />
+            </div>
+        )
     }
-    const resetFilters = () =>{
+    const resetFilters = () => {
         setEntidadSelected("");
         setBuscado("");
         setDisableSearch(true);
         setLocalidadSelected("");
         setRatingSelected("");
-        setResultados(copyResult)
+        setResultados(copyResult);
     }
-    const resetFilter = () =>{
-        return(
+    const resetFilter = () => {
+        console.log(copyResult);
+        return (
             <div class="col-md-2 mb-1 my-auto">
                 <Button variant="outlined" size="medium" color="primary" className={classes.margin} onClick={resetFilters}>
                     Resetear filtros
@@ -324,90 +349,97 @@ export default function Cartilla() {
             </div>
         )
     }
-    const seeMoreInfo = (value) =>{
-        history.push({pathname:`/Cartilla/${value.nombre}${value.apellido}`,state:value})
+    const seeMoreInfo = (value) => {
+        history.push({ pathname: `/Cartilla/${value.nombre}${value.apellido}`, state: value })
     }
-    const listEntidades = () =>{
-        return(
-            <div className={classes.root}>
-                {resultados.map((value) => (
-                <List class="ml-md-auto ml-sm-auto">
-                    <ListItem alignItems="flex-start">
-                        <ListItemAvatar>
-                            <Avatar alt="imagen" className={classes.avatar} src={value.imagen} />
-                        </ListItemAvatar>
-                            <ListItemText
-                                primary={value.nombre + " " +value.apellido}
-                                secondary={
-                                    <React.Fragment>
-                                    <Typography
-                                        component="span"
-                                        variant="body2"
-                                        className={classes.inline}
-                                        color="textPrimary"
-                                    >
-                                        {"Especialidad médica: "+ value.especialidad}
-                                    </Typography>
-                                    <br />
-                                    <Typography
-                                        component="span"
-                                        variant="body2"
-                                        className={classes.inline}
-                                        color="textPrimary"
-                                    >
-                                        {"Localidad: "+ value.localidad.localidad}
-                                    </Typography>
-                                    {value.valoracionPromedio === 1.0 ?(
-                                    <Typography
-                                        component="span"
-                                        variant="body2"
-                                        color="textPrimary"
-                                    >Valoración: &#9733;</Typography>
-                                    ): <div />}
-                                    {value.valoracionPromedio === 2.0 ?(
-                                    <Typography
-                                        component="span"
-                                        variant="body2"
-                                        color="textPrimary"
-                                    >Valoración: &#9733;&#9733;</Typography>
-                                    ): <div />}
-                                    {value.valoracionPromedio === 3.0 ?(
-                                    <Typography
-                                        component="span"
-                                        variant="body2"
-                                        color="textPrimary"
-                                    >Valoración: &#9733;&#9733;&#9733;</Typography>
-                                    ): <div />}
-                                    {value.valoracionPromedio === 4.0 ?(
-                                    <Typography
-                                        component="span"
-                                        variant="body2"
-                                        color="textPrimary"
-                                    >Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
-                                    ): <div />}
-                                    {value.valoracionPromedio === 5.0 ?(
-                                    <Typography
-                                        component="span"
-                                        variant="body2"
-                                        color="textPrimary"
-                                    >Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
-                                    ): <div />}
-                                    <ListItemSecondaryAction>
-                                        <IconButton onClick={() => {seeMoreInfo(value)}} >
-                                            <VisibilityIcon />
-                                        </IconButton>
-                                    </ListItemSecondaryAction>
-                                    </React.Fragment>
-                                }
-                            />
-                    </ListItem>
-                    <Divider className={classes.listdivider}/> 
-                </List>
-            ))}
-            </div>
-        )
+    const listEntidades = () => {
+        if (error) {
+            return <div>Error: {error.message}</div>;
+        } else if (!isLoaded) {
+            return <LinearProgress />;
+        } else {
+            return (
+                <div className={classes.root}>
+                    {resultados.map((value) => (
+                        <List class="ml-md-auto ml-sm-auto">
+                            <ListItem alignItems="flex-start">
+                                <ListItemAvatar>
+                                    <Avatar alt="imagen" className={classes.avatar} src={value.imagen} />
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary={value.nombre + " " + value.apellido}
+                                    secondary={
+                                        <React.Fragment>
+                                            <Typography
+                                                component="span"
+                                                variant="body2"
+                                                className={classes.inline}
+                                                color="textPrimary"
+                                            >
+                                                {"Especialidad médica: " + value.especialidad}
+                                            </Typography>
+                                            <br />
+                                            <Typography
+                                                component="span"
+                                                variant="body2"
+                                                className={classes.inline}
+                                                color="textPrimary"
+                                            >
+                                                {"Localidad: " + value.localidad.localidad}
+                                            </Typography>
+                                            {value.valoracionPromedio === 1.0 ? (
+                                                <Typography
+                                                    component="span"
+                                                    variant="body2"
+                                                    color="textPrimary"
+                                                >Valoración: &#9733;</Typography>
+                                            ) : <div />}
+                                            {value.valoracionPromedio === 2.0 ? (
+                                                <Typography
+                                                    component="span"
+                                                    variant="body2"
+                                                    color="textPrimary"
+                                                >Valoración: &#9733;&#9733;</Typography>
+                                            ) : <div />}
+                                            {value.valoracionPromedio === 3.0 ? (
+                                                <Typography
+                                                    component="span"
+                                                    variant="body2"
+                                                    color="textPrimary"
+                                                >Valoración: &#9733;&#9733;&#9733;</Typography>
+                                            ) : <div />}
+                                            {value.valoracionPromedio === 4.0 ? (
+                                                <Typography
+                                                    component="span"
+                                                    variant="body2"
+                                                    color="textPrimary"
+                                                >Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
+                                            ) : <div />}
+                                            {value.valoracionPromedio === 5.0 ? (
+                                                <Typography
+                                                    component="span"
+                                                    variant="body2"
+                                                    color="textPrimary"
+                                                >Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
+                                            ) : <div />}
+                                            <ListItemSecondaryAction>
+                                                <IconButton onClick={() => { seeMoreInfo(value) }} >
+                                                    <VisibilityIcon />
+                                                </IconButton>
+                                            </ListItemSecondaryAction>
+                                        </React.Fragment>
+                                    }
+                                />
+                            </ListItem>
+                            <Divider className={classes.listdivider} />
+                        </List>
+                    ))}
+                </div>
+            )
+        }
     }
-    return(
+
+    return (
         <div className={classes.Cartilla}>
             <div class="col-12 row p-3">
                 {entidades()}
@@ -415,7 +447,7 @@ export default function Cartilla() {
                 {ratings()}
                 {search()}
                 {resetFilter()}
-                <Divider className={classes.divider}/>
+                <Divider className={classes.divider} />
             </div>
             <div class="col-11 p-4">
                 {listEntidades()}
