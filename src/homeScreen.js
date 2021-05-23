@@ -4,7 +4,7 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Cartilla from './components/assets/cartilla.png';
+import Cartilla from './components/assets/busqueda.png';
 import Reviews from './components/assets/customerreview.png';
 import Typography from '@material-ui/core/Typography';
 import { useHistory} from "react-router-dom";
