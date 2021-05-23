@@ -72,6 +72,7 @@ export default function Cartilla() {
     const [entidadSelected, setEntidadSelected] = useState("");
     const [resultados, setResultados] = useState([]);
     const [copyResult, setCopyResult] = useState([]);
+    const [copyTop6Result,setCopyTop6Result] = useState([]);
 
     const [localidadSelected, setLocalidadSelected] = useState("");
     const [LocalidadesB, setLocalidadesB] = useState([]);
@@ -94,7 +95,7 @@ export default function Cartilla() {
                 (result) => {
                     setIsLoaded(true);
                     setResultados(result);
-                    setCopyResult(result);
+                    setCopyTop6Result(result);
                 },
                 (error) => {
                     setIsLoaded(true);
@@ -116,63 +117,63 @@ export default function Cartilla() {
                 (result) => {
                     setIsLoaded(true);
                     setResultados(result);
-                    // setCopyResult(result);
+                    setCopyResult(result);
+                    if (value !== "") {
+                        setDisableSearch(false);
+                        filterentidad(value,result);
+                    }
+                    else {
+                        setDisableSearch(true);
+                    }
                 },
                 (error) => {
                     setIsLoaded(true);
                     setError(error);
                 }
             );
-
         setEntidadSelected(value);
-        if (value !== "") {
-            setDisableSearch(false);
-
-// Vale la pena hacer este filtro?
-
-        //     if (ratingSelected !== "" && localidadSelected !== "") {
-        //         setResultados(
-        //             resultados.filter((valor) =>
-        //                 (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected))
-        //             ))
-        //     } else if (ratingSelected === "" && localidadSelected !== "") {
-        //         setResultados(
-        //             resultados.filter((valor) =>
-        //                 (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected))
-        //             ))
-        //     } else if (ratingSelected !== "" && localidadSelected === "") {
-        //         setResultados(
-        //             resultados.filter((valor) =>
-        //                 (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio))
-        //             ))
-        //     } else {
-        //         setResultados(
-        //             resultados.filter((valor) =>
-        //                 valor.entidad.match(value)
-        //             ))
-        //     }
-        }
-        else {
-            setDisableSearch(true);
-        }
         // console.log(value)
+    }
+    const filterentidad = (value,result) =>{
+        if (ratingSelected !== "" && localidadSelected !== "") {
+            setResultados(
+               result.filter((valor) =>
+                    (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected))
+                ))
+        } else if (ratingSelected === "" && localidadSelected !== "") {
+            setResultados(
+                result.filter((valor) =>
+                   (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected))
+                ))
+        } else if (ratingSelected !== "" && localidadSelected === "") {
+            setResultados(
+                result.filter((valor) =>
+                    (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio))
+                ))
+        } else {
+            setResultados(
+                result.filter((valor) =>
+                    valor.entidad.match(value)
+                ))
+        }
     }
     const onLocalidad = (value) => {
         if (value === null) {
             setResultados(copyResult)
+            setLocalidadSelected("")
             if (entidadSelected !== "" && ratingSelected !== "") {
                 setResultados(
-                    resultados.filter((valor) =>
+                    copyResult.filter((valor) =>
                         valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio)
                     ))
             } else if (entidadSelected !== "" && ratingSelected === "") {
                 setResultados(
-                    resultados.filter((valor) =>
+                    copyResult.filter((valor) =>
                         valor.entidad.match(entidadSelected)
                     ))
             } else if (entidadSelected === "" && ratingSelected !== "") {
                 setResultados(
-                    resultados.filter((valor) =>
+                    copyResult.filter((valor) =>
                         ratingSelected.match(valor.valoracionPromedio)
                     ))
             }
@@ -180,24 +181,24 @@ export default function Cartilla() {
             setLocalidadSelected(value.localidad);
             if (entidadSelected !== "" && ratingSelected !== "") {
                 setResultados(
-                    resultados.filter((valor) =>
+                    copyResult.filter((valor) =>
                         valor.localidad.localidad.match(value.localidad) && valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio)
                     ))
             } else if (entidadSelected !== "" && ratingSelected === "") {
                 setResultados(
-                    resultados.filter((valor) =>
+                    copyResult.filter((valor) =>
                         valor.localidad.localidad.match(value.localidad) && valor.entidad.match(entidadSelected)
                     ))
             } else if (entidadSelected === "" && ratingSelected !== "") {
                 setResultados(
-                    resultados.filter((valor) =>
+                    copyResult.filter((valor) =>
                         valor.localidad.localidad.match(value.localidad) && ratingSelected.match(valor.valoracionPromedio)
                     ))
             }
             else {
                 setLocalidadSelected(value.localidad);
                 setResultados(
-                    resultados.filter((valor) =>
+                    copyResult.filter((valor) =>
                         valor.localidad.localidad.match(value.localidad)
                     ))
             }
@@ -207,25 +208,23 @@ export default function Cartilla() {
         setRatingSelected(value);
         if (localidadSelected !== "" && entidadSelected !== "") {
             setResultados(
-                resultados.filter((valor) =>
+                copyResult.filter((valor) =>
                     (valor.localidad.localidad.match(localidadSelected) && value.match(valor.valoracionPromedio) && valor.entidad.match(entidadSelected))
                 ))
         } else if (localidadSelected === "" && entidadSelected !== "") {
             setResultados(
-                resultados.filter((valor) => {
-                    console.log(valor);
-                    (valor.entidad.match(entidadSelected) && value.match(valor.valoracionPromedio));
-                }
+                copyResult.filter((valor) => 
+                    (valor.entidad.match(entidadSelected) && value.match(valor.valoracionPromedio))
                 ))
         } else if (localidadSelected !== "" && entidadSelected === "") {
             setResultados(
-                resultados.filter((valor) =>
+                copyResult.filter((valor) =>
                     (valor.localidad.localidad.match(localidadSelected) && value.match(valor.valoracionPromedio))
                 ))
         }
         else {
             setResultados(
-                resultados.filter((valor) =>
+                copyResult.filter((valor) =>
                     value.match(valor.valoracionPromedio)
                 ))
         }
@@ -337,10 +336,9 @@ export default function Cartilla() {
         setDisableSearch(true);
         setLocalidadSelected("");
         setRatingSelected("");
-        setResultados(copyResult);
+        setResultados(copyTop6Result);
     }
     const resetFilter = () => {
-        console.log(copyResult);
         return (
             <div class="col-md-2 mb-1 my-auto">
                 <Button variant="outlined" size="medium" color="primary" className={classes.margin} onClick={resetFilters}>
@@ -387,6 +385,7 @@ export default function Cartilla() {
                                             >
                                                 {"Localidad: " + value.localidad.localidad}
                                             </Typography>
+                                            <br />
                                             {value.valoracionPromedio === 1.0 ? (
                                                 <Typography
                                                     component="span"
