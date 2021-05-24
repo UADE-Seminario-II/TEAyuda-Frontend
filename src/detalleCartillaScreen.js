@@ -12,8 +12,8 @@ export default function DetalleCartillaScreen(props) {
     const useStyles = makeStyles((theme) => ({
         DetalleEntidad:{
             backgroundColor:"#F2EFEB",
-            width:"100%",
-            height:"100%"
+            height: "100%",
+            minHeight: "50vh"
         },
         Titulo:{
           fontFamily:"Garamond", 
@@ -37,7 +37,7 @@ export default function DetalleCartillaScreen(props) {
             marginLeft:"12rem",
           },
           footer:{
-              marginTop:"6rem"
+            marginTop:"6rem"
           },
           margin:{
             color:"white",
