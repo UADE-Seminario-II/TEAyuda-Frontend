@@ -37,7 +37,7 @@ export default function DetalleCartillaScreen(props) {
             marginLeft: "12rem",
         },
         footer: {
-            marginTop: "6rem"
+            marginTop: "16rem"
         },
         margin: {
             color: "white",
