@@ -22,6 +22,8 @@ export default function Cartilla() {
     const useStyles = makeStyles((theme) => ({
         Cartilla: {
             backgroundColor: "#F2EFEB",
+            height: "100%",
+            minHeight: "100vh"
         },
         footer: {
             marginTop: "21rem"
@@ -73,6 +75,7 @@ export default function Cartilla() {
     const [resultados, setResultados] = useState([]);
     const [copyResult, setCopyResult] = useState([]);
     const [copyTop6Result,setCopyTop6Result] = useState([]);
+    const [copyResultSearch, setCopyResultSearch] = useState([]);
 
     const [localidadSelected, setLocalidadSelected] = useState("");
     const [LocalidadesB, setLocalidadesB] = useState([]);
@@ -289,6 +292,68 @@ export default function Cartilla() {
     }
     const onSearch = (value) => {
         setBuscado(value);
+        if(value === ""){
+            if(entidadSelected !=="" && ratingSelected !== "" && localidadSelected !==""){
+                setResultados(
+                    copyResult.filter((valor) =>
+                         (valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected))
+                     ))
+            }else
+            if(entidadSelected ==="" && ratingSelected !== "" && localidadSelected !==""){
+                setResultados(
+                    copyResult.filter((valor) =>
+                         (ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected))
+                     ))
+            }else
+                if(entidadSelected !=="" && ratingSelected === "" && localidadSelected !==""){
+                    setResultados(
+                        copyResult.filter((valor) =>
+                             (valor.entidad.match(entidadSelected)&& valor.localidad.localidad.match(localidadSelected))
+                         ))
+            }else
+                if(entidadSelected !=="" && ratingSelected !== "" && localidadSelected ===""){
+                    setResultados(
+                        copyResult.filter((valor) =>
+                             (valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio))
+                        )) 
+                }else 
+                if(entidadSelected !=="" && ratingSelected === "" && localidadSelected ===""){
+                    setResultados(
+                        copyResult.filter((valor) =>
+                             (valor.entidad.match(entidadSelected))
+                         ))
+                }else
+                if(entidadSelected ==="" && ratingSelected !== "" && localidadSelected ===""){
+                    setResultados(
+                        copyResult.filter((valor) =>
+                             (ratingSelected.match(valor.valoracionPromedio))
+                         ))
+                }else
+                if(entidadSelected ==="" && ratingSelected === "" && localidadSelected !==""){
+                    setResultados(
+                        copyResult.filter((valor) =>
+                             (valor.localidad.localidad.match(localidadSelected))
+                         ))
+                }     
+        }else
+        if(entidadSelected === "Profesional"){
+            setResultados(
+                copyResult.filter((valor) =>
+                    valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                ))
+        }else
+        if(entidadSelected === "Actividad"){
+            setResultados(
+                copyResult.filter((valor) =>
+                    valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                ))
+        }else
+        if(entidadSelected === "Institucion"){
+            setResultados(
+                copyResult.filter((valor) =>
+                    valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                ))
+        }
     }
     const search = () => {
         if (disableSearch === true) return null;
@@ -297,36 +362,57 @@ export default function Cartilla() {
                 {entidadSelected === "Profesional" ? (
                     <div>
                         <label className={classes.labels} for="search">Buscar por especialidad</label><br />
+                        <input
+                            id="search"
+                            name="searchlist"
+                            form="searchform"
+                            type="text"
+                            placeholder="p ej. psicólogo, médico clínico"
+                            value={buscado}
+                            autoComplete="off"
+                            onChange={(e) => { onSearch(e.target.value) }}
+                            disabled={disableSearch}
+                            className={classes.input}
+
+                        />
                     </div>)
                     : <div />}
                 {entidadSelected === "Actividad" ? (
                     <div>
                         <label className={classes.labels} for="search">Buscar por actividad</label><br />
+                        <input
+                            id="search"
+                            name="searchlist"
+                            form="searchform"
+                            type="text"
+                            placeholder="p ej. taller de dibujo, rugby"
+                            value={buscado}
+                            autoComplete="off"
+                            onChange={(e) => { onSearch(e.target.value) }}
+                            disabled={disableSearch}
+                            className={classes.input}
+
+                        />
                     </div>)
                     : <div />}
                 {entidadSelected === "Institucion" ? (
                     <div>
-                        <label className={classes.labels} for="search">Buscar por grado</label><br />
-                    </div>)
-                    : <div />}
-                {entidadSelected === "" ? (
-                    <div>
-                        <label className={classes.labels} for="search">Seleccione una entidad para comenzar a buscar</label><br />
-                    </div>)
-                    : <div />}
-                <input
-                    id="search"
-                    name="searchlist"
-                    form="searchform"
-                    type="text"
-                    placeholder="Buscar"
-                    value={buscado}
-                    autoComplete="off"
-                    onChange={(e) => { onSearch(e.target.value) }}
-                    disabled={disableSearch}
-                    className={classes.input}
+                        <label className={classes.labels} for="search">Buscar institución por especialidad</label><br />
+                        <input
+                            id="search"
+                            name="searchlist"
+                            form="searchform"
+                            type="text"
+                            placeholder="p ej. primario, clases de idioma"
+                            value={buscado}
+                            autoComplete="off"
+                            onChange={(e) => { onSearch(e.target.value) }}
+                            disabled={disableSearch}
+                            className={classes.input}
 
-                />
+                        />
+                    </div>)
+                    : <div />}
             </div>
         )
     }
