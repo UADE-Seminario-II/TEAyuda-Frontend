@@ -74,7 +74,7 @@ export default function Cartilla() {
     const [entidadSelected, setEntidadSelected] = useState("");
     const [resultados, setResultados] = useState([]);
     const [copyResult, setCopyResult] = useState([]);
-    const [copyTop6Result,setCopyTop6Result] = useState([]);
+    const [copyTop6Result, setCopyTop6Result] = useState([]);
     const [copyResultSearch, setCopyResultSearch] = useState([]);
 
     const [localidadSelected, setLocalidadSelected] = useState("");
@@ -123,7 +123,7 @@ export default function Cartilla() {
                     setCopyResult(result);
                     if (value !== "") {
                         setDisableSearch(false);
-                        filterentidad(value,result);
+                        filterentidad(value, result);
                     }
                     else {
                         setDisableSearch(true);
@@ -137,16 +137,16 @@ export default function Cartilla() {
         setEntidadSelected(value);
         // console.log(value)
     }
-    const filterentidad = (value,result) =>{
+    const filterentidad = (value, result) => {
         if (ratingSelected !== "" && localidadSelected !== "") {
             setResultados(
-               result.filter((valor) =>
+                result.filter((valor) =>
                     (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected))
                 ))
         } else if (ratingSelected === "" && localidadSelected !== "") {
             setResultados(
                 result.filter((valor) =>
-                   (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected))
+                    (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected))
                 ))
         } else if (ratingSelected !== "" && localidadSelected === "") {
             setResultados(
@@ -216,7 +216,7 @@ export default function Cartilla() {
                 ))
         } else if (localidadSelected === "" && entidadSelected !== "") {
             setResultados(
-                copyResult.filter((valor) => 
+                copyResult.filter((valor) =>
                     (valor.entidad.match(entidadSelected) && value.match(valor.valoracionPromedio))
                 ))
         } else if (localidadSelected !== "" && entidadSelected === "") {
@@ -292,68 +292,68 @@ export default function Cartilla() {
     }
     const onSearch = (value) => {
         setBuscado(value);
-        if(value === ""){
-            if(entidadSelected !=="" && ratingSelected !== "" && localidadSelected !==""){
+        if (value === "") {
+            if (entidadSelected !== "" && ratingSelected !== "" && localidadSelected !== "") {
                 setResultados(
                     copyResult.filter((valor) =>
-                         (valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected))
-                     ))
-            }else
-            if(entidadSelected ==="" && ratingSelected !== "" && localidadSelected !==""){
+                        (valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected))
+                    ))
+            } else
+                if (entidadSelected === "" && ratingSelected !== "" && localidadSelected !== "") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                            (ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected))
+                        ))
+                } else
+                    if (entidadSelected !== "" && ratingSelected === "" && localidadSelected !== "") {
+                        setResultados(
+                            copyResult.filter((valor) =>
+                                (valor.entidad.match(entidadSelected) && valor.localidad.localidad.match(localidadSelected))
+                            ))
+                    } else
+                        if (entidadSelected !== "" && ratingSelected !== "" && localidadSelected === "") {
+                            setResultados(
+                                copyResult.filter((valor) =>
+                                    (valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio))
+                                ))
+                        } else
+                            if (entidadSelected !== "" && ratingSelected === "" && localidadSelected === "") {
+                                setResultados(
+                                    copyResult.filter((valor) =>
+                                        (valor.entidad.match(entidadSelected))
+                                    ))
+                            } else
+                                if (entidadSelected === "" && ratingSelected !== "" && localidadSelected === "") {
+                                    setResultados(
+                                        copyResult.filter((valor) =>
+                                            (ratingSelected.match(valor.valoracionPromedio))
+                                        ))
+                                } else
+                                    if (entidadSelected === "" && ratingSelected === "" && localidadSelected !== "") {
+                                        setResultados(
+                                            copyResult.filter((valor) =>
+                                                (valor.localidad.localidad.match(localidadSelected))
+                                            ))
+                                    }
+        } else
+            if (entidadSelected === "Profesional") {
                 setResultados(
                     copyResult.filter((valor) =>
-                         (ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected))
-                     ))
-            }else
-                if(entidadSelected !=="" && ratingSelected === "" && localidadSelected !==""){
+                        valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                    ))
+            } else
+                if (entidadSelected === "Actividad") {
                     setResultados(
                         copyResult.filter((valor) =>
-                             (valor.entidad.match(entidadSelected)&& valor.localidad.localidad.match(localidadSelected))
-                         ))
-            }else
-                if(entidadSelected !=="" && ratingSelected !== "" && localidadSelected ===""){
-                    setResultados(
-                        copyResult.filter((valor) =>
-                             (valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio))
-                        )) 
-                }else 
-                if(entidadSelected !=="" && ratingSelected === "" && localidadSelected ===""){
-                    setResultados(
-                        copyResult.filter((valor) =>
-                             (valor.entidad.match(entidadSelected))
-                         ))
-                }else
-                if(entidadSelected ==="" && ratingSelected !== "" && localidadSelected ===""){
-                    setResultados(
-                        copyResult.filter((valor) =>
-                             (ratingSelected.match(valor.valoracionPromedio))
-                         ))
-                }else
-                if(entidadSelected ==="" && ratingSelected === "" && localidadSelected !==""){
-                    setResultados(
-                        copyResult.filter((valor) =>
-                             (valor.localidad.localidad.match(localidadSelected))
-                         ))
-                }     
-        }else
-        if(entidadSelected === "Profesional"){
-            setResultados(
-                copyResult.filter((valor) =>
-                    valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
-                ))
-        }else
-        if(entidadSelected === "Actividad"){
-            setResultados(
-                copyResult.filter((valor) =>
-                    valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
-                ))
-        }else
-        if(entidadSelected === "Institucion"){
-            setResultados(
-                copyResult.filter((valor) =>
-                    valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
-                ))
-        }
+                            valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                        ))
+                } else
+                    if (entidadSelected === "Institucion") {
+                        setResultados(
+                            copyResult.filter((valor) =>
+                                valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                            ))
+                    }
     }
     const search = () => {
         if (disableSearch === true) return null;
@@ -450,71 +450,213 @@ export default function Cartilla() {
                                 <ListItemAvatar>
                                     <Avatar alt="imagen" className={classes.avatar} src={value.imagen} />
                                 </ListItemAvatar>
-                                <ListItemText
-                                    primary={value.nombre + " " + value.apellido}
-                                    secondary={
-                                        <React.Fragment>
-                                            <Typography
-                                                component="span"
-                                                variant="body2"
-                                                className={classes.inline}
-                                                color="textPrimary"
-                                            >
-                                                {"Especialidad médica: " + value.especialidad}
-                                            </Typography>
-                                            <br />
-                                            <Typography
-                                                component="span"
-                                                variant="body2"
-                                                className={classes.inline}
-                                                color="textPrimary"
-                                            >
-                                                {"Localidad: " + value.localidad.localidad}
-                                            </Typography>
-                                            <br />
-                                            {value.valoracionPromedio === 1.0 ? (
+                                {value.entidad === "Profesional" &&
+                                    <ListItemText
+                                        primary={value.nombre + " " + value.apellido}
+                                        secondary={
+                                            <React.Fragment>
                                                 <Typography
                                                     component="span"
                                                     variant="body2"
+                                                    className={classes.inline}
                                                     color="textPrimary"
-                                                >Valoración: &#9733;</Typography>
-                                            ) : <div />}
-                                            {value.valoracionPromedio === 2.0 ? (
+                                                >
+                                                    {"Especialidad médica: " + value.especialidad}
+                                                </Typography>
+                                                <br />
                                                 <Typography
                                                     component="span"
                                                     variant="body2"
+                                                    className={classes.inline}
                                                     color="textPrimary"
-                                                >Valoración: &#9733;&#9733;</Typography>
-                                            ) : <div />}
-                                            {value.valoracionPromedio === 3.0 ? (
+                                                >
+                                                    {"Localidad: " + value.localidad.localidad}
+                                                </Typography>
+                                                <br />
+                                                {value.valoracionPromedio === 1.0 ? (
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        color="textPrimary"
+                                                    >Valoración: &#9733;</Typography>
+                                                ) : <div />}
+                                                {value.valoracionPromedio === 2.0 ? (
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        color="textPrimary"
+                                                    >Valoración: &#9733;&#9733;</Typography>
+                                                ) : <div />}
+                                                {value.valoracionPromedio === 3.0 ? (
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        color="textPrimary"
+                                                    >Valoración: &#9733;&#9733;&#9733;</Typography>
+                                                ) : <div />}
+                                                {value.valoracionPromedio === 4.0 ? (
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        color="textPrimary"
+                                                    >Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
+                                                ) : <div />}
+                                                {value.valoracionPromedio === 5.0 ? (
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        color="textPrimary"
+                                                    >Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
+                                                ) : <div />}
+
+                                                <ListItemSecondaryAction>
+                                                    <IconButton onClick={() => { seeMoreInfo(value) }} >
+                                                        <VisibilityIcon />
+                                                    </IconButton>
+                                                </ListItemSecondaryAction>
+                                            </React.Fragment>
+                                        }
+                                    />
+                                }
+                                {value.entidad === "Institucion" &&
+                                    <ListItemText
+                                        primary={value.nombre}
+                                        secondary={
+                                            <React.Fragment>
                                                 <Typography
                                                     component="span"
                                                     variant="body2"
+                                                    className={classes.inline}
                                                     color="textPrimary"
-                                                >Valoración: &#9733;&#9733;&#9733;</Typography>
-                                            ) : <div />}
-                                            {value.valoracionPromedio === 4.0 ? (
+                                                >
+                                                    {"Nivel educativo: " + value.especialidad}
+                                                </Typography>
+                                                <br />
                                                 <Typography
                                                     component="span"
                                                     variant="body2"
+                                                    className={classes.inline}
                                                     color="textPrimary"
-                                                >Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
-                                            ) : <div />}
-                                            {value.valoracionPromedio === 5.0 ? (
+                                                >
+                                                    {"Localidad: " + value.localidad.localidad}
+                                                </Typography>
+                                                <br />
+                                                {value.valoracionPromedio === 1.0 ? (
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        color="textPrimary"
+                                                    >Valoración: &#9733;</Typography>
+                                                ) : <div />}
+                                                {value.valoracionPromedio === 2.0 ? (
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        color="textPrimary"
+                                                    >Valoración: &#9733;&#9733;</Typography>
+                                                ) : <div />}
+                                                {value.valoracionPromedio === 3.0 ? (
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        color="textPrimary"
+                                                    >Valoración: &#9733;&#9733;&#9733;</Typography>
+                                                ) : <div />}
+                                                {value.valoracionPromedio === 4.0 ? (
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        color="textPrimary"
+                                                    >Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
+                                                ) : <div />}
+                                                {value.valoracionPromedio === 5.0 ? (
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        color="textPrimary"
+                                                    >Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
+                                                ) : <div />}
+
+                                                <ListItemSecondaryAction>
+                                                    <IconButton onClick={() => { seeMoreInfo(value) }} >
+                                                        <VisibilityIcon />
+                                                    </IconButton>
+                                                </ListItemSecondaryAction>
+                                            </React.Fragment>
+                                        }
+                                    />
+                                }
+
+                                {value.entidad === "Actividad" &&
+                                    <ListItemText
+                                        primary={value.nombre}
+                                        secondary={
+                                            <React.Fragment>
                                                 <Typography
                                                     component="span"
                                                     variant="body2"
+                                                    className={classes.inline}
                                                     color="textPrimary"
-                                                >Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
-                                            ) : <div />}
-                                            <ListItemSecondaryAction>
-                                                <IconButton onClick={() => { seeMoreInfo(value) }} >
-                                                    <VisibilityIcon />
-                                                </IconButton>
-                                            </ListItemSecondaryAction>
-                                        </React.Fragment>
-                                    }
-                                />
+                                                >
+                                                    {"Tipo de recreación: " + value.especialidad}
+                                                </Typography>
+                                                <br />
+                                                <Typography
+                                                    component="span"
+                                                    variant="body2"
+                                                    className={classes.inline}
+                                                    color="textPrimary"
+                                                >
+                                                    {"Localidad: " + value.localidad.localidad}
+                                                </Typography>
+                                                <br />
+                                                {value.valoracionPromedio === 1.0 ? (
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        color="textPrimary"
+                                                    >Valoración: &#9733;</Typography>
+                                                ) : <div />}
+                                                {value.valoracionPromedio === 2.0 ? (
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        color="textPrimary"
+                                                    >Valoración: &#9733;&#9733;</Typography>
+                                                ) : <div />}
+                                                {value.valoracionPromedio === 3.0 ? (
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        color="textPrimary"
+                                                    >Valoración: &#9733;&#9733;&#9733;</Typography>
+                                                ) : <div />}
+                                                {value.valoracionPromedio === 4.0 ? (
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        color="textPrimary"
+                                                    >Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
+                                                ) : <div />}
+                                                {value.valoracionPromedio === 5.0 ? (
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        color="textPrimary"
+                                                    >Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
+                                                ) : <div />}
+
+                                                <ListItemSecondaryAction>
+                                                    <IconButton onClick={() => { seeMoreInfo(value) }} >
+                                                        <VisibilityIcon />
+                                                    </IconButton>
+                                                </ListItemSecondaryAction>
+                                            </React.Fragment>
+                                        }
+                                    />
+                                }
+
+
                             </ListItem>
                             <Divider className={classes.listdivider} />
                         </List>
