@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { useHistory } from "react-router-dom";
@@ -52,6 +52,9 @@ export default function DetalleCartillaScreen(props) {
             backgroundColor: "#F2EFEB"
         },
     }));
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
     const [entidad] = useState(props.location.state)
     const history = useHistory();
     const classes = useStyles();
