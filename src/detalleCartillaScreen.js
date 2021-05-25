@@ -83,7 +83,7 @@ export default function DetalleCartillaScreen(props) {
                     {entidad.entidad === "Profesional" &&
                         <div className={classes.Titulo2} >
                             Especialidad: {entidad.especialidad}<br />
-                            Dirreción: {entidad.direccion} {entidad.piso}<br />
+                            Dirreción: {entidad.direccion} {entidad.piso}, {entidad.localidad.localidad}<br />
                             Teléfono: {entidad.telefono}<br />
                             E-mail: {entidad.email}<br />
                             Matrícula: {entidad.matricula}<br />

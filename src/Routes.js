@@ -14,6 +14,7 @@ export default function Routes(){
                     <Route exact path="/Home" component={Home}/>
                     <Route exact path="/Cartilla" component={Cartilla}/>
                     <Route exact path="/Cartilla/:nombre:apellido" component={DetalleCartilla} />
+                    <Route exact path="/Cartilla/:nombre" component={DetalleCartilla} />
                 </Switch>
             </Router>
         )
