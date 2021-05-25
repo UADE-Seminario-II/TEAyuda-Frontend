@@ -434,14 +434,8 @@ export default function Cartilla() {
         )
     }
     const seeMoreInfo = (value) => {
-        if(value.entidad === "Profesional"){
-            history.push({ pathname: `/Cartilla/${value.nombre}${value.apellido}`, state: value })
-        }else if(value.entidad === "Actividad"){
-            history.push({ pathname: `/Cartilla/${value.nombre}`, state: value })
-        }else if(value.entidad === "Institucion"){
-            history.push({ pathname: `/Cartilla/${value.nombre}`, state: value })
+            history.push({ pathname: `/Cartilla/${value.entidad}/${value.id}`, state: value })
         }
-    }
     const listEntidades = () => {
         if (error) {
             return <div>Error: {error.message}</div>;
