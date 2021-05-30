@@ -54,6 +54,24 @@ export default function DetalleCartillaScreen(props) {
     }));
     useEffect(() => {
         window.scrollTo(0, 0)
+        let urlp=window.location.href.replace('http://localhost:3000/Cartilla/', '');
+        let i=0
+        let entidadd=""
+        let idd=""
+        while(i<= urlp.length){
+            if(urlp[i] !== "/"){
+                if(isNaN(urlp[i])){
+                    entidadd=entidadd+urlp[i]
+                }else{
+                    idd=idd+urlp[i]
+                }
+            }else{
+                console.log("")
+            }
+            i++
+        }
+        console.log(entidadd.replace("undefined", ""))//guarde la entidad
+        console.log(idd)//guarde el id
       }, [])
     const [entidad] = useState(props.location.state)
     const history = useHistory();
