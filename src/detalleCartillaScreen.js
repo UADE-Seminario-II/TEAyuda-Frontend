@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 
 export default function DetalleCartillaScreen(props) {
@@ -52,10 +53,48 @@ export default function DetalleCartillaScreen(props) {
             backgroundColor: "#F2EFEB"
         },
     }));
+    const [error, setError] = useState(null);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [entidad, setEntidad] = useState("");
+
     useEffect(() => {
         window.scrollTo(0, 0)
+        let urlp=window.location.href.replace('http://localhost:3000/Cartilla/', '');
+        let i=0
+        let entidadd=""
+        let idd=""
+        let urlback = "https://sip2-backend.herokuapp.com/"
+        while(i<= urlp.length){
+            if(urlp[i] !== "/"){
+                if(isNaN(urlp[i])){
+                    entidadd=entidadd+urlp[i]
+                }else{
+                    idd=idd+urlp[i]
+                }
+            }else{
+                console.log("")
+            }
+            i++
+        }
+        console.log(entidadd.replace("undefined", ""))//guarde la entidad
+        entidadd=entidadd.replace("undefined", "")
+        entidadd=entidadd+"es"
+        console.log(entidadd)
+        console.log(idd)//guarde el id
+        console.log(urlback + entidadd + "/" + idd)
+        fetch(urlback + entidadd + "/" + idd)
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    setIsLoaded(true);
+                    setEntidad(result);
+                },
+                (error) => {
+                    setIsLoaded(true);
+                    setError(error);
+                }
+            )
       }, [])
-    const [entidad] = useState(props.location.state)
     const history = useHistory();
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -70,6 +109,7 @@ export default function DetalleCartillaScreen(props) {
     const id = open ? 'simple-popover' : undefined;
     const url = window.location.href
     return (
+        !isLoaded? <LinearProgress /> :
         <div className={classes.DetalleEntidad}>
             <div class="col-12 row mb-5">
                 <div class="col-lg-3 col-md-8 col-sm-12 mt-5">

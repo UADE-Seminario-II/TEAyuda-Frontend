@@ -5,7 +5,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Cartilla from './components/assets/busqueda.png';
-import Reviews from './components/assets/customerreview.png';
+import Reviews from './components/assets/addentity.png';
 import Typography from '@material-ui/core/Typography';
 import { useHistory} from "react-router-dom";
 import Footer from "./components/Footer";
@@ -24,7 +24,7 @@ export default function Home() {
             marginBottom:"5%",
             maxWidth: 345,
             marginLeft:"32%",
-            padding:"3%"
+            padding:"3.96%"
           },
           root1: {
             marginTop:"3rem",
@@ -72,10 +72,10 @@ export default function Home() {
                     />
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="h2">
-                        Compartir Experiencias
+                        Añadir profesional o lugar de interés
                       </Typography>
                       <Typography variant="body2" color="textSecondary" component="p">
-                        Comparta o lea experiencias y datos acerca del TEA en nuestro foro comunitario
+                        Conoces un profesional/lugar de interés y queres compartirlo con nosotros? Hace click acá
                       </Typography>
                     </CardContent>
                   </CardActionArea>
