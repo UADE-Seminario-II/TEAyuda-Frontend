@@ -4,6 +4,7 @@ import Home from "./homeScreen";
 import Cartilla from "./cartillaScreen";
 import NavBar from "./components/NavBar";
 import DetalleCartilla from "./detalleCartillaScreen";
+import Experiencia from "./experienciaScreen";
 export default function Routes(){
         console.log("Redirigiendo")
         return (
@@ -14,6 +15,7 @@ export default function Routes(){
                     <Route exact path="/Home" component={Home}/>
                     <Route exact path="/Cartilla" component={Cartilla}/>
                     <Route exact path="/Cartilla/:entidad/:id" component={DetalleCartilla} />
+                    <Route exact path="/Experiencia/Crear" component={Experiencia} />
                 </Switch>
             </Router>
         )

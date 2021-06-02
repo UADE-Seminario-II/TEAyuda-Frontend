@@ -31,7 +31,7 @@ export default function Home() {
             marginBottom:"5%",
             maxWidth: 345,
             marginLeft:"32%",
-            padding:"4.5%"
+            padding:"2.56%"
           },
           media: {
             height: 350,
