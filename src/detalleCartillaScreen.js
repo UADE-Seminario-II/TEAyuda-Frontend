@@ -249,8 +249,8 @@ export default function DetalleCartillaScreen(props) {
                 >
                     <Typography className={classes.typography}>Se ha copiado el link al portapapeles!</Typography>
                 </Popover>
-                <Button variant="outlined" size="medium" color="primary" className={classes.margin} onClick={() => history.push({ pathname: '/Experiencias' })}>
-                    Añadir experiencia
+                <Button variant="outlined" size="medium" color="primary" className={classes.margin} onClick={() => history.push({ pathname: '/Experiencia/Crear', state: entidad })}>
+                        Añadir experiencia
                     </Button>
             </div>
             <div className={classes.footer}>
