@@ -7,8 +7,10 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import axios from "axios";
+import CartasExperiencia from "./components/CartasExperiencia";
 
-
+let ready = false;
 export default function DetalleCartillaScreen(props) {
     const useStyles = makeStyles((theme) => ({
         DetalleEntidad: {
@@ -56,6 +58,7 @@ export default function DetalleCartillaScreen(props) {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [entidad, setEntidad] = useState("");
+    let [responseData, setResponseData] = useState([]);
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -95,6 +98,43 @@ export default function DetalleCartillaScreen(props) {
                 }
             )
       }, [])
+
+    useEffect(() => {
+        let urlp=window.location.href.replace('http://localhost:3000/Cartilla/', '');
+        let i=0
+        let entidadd=""
+        let idd=""
+        while(i<= urlp.length){
+            if(urlp[i] !== "/"){
+                if(isNaN(urlp[i])){
+                    entidadd=entidadd+urlp[i]
+                }else{
+                    idd=idd+urlp[i]
+                }
+            }else{
+                console.log("")
+            }
+            i++
+        }
+        console.log(entidadd.replace("undefined", ""))//guarde la entidad
+        entidadd=entidadd.replace("undefined", "")
+    if (!ready) {
+
+        axios
+        .get(`https://sip2-backend.herokuapp.com/${entidadd}es/experiencias/${idd}`)
+        .then((response) => {
+            console.log(response.data);
+            setResponseData(response.data);
+            ready = true;
+        })
+        .catch((error) => {
+            console.log(error);
+            ready = true;
+        });
+        ready = true;
+    }
+    }, [setResponseData, responseData]);
+
     const history = useHistory();
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -253,9 +293,15 @@ export default function DetalleCartillaScreen(props) {
                         Añadir experiencia
                     </Button>
             </div>
+
+            <div>
+                <CartasExperiencia cartas={responseData}></CartasExperiencia>
+            </div>
+
             <div className={classes.footer}>
                 <Footer />
             </div>
+
         </div>
     );
 }
