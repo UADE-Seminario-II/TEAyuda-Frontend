@@ -31,7 +31,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Experiencias() {
+function Experiencias(props) {
+    // console.log("props   ", props);
+    // useEffect(() => {
+    //     // will be true
+    //     console.log("props   ", props);
+    //   });
   const classes = useStyles();
 
     const [isTwoImage, setIsTwoImage] = useState(false);
@@ -176,32 +181,80 @@ function Experiencias() {
             <h1>Contanos tu experiencia 😁</h1>
         </div>
         <Grid item xs = {12}>
+        {props.location.state.entidad === "Profesional" &&
+        <div>
+            <TextField style={{ width: 300 }}
+                id="filled-read-only-input"
+                label="Nombre"
+                defaultValue={props.location.state.nombre + " " + props.location.state.apellido}
+                InputProps={{
+                    readOnly: true,
+                }}
+                variant="filled"
+            />
+            <TextField style={{ width: 300 }}
+                id="filled-read-only-input"
+                label="Especialidad"
+                defaultValue={props.location.state.especialidad}
+                InputProps={{
+                    readOnly: true,
+                }}
+                variant="filled"
+            />
+        </div>
+        }
+        {props.location.state.entidad === "Institucion" &&
+        <div>
+            <TextField style={{ width: 300 }}
+                id="filled-read-only-input"
+                label="Nombre"
+                defaultValue={props.location.state.nombre}
+                InputProps={{
+                    readOnly: true,
+                }}
+                variant="filled"
+            />
+            <TextField style={{ width: 300 }}
+                id="filled-read-only-input"
+                label="Nivel educativo"
+                defaultValue={props.location.state.especialidad}
+                InputProps={{
+                    readOnly: true,
+                }}
+                variant="filled"
+            />
+        </div>
+        }
+        {props.location.state.entidad === "Actividad" &&
+        <div>
+            <TextField style={{ width: 300 }}
+                id="filled-read-only-input"
+                label="Actividad"
+                defaultValue={props.location.state.nombre}
+                InputProps={{
+                    readOnly: true,
+                }}
+                variant="filled"
+            />
+            <TextField style={{ width: 300 }}
+                id="filled-read-only-input"
+                label="Tipo de recreación"
+                defaultValue={props.location.state.especialidad}
+                InputProps={{
+                    readOnly: true,
+                }}
+                variant="filled"
+            />
+        </div>
+        }
         <TextField style={{ width: 300 }}
-          id="filled-read-only-input"
-          label="Nombre y Apellido"
-          defaultValue="Roberto Gomez"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="filled"
-        />
-        <TextField style={{ width: 300 }}
-          id="filled-read-only-input"
-          label="Especialidad"
-          defaultValue="Psicólogo"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="filled"
-        />
-        <TextField style={{ width: 300 }}
-          id="filled-read-only-input"
-          label="Dirección"
-          defaultValue="Avenida Las Heras 225"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="filled"
+            id="filled-read-only-input"
+            label="Dirección"
+            defaultValue={props.location.state.direccion + " " + props.location.state.localidad.localidad}
+            InputProps={{
+                readOnly: true,
+            }}
+            variant="filled"
         />
         </Grid>
         <Grid item xs = {12}>

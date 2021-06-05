@@ -58,11 +58,13 @@ export default function DetalleCartillaScreen(props) {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [entidad, setEntidad] = useState("");
+    const [dataPasoExperiencia, setDataPasoExperiencia] = useState("");
     let [responseData, setResponseData] = useState([]);
 
     useEffect(() => {
         window.scrollTo(0, 0)
         let urlp=window.location.href.replace('http://localhost:3000/Cartilla/', '');
+        setDataPasoExperiencia(props.location.state);
         let i=0
         let entidadd=""
         let idd=""
@@ -289,7 +291,7 @@ export default function DetalleCartillaScreen(props) {
                 >
                     <Typography className={classes.typography}>Se ha copiado el link al portapapeles!</Typography>
                 </Popover>
-                <Button variant="outlined" size="medium" color="primary" className={classes.margin} onClick={() => history.push({ pathname: '/Experiencia/Crear', state: entidad })}>
+                <Button variant="outlined" size="medium" color="primary" className={classes.margin} onClick={() => props.history.push({ pathname: '/Experiencia/Crear', state: dataPasoExperiencia })}>
                         Añadir experiencia
                     </Button>
             </div>
