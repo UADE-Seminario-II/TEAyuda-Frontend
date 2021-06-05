@@ -59,12 +59,14 @@ export default function DetalleCartillaScreen(props) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [entidad, setEntidad] = useState("");
     const [dataPasoExperiencia, setDataPasoExperiencia] = useState("");
+    const [dataInstructivos, setDataInstructivos] = useState("");
     let [responseData, setResponseData] = useState([]);
 
     useEffect(() => {
         window.scrollTo(0, 0)
         let urlp=window.location.href.replace('http://localhost:3000/Cartilla/', '');
         setDataPasoExperiencia(props.location.state);
+        setDataInstructivos(props.location.state);
         let i=0
         let entidadd=""
         let idd=""
@@ -120,6 +122,7 @@ export default function DetalleCartillaScreen(props) {
         }
         console.log(entidadd.replace("undefined", ""))//guarde la entidad
         entidadd=entidadd.replace("undefined", "")
+
     if (!ready) {
 
         axios
@@ -294,6 +297,9 @@ export default function DetalleCartillaScreen(props) {
                 <Button variant="outlined" size="medium" color="primary" className={classes.margin} onClick={() => props.history.push({ pathname: '/Experiencia/Crear', state: dataPasoExperiencia })}>
                         Añadir experiencia
                     </Button>
+                <Button variant="outlined" size="medium" color="primary" className={classes.margin} onClick={() => props.history.push({ pathname: '/Instructivos', state: dataInstructivos })}>
+                    Instructivos
+                </Button>
             </div>
 
             <div>
