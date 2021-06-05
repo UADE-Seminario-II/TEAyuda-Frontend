@@ -2,36 +2,36 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles/";
 import { Card, CardContent, CardActions, Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import Rating from "@material-ui/lab/Rating";
 
 const CartasExperiencia = (props) => {
   const useStyles = makeStyles((theme) => ({
     container: {
-      backgroundColor: "#3f51b5",
+      backgroundColor: "#dddddd",
     },
     root: {
       minWidth: 275,
       display: "inline-block",
-      backgroundColor: "#3f51b5",
-      color: "white",
-      margin: "20px",
-      maxWidth:"200px",
-      maxHeight:"300px",
-      wordWrap:"break-word",
+      backgroundColor: "#dddddd",
+      color: "black",
+      width: "92%",
+      marginLeft: "4%",
+      wordWrap: "break-word",
     },
     bullet: {
       display: "inline-block",
       margin: "0 2px",
       transform: "scale(0.8)",
-      color: "white",
+      color: "black",
     },
     title: {
       fontSize: 20,
-      fontWeight:"bold",
-      color: "white",
+      fontWeight: "bold",
+      color: "black",
     },
     pos: {
-      marginBottom: 12,
-      color: "white",
+      marginBottom: 3,
+      color: "black",
     },
   }));
   const classes = useStyles();
@@ -41,32 +41,29 @@ const CartasExperiencia = (props) => {
       {props.cartas.map((item, index) => (
         <Card className={classes.root}>
           <CardContent>
+            <Typography variant="p" component="p">
+              ✉ {item.usuario.usuario}
+            </Typography>
             <Typography
               className={classes.title}
               color="textSecondary"
               gutterBottom
             >
-              {item.titulo}
+              <Rating
+                name="read-only"
+                value={item.puntaje}
+                size="small"
+                readOnly
+              />
+              {"  ⇀  " + item.titulo}
             </Typography>
             <Typography variant="h5" component="h2">
               {item.detalleTipoExperiencia}
             </Typography>
-            <Typography className={classes.pos} color="textSecondary">
-              {item.tipoExperiencia}
-            </Typography>
-            <Typography className={classes.pos} color="textSecondary">
-              {item.puntaje}
-            </Typography>
             <Typography variant="body2" component="p">
-              {item.comentario}
-              <br />
-              <br />
-              {item.usuario.usuario}
+              {'"' + item.comentario + '"'}
             </Typography>
           </CardContent>
-          <CardActions>
-            <Button size="small">Button</Button>
-          </CardActions>
         </Card>
       ))}
     </div>
