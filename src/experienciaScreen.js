@@ -146,34 +146,38 @@ function Experiencias(props) {
         exp.actividad = {};
         exp.actividad.id = props.location.state.id;
     }
-    
-    console.log("imagen que se sube", [imageValue])
-    let formData =  new FormData();
-    formData.append('image', imageValue);
-    console.log("FORM DATA", formData.values)
-    let array = [];
-    array.push(formData);
-    console.log("ARRAY", array)
-    const params = new URLSearchParams({
-      image: formData
-    }).toString();
-    console.log("PARAMS ", params);
-    console.log("PARAMS ", exp);
-    // axios.post(`https://sip2-backend.herokuapp.com/Experiencias/46/uploadImages?` + params, { headers: {
-    //     'Content-Type': 'multipart/form-data'}
-    //   })
-    //   .then(res => {
-    //     console.log(res);
-    //     console.log(res.data);
-    //     handleClickOpen();
-    //   })
+
     axios.post(`https://sip2-backend.herokuapp.com/Experiencias`, exp )
       .then(res => {
         console.log(res);
         console.log(res.data);
+        // guardar imagenes
+        const formData = new FormData();
+        formData.append('image',imageValue);
+        let array = [];
+        array.push(formData);
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        }
+        console.log("Array: ", array, "config: ", config);
+    
+        axios.post(`https://sip2-backend.herokuapp.com/Experiencias/${res.data.id}/uploadImages`, array, config
+        )
+        .then(res => {
+            console.log(res);
+            console.log(res.data);
+            handleClickOpen();
+        })
+        .catch(error => {
+            console.log(error);
+            return error;
+        });
+        // fin
         handleClickOpen();
       });
-  }
+    }
 
   return (
     <div>
