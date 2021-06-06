@@ -5,6 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { BoxUpload, ImagePreview } from "./style";
+import { useHistory } from "react-router-dom";
 import FolderIcon from "./components/assets/folder_icon_transparent.png";
 import CloseIcon from "./components/assets/CloseIcon.svg";
 import Dialog from "@material-ui/core/Dialog";
@@ -37,8 +38,8 @@ function Experiencias(props) {
     //     // will be true
     //     console.log("props   ", props);
     //   });
-  const classes = useStyles();
-
+    const classes = useStyles();
+    const history = useHistory();
     const [isTwoImage, setIsTwoImage] = useState(false);
     const [isThreeImage, setIsThreeImage] = useState(false);
     const [image, setImage] = useState("");
@@ -66,6 +67,7 @@ function Experiencias(props) {
         setIsThreeImage(false);
         setValueNew("");
         setOpen(false);
+        props.history.push({ pathname: `/Cartilla/${props.location.state.entidad}/${props.location.state.id}`, state: props.location.state});   
     };
 
   function handleTitleChange(data) {
@@ -127,16 +129,23 @@ function Experiencias(props) {
         comentario: description,
         puntaje: 10,
         tipoExperiencia: '',
-        getdetalleTipoExperiencia: {},
         usuario: {
             idUsuario: 1
-        },
-        institucion: null,
-        profesional: null,
-        actividad: {
-            id: 45,
-            }
+        }
     }; 
+    
+    if(props.location.state.entidad === "Profesional"){
+        exp.profesional = {};
+        exp.profesional.id = props.location.state.id;
+    }
+    if(props.location.state.entidad === "Institucion"){
+        exp.institucion = {};
+        exp.institucion.id = props.location.state.id;
+    }
+    if(props.location.state.entidad === "Actividad"){
+        exp.actividad = {};
+        exp.actividad.id = props.location.state.id;
+    }
     
     console.log("imagen que se sube", [imageValue])
     let formData =  new FormData();
@@ -149,6 +158,7 @@ function Experiencias(props) {
       image: formData
     }).toString();
     console.log("PARAMS ", params);
+    console.log("PARAMS ", exp);
     // axios.post(`https://sip2-backend.herokuapp.com/Experiencias/46/uploadImages?` + params, { headers: {
     //     'Content-Type': 'multipart/form-data'}
     //   })
@@ -466,7 +476,11 @@ function Experiencias(props) {
           justify="center"
           style={{ minHeight: '10vh' }}>
               <Grid item xs = {2}>
-                <Button variant="contained" size="medium" className={classes.margin}>
+                <Button variant="contained" size="medium" className={classes.margin} 
+                    onClick={() =>
+                        props.history.push({
+                        pathname: `/Cartilla/${props.location.state.entidad}/${props.location.state.id}`, state: props.location.state
+                    })}>
                     Cancelar
                 </Button>
               </Grid>
