@@ -11,7 +11,6 @@ import axios from "axios";
 import CartasExperiencia from "./components/CartasExperiencia";
 import Rating from "@material-ui/lab/Rating";
 
-let ready = false;
 export default function DetalleCartillaScreen(props) {
   const useStyles = makeStyles((theme) => ({
     DetalleEntidad: {
@@ -129,23 +128,16 @@ export default function DetalleCartillaScreen(props) {
     }
     console.log(entidadd.replace("undefined", "")); //guarde la entidad
     entidadd = entidadd.replace("undefined", "");
-
-    if (!ready) {
-      axios
-        .get(
+      axios.get(
           `https://sip2-backend.herokuapp.com/${entidadd}es/experiencias/${idd}`
         )
         .then((response) => {
           console.log(response.data);
           setResponseData(response.data);
-          ready = true;
         })
         .catch((error) => {
           console.log(error);
-          ready = true;
         });
-      ready = true;
-    }
   }, [setResponseData, responseData]);
 
   const history = useHistory();
