@@ -18,6 +18,9 @@ import Rating from "@material-ui/lab/Rating";
 import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
+  container:{
+    backgroundColor: "#F2EFEB",
+  },
   root: {
     "& .MuiTextField-root": {
       margin: theme.spacing(1),
@@ -180,7 +183,7 @@ function Experiencias(props) {
     }
 
   return (
-    <div>
+    <div className={classes.container}>
       <NavBar></NavBar>
       <Grid
         container
@@ -480,7 +483,7 @@ function Experiencias(props) {
           justify="center"
           style={{ minHeight: '10vh' }}>
               <Grid item xs = {2}>
-                <Button variant="contained" size="medium" className={classes.margin} 
+                <Button variant="contained" size="medium" className={classes.margin} style={{color: "white",backgroundColor: "#D27805",}}
                     onClick={() =>
                         props.history.push({
                         pathname: `/Cartilla/${props.location.state.entidad}/${props.location.state.id}`, state: props.location.state
@@ -489,7 +492,7 @@ function Experiencias(props) {
                 </Button>
               </Grid>
               <Grid item xs = {2}>
-                <Button variant="contained" size="medium" color="primary" className={classes.margin} onClick={() => handleSubmit()}>
+                <Button variant="contained" size="medium" color="primary" className={classes.margin} style={{color: "white",backgroundColor: "#D27805",}} onClick={() => handleSubmit()}>
                     Publicar
                 </Button>
               </Grid>
