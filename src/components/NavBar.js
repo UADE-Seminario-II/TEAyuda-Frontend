@@ -101,7 +101,7 @@ export default function PersistentDrawerRight() {
         history.push({
             pathname: '/Home',
         })
-      }else if(text==="Cartilla"){
+      }else if(text==="Cartilla") {
         setOpen(false);
         history.push({
             pathname: '/Cartilla',
