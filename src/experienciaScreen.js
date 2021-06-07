@@ -30,6 +30,13 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.grey[500],
     },
   },
+  margin: {
+    color: "white",
+    backgroundColor: "#D27805",
+    '&:hover': {
+        backgroundColor: "#E89907",
+    }
+  }
 }));
 
 function Experiencias(props) {
@@ -55,6 +62,7 @@ function Experiencias(props) {
     const [valueNew, setValueNew] = useState();
     const [open, setOpen] = React.useState(false);
     const [rating, setRating] = React.useState(0);
+    const [buttonDisabled, setButtonDisabled] = React.useState(true);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -71,7 +79,11 @@ function Experiencias(props) {
     };
 
   function handleTitleChange(data) {
+    setButtonDisabled(false);
     setTitle(data);
+    if(data === "" || data === null){
+        setButtonDisabled(true);
+    }
   }
 
   function handleDescriptionChange(data) {
@@ -127,7 +139,7 @@ function Experiencias(props) {
     let exp = {
         titulo: title,
         comentario: description,
-        puntaje: 10,
+        puntaje: rating,
         tipoExperiencia: '',
         usuario: {
             idUsuario: 1
@@ -480,7 +492,7 @@ function Experiencias(props) {
           justify="center"
           style={{ minHeight: '10vh' }}>
               <Grid item xs = {2}>
-                <Button variant="contained" size="medium" className={classes.margin} 
+                <Button variant="contained" size="medium"
                     onClick={() =>
                         props.history.push({
                         pathname: `/Cartilla/${props.location.state.entidad}/${props.location.state.id}`, state: props.location.state
@@ -489,7 +501,13 @@ function Experiencias(props) {
                 </Button>
               </Grid>
               <Grid item xs = {2}>
-                <Button variant="contained" size="medium" color="primary" className={classes.margin} onClick={() => handleSubmit()}>
+                <Button 
+                    variant="outlined"
+                    size="medium"
+                    color="primary"
+                    className={classes.margin}
+                    disabled={buttonDisabled} 
+                    onClick={() => handleSubmit()}>
                     Publicar
                 </Button>
               </Grid>
@@ -511,7 +529,12 @@ function Experiencias(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary" autoFocus>
+          <Button 
+            variant="outlined"
+            size="medium"
+            color="primary"
+            className={classes.margin}
+            onClick={handleClose} autoFocus>
             Aceptar
           </Button>
         </DialogActions>
