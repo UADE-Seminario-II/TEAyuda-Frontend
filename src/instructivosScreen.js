@@ -8,21 +8,16 @@ function Instructivos(props) {
   let [responseData, setResponseData] = React.useState([]);
 
   React.useEffect(() => {
-    if (!ready) {
       axios
         .get(`https://sip2-backend.herokuapp.com/${props.location.state.entidad}es/${props.location.state.id}/Instructivo`)
         .then((response) => {
           console.log(response.data);
           setResponseData(response.data);
-          ready = true;
         })
         .catch((error) => {
           console.log(error);
-          ready = true;
         });
-      ready = true;
-    }
-  }, [setResponseData, responseData]);
+  }, []);
 
   /*
    const tileData = [
