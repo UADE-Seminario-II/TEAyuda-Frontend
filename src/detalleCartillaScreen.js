@@ -232,31 +232,31 @@ export default function DetalleCartillaScreen(props) {
               <br />
               {entidad.valoracionPromedio === 1.0 ? (
                 <div>
-                  Valoración: 1 estrella (&#9733;)
+                  Valoración: 1 estrella (<Rating value="1" name="read-only"size="medium" readOnly/>)
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 2.0 ? (
                 <div>
-                  Valoración: 2 estrellas (&#9733;&#9733;)
+                  Valoración: 2 estrellas (<Rating value="2" name="read-only"size="medium" readOnly/>)
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 3.0 ? (
                 <div>
-                  Valoración: 3 estrellas (&#9733;&#9733;&#9733;)
+                  Valoración: 3 estrellas (<Rating value="3" name="read-only"size="medium" readOnly/>)
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 4.0 ? (
                 <div>
-                  Valoración: 4 estrellas (&#9733;&#9733;&#9733;&#9733;)
+                  Valoración: 4 estrellas (<Rating value="4" name="read-only"size="medium" readOnly/>)
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 5.0 ? (
                 <div>
-                  Valoración: 5 estrellas (&#9733;&#9733;&#9733;&#9733;&#9733;)
+                  Valoración: 5 estrellas (<Rating value="5" name="read-only"size="medium" readOnly/>)
                   <br />
                 </div>
               ) : null}
@@ -275,31 +275,31 @@ export default function DetalleCartillaScreen(props) {
               <br />
               {entidad.valoracionPromedio === 1.0 ? (
                 <div>
-                  Valoración: 1 estrella (&#9733;)
+                  Valoración: 1 estrella (<Rating value="1" name="read-only"size="medium" readOnly/>)
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 2.0 ? (
                 <div>
-                  Valoración: 2 estrellas (&#9733;&#9733;)
+                  Valoración: 2 estrellas (<Rating value="2" name="read-only"size="medium" readOnly/>)
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 3.0 ? (
                 <div>
-                  Valoración: 3 estrellas (&#9733;&#9733;&#9733;)
+                  Valoración: 3 estrellas (<Rating value="3" name="read-only"size="medium" readOnly/>)
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 4.0 ? (
                 <div>
-                  Valoración: 4 estrellas (&#9733;&#9733;&#9733;&#9733;)
+                  Valoración: 4 estrellas (<Rating value="4" name="read-only"size="medium" readOnly/>)
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 5.0 ? (
                 <div>
-                  Valoración: 5 estrellas (&#9733;&#9733;&#9733;&#9733;&#9733;)
+                  Valoración: 5 estrellas (<Rating value="5" name="read-only"size="medium" readOnly/>)
                   <br />
                 </div>
               ) : null}
