@@ -178,7 +178,7 @@ export default function DetalleCartillaScreen(props) {
             <div className={classes.Titulo2}>
               Especialidad: {entidad.especialidad}
               <br />
-              Dirreción: {entidad.direccion} {entidad.piso},{" "}
+              Dirección: {entidad.direccion} {entidad.piso},{" "}
               {entidad.localidad.localidad}
               <br />
               Teléfono: {entidad.telefono}
@@ -224,7 +224,7 @@ export default function DetalleCartillaScreen(props) {
             <div className={classes.Titulo2}>
               Nivel educativo: {entidad.especialidad}
               <br />
-              Dirreción: {entidad.direccion}, {entidad.localidad.localidad}
+              Dirección: {entidad.direccion}, {entidad.localidad.localidad}
               <br />
               Teléfono: {entidad.telefono}
               <br />
@@ -267,7 +267,7 @@ export default function DetalleCartillaScreen(props) {
             <div className={classes.Titulo2}>
               Descripción: {entidad.descripcion}
               <br />
-              Dirreción: {entidad.direccion}, {entidad.localidad.localidad}
+              Dirección: {entidad.direccion}, {entidad.localidad.localidad}
               <br />
               Teléfono: {entidad.telefono}
               <br />
