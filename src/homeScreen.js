@@ -22,21 +22,24 @@ export default function Home() {
         root: {
             marginTop:"3rem",
             marginBottom:"5%",
-            maxWidth: 345,
+            maxWidth: 350,
             marginLeft:"32%",
             padding:"3.96%"
           },
           root1: {
             marginTop:"3rem",
             marginBottom:"5%",
-            maxWidth: 345,
+            maxWidth: 350,
             marginLeft:"32%",
-            padding:"2.56%"
+            padding:"5.00%"
           },
           media: {
             height: 350,
             backgroundSize:"contain",
           },
+          title: {
+            marginBottom:"11%",
+          }
     }));
     const classes = useStyles();
     const history= useHistory();
@@ -53,7 +56,7 @@ export default function Home() {
                       image={Cartilla}
                     />
                     <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
+                      <Typography gutterBottom variant="h5" component="h2" className={classes.title}>
                         Cartilla
                       </Typography>
                       <Typography variant="body2" color="textSecondary" component="p">

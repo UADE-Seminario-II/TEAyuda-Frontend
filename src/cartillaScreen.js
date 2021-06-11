@@ -446,7 +446,7 @@ export default function Cartilla() {
                 <div className={classes.root}>
                     {resultados.map((value) => (
                         <List class="ml-md-auto ml-sm-auto">
-                            <ListItem alignItems="flex-start">
+                            <ListItem alignItems="flex-start" button onClick={() => { seeMoreInfo(value) }}>
                                 <ListItemAvatar>
                                     <Avatar alt="imagen" className={classes.avatar} src={value.imagen} />
                                 </ListItemAvatar>
