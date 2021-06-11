@@ -146,7 +146,10 @@ export default function DetalleCartillaScreen(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event.currentTarget)
+    setTimeout(() => {
+      setAnchorEl(event.currentTarget)
+    }, 1000);
   };
 
   const handleClose = () => {
