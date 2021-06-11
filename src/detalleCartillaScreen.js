@@ -11,7 +11,6 @@ import axios from "axios";
 import CartasExperiencia from "./components/CartasExperiencia";
 import Rating from "@material-ui/lab/Rating";
 
-let ready = false;
 export default function DetalleCartillaScreen(props) {
   const useStyles = makeStyles((theme) => ({
     DetalleEntidad: {
@@ -327,7 +326,7 @@ export default function DetalleCartillaScreen(props) {
           open={open}
           anchorEl={anchorEl}
           onClose={handleClose}
-          style={{ marginTop: "1rem" }}
+          style={{ marginTop: "0.5%"}}
           anchorOrigin={{
             vertical: "bottom",
             horizontal: "left",
