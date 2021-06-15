@@ -21,7 +21,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 export default function Cartilla() {
     const useStyles = makeStyles((theme) => ({
         Cartilla: {
-            backgroundColor: "#F2EFEB",
+            backgroundColor: "white",
             height: "100%",
             minHeight: "100vh"
         },
@@ -30,13 +30,16 @@ export default function Cartilla() {
         },
         margin: {
             color: "white",
-            backgroundColor: "#D27805",
+            backgroundColor: "#F9C25D",
             '&:hover': {
-                backgroundColor: "#E89907",
-            }
+                backgroundColor: "#D27805",
+            },
+            marginTop:"7%",
+            /* width:"200%", */
         },
         labels: {
             fontSize: "1rem",
+            width:"20rem",
         },
         input: {
             height: "2rem",
@@ -44,28 +47,46 @@ export default function Cartilla() {
         },
         divider: {
             backgroundColor: "black",
-            marginTop: "1.5rem",
-            width: "100%"
+            /* marginTop: "1.5rem", */
+            width: "100%",
+            orientation: "vertical",
         },
         select: {
             width: "13.8rem",
             height: "2rem",
+            marginTop:"1%",
+            marginBottom:"1%",
         },
         listdivider: {
             backgroundColor: "black",
             marginTop: "1.5rem",
-            maxWidth: "35rem"
+            maxWidth: "50rem",
         },
         root: {
-            width: '100%',
-            maxWidth: 600,
-            marginLeft: "1rem"
+            width: "100%",
+            maxWidth: "50rem",
+            marginTop:"2%"
+            
+            
         },
         avatar: {
             width: "4rem",
             height: "4rem",
             marginTop: "0.5rem",
             marginRight: "0.5rem",
+        },
+        lista:{
+            marginLeft:"2%",
+            width:"60%",
+            backgroundColor:"#bcd7ff",
+            borderRadius:"1rem",
+            
+            //width:"60%"
+        },
+        barraIntro:{
+            backgroundColor: "#115DBF", 
+            height:"5rem",
+            //textAlign:"center",
         },
     }));
     const classes = useStyles();
@@ -234,6 +255,19 @@ export default function Cartilla() {
     }
     const entidades = () => {
         return (
+            <div style={{width:"300%"}}>
+                <label className={classes.labels} for="entidad">Seleccione una entidad</label><br />
+                <select className={classes.select} value={entidadSelected} id="entidad" name="entidadlist" form="entidadform" onChange={(e) => { onEntidad(e.target.value) }}>
+                    <option value="" disabled selected>Entidad</option>
+                    <option value="Profesional">Especialista</option>
+                    <option value="Institucion">Institución</option>
+                    <option value="Actividad">Actividad</option>
+                </select>
+            </div>
+        );
+    }
+/*     const entidades = () => {
+        return (
             <div class="col-md-2 mb-2 my-auto offset-md-1">
                 <label className={classes.labels} for="entidad">Seleccione una entidad</label><br />
                 <select className={classes.select} value={entidadSelected} id="entidad" name="entidadlist" form="entidadform" onChange={(e) => { onEntidad(e.target.value) }}>
@@ -244,13 +278,13 @@ export default function Cartilla() {
                 </select>
             </div>
         );
-    }
+    } */
     const localidades = () => {
         if (disableSearch === true) {
             return null;
         }
         else return (
-            <div class="col-md-2 mb-2 my-auto">
+            <div class="col-md-2 mb-2 my-auto" syle={{width:"100%"}}>
                 {/*<label className={classes.labels}for="localidad">Seleccione una localidad</label><br />
                     <select className={classes.select} value={localidadSelected} id="localidad" name="localidadlist" form="localidadform" onChange={(e) =>{onLocalidad(e.target.value)}}>
                         <option value="" disabled selected>Seleccione una localidad</option>
@@ -264,8 +298,9 @@ export default function Cartilla() {
                     options={LocalidadesB}
                     getOptionLabel={(option) => option.localidad}
                     onChange={(event, value) => { onLocalidad(value) }}
-                    style={{ width: 300 }}
-                    renderInput={(params) => <TextField style={{ width: "13.8rem", backgroundColor: "white" }}  {...params} placeholder="Seleccione una localidad" />}
+                    style={{ width: 300, marginTop:"1%",
+                    marginBottom:"2%",}}
+                    renderInput={(params) => <TextField style={{ width: "13.8rem", backgroundColor: "white" }}  {...params} placeholder="Localidad" />}
                 />
             </div>
         )
@@ -277,9 +312,9 @@ export default function Cartilla() {
         } else {
             return (
                 <div class="col-md-2 mb-2 my-auto">
-                    <label className={classes.labels} for="rating">Valoración</label><br />
-                    <select className={classes.select} value={ratingSelected} id="rating" name="ratinglist" form="ratingform" onChange={(e) => { onRating(e.target.value) }}>
-                        <option value="" disabled selected>Seleccione una valoración</option>
+                    <label className={classes.labels} style={{marginTop:"2%"}} for="rating">Seleccione una valoración</label><br />
+                    <select className={classes.select} style={{marginTop:"2%"}} value={ratingSelected} id="rating" name="ratinglist" form="ratingform" onChange={(e) => { onRating(e.target.value) }}>
+                        <option value="" disabled selected>Valoración</option>
                         <option value={1}>1 estrella (&#9733;)</option>
                         <option value={2}>2 estrellas (&#9733;&#9733;)</option>
                         <option value={3}>3 estrellas (&#9733;&#9733;&#9733;)</option>
@@ -298,42 +333,49 @@ export default function Cartilla() {
                     copyResult.filter((valor) =>
                         (valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected))
                     ))
+                
             } else
                 if (entidadSelected === "" && ratingSelected !== "" && localidadSelected !== "") {
                     setResultados(
                         copyResult.filter((valor) =>
                             (ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected))
                         ))
+                   
                 } else
                     if (entidadSelected !== "" && ratingSelected === "" && localidadSelected !== "") {
                         setResultados(
                             copyResult.filter((valor) =>
                                 (valor.entidad.match(entidadSelected) && valor.localidad.localidad.match(localidadSelected))
                             ))
+                        
                     } else
                         if (entidadSelected !== "" && ratingSelected !== "" && localidadSelected === "") {
                             setResultados(
                                 copyResult.filter((valor) =>
                                     (valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio))
                                 ))
+                            
                         } else
                             if (entidadSelected !== "" && ratingSelected === "" && localidadSelected === "") {
                                 setResultados(
                                     copyResult.filter((valor) =>
                                         (valor.entidad.match(entidadSelected))
                                     ))
+                               
                             } else
                                 if (entidadSelected === "" && ratingSelected !== "" && localidadSelected === "") {
                                     setResultados(
                                         copyResult.filter((valor) =>
                                             (ratingSelected.match(valor.valoracionPromedio))
                                         ))
+                                    
                                 } else
                                     if (entidadSelected === "" && ratingSelected === "" && localidadSelected !== "") {
                                         setResultados(
                                             copyResult.filter((valor) =>
                                                 (valor.localidad.localidad.match(localidadSelected))
                                             ))
+                                        
                                     }
         } else
             if (entidadSelected === "Profesional") {
@@ -367,7 +409,7 @@ export default function Cartilla() {
                             name="searchlist"
                             form="searchform"
                             type="text"
-                            placeholder="p ej. psicólogo, médico clínico"
+                            placeholder="ej. psicólogo, médico clínico"
                             value={buscado}
                             autoComplete="off"
                             onChange={(e) => { onSearch(e.target.value) }}
@@ -426,8 +468,8 @@ export default function Cartilla() {
     }
     const resetFilter = () => {
         return (
-            <div class="col-md-2 mb-1 my-auto">
-                <Button variant="outlined" size="medium" color="primary" className={classes.margin} onClick={resetFilters}>
+            <div class="col-md-2 mb-2 my-auto" style={{width:"100%"}} >
+                <Button  size="medium" color="primary" className={classes.margin} onClick={resetFilters}>
                     Resetear filtros
                 </Button>
             </div>
@@ -440,10 +482,11 @@ export default function Cartilla() {
         if (error) {
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
-            return <LinearProgress />;
-        } else {
+            return <LinearProgress style={{marginLeft:"0rem"}}/>;
+        }else {
             return (
                 <div className={classes.root}>
+                    
                     {resultados.map((value) => (
                         <List class="ml-md-auto ml-sm-auto">
                             <ListItem alignItems="flex-start" button onClick={() => { seeMoreInfo(value) }}>
@@ -452,6 +495,7 @@ export default function Cartilla() {
                                 </ListItemAvatar>
                                 {value.entidad === "Profesional" &&
                                     <ListItemText
+                                        style={{marginLeft:"5%"}}
                                         primary={value.nombre + " " + value.apellido}
                                         secondary={
                                             <React.Fragment>
@@ -461,7 +505,7 @@ export default function Cartilla() {
                                                     className={classes.inline}
                                                     color="textPrimary"
                                                 >
-                                                    {"Especialidad médica: " + value.especialidad}
+                                                    {"- Especialidad médica: " + value.especialidad}
                                                 </Typography>
                                                 <br />
                                                 <Typography
@@ -470,7 +514,7 @@ export default function Cartilla() {
                                                     className={classes.inline}
                                                     color="textPrimary"
                                                 >
-                                                    {"Localidad: " + value.localidad.localidad}
+                                                    {"- Localidad: " + value.localidad.localidad}
                                                 </Typography>
                                                 <br />
                                                 {value.valoracionPromedio === 1.0 ? (
@@ -478,35 +522,35 @@ export default function Cartilla() {
                                                         component="span"
                                                         variant="body2"
                                                         color="textPrimary"
-                                                    >Valoración: &#9733;</Typography>
+                                                    >- Valoración: &#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 2.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
                                                         color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;</Typography>
+                                                    >- Valoración: &#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 3.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
                                                         color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;&#9733;</Typography>
+                                                    >- Valoración: &#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 4.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
                                                         color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
+                                                    >- Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 5.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
                                                         color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
+                                                    >- Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
 
                                                 <ListItemSecondaryAction>
@@ -520,6 +564,7 @@ export default function Cartilla() {
                                 }
                                 {value.entidad === "Institucion" &&
                                     <ListItemText
+                                        style={{marginLeft:"5%"}}
                                         primary={value.nombre}
                                         secondary={
                                             <React.Fragment>
@@ -529,7 +574,7 @@ export default function Cartilla() {
                                                     className={classes.inline}
                                                     color="textPrimary"
                                                 >
-                                                    {"Nivel educativo: " + value.especialidad}
+                                                    {"- Nivel educativo: " + value.especialidad}
                                                 </Typography>
                                                 <br />
                                                 <Typography
@@ -538,7 +583,7 @@ export default function Cartilla() {
                                                     className={classes.inline}
                                                     color="textPrimary"
                                                 >
-                                                    {"Localidad: " + value.localidad.localidad}
+                                                    {"- Localidad: " + value.localidad.localidad}
                                                 </Typography>
                                                 <br />
                                                 {value.valoracionPromedio === 1.0 ? (
@@ -546,35 +591,35 @@ export default function Cartilla() {
                                                         component="span"
                                                         variant="body2"
                                                         color="textPrimary"
-                                                    >Valoración: &#9733;</Typography>
+                                                    >- Valoración: &#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 2.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
                                                         color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;</Typography>
+                                                    >- Valoración: &#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 3.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
                                                         color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;&#9733;</Typography>
+                                                    >- Valoración: &#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 4.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
                                                         color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
+                                                    >- Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 5.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
                                                         color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
+                                                    >- Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
 
                                                 <ListItemSecondaryAction>
@@ -589,6 +634,7 @@ export default function Cartilla() {
 
                                 {value.entidad === "Actividad" &&
                                     <ListItemText
+                                        style={{marginLeft:"5%"}}
                                         primary={value.nombre}
                                         secondary={
                                             <React.Fragment>
@@ -598,7 +644,7 @@ export default function Cartilla() {
                                                     className={classes.inline}
                                                     color="textPrimary"
                                                 >
-                                                    {"Tipo de recreación: " + value.especialidad}
+                                                    {"- Tipo de recreación: " + value.especialidad}
                                                 </Typography>
                                                 <br />
                                                 <Typography
@@ -607,7 +653,7 @@ export default function Cartilla() {
                                                     className={classes.inline}
                                                     color="textPrimary"
                                                 >
-                                                    {"Localidad: " + value.localidad.localidad}
+                                                    {"- Localidad: " + value.localidad.localidad}
                                                 </Typography>
                                                 <br />
                                                 {value.valoracionPromedio === 1.0 ? (
@@ -615,35 +661,35 @@ export default function Cartilla() {
                                                         component="span"
                                                         variant="body2"
                                                         color="textPrimary"
-                                                    >Valoración: &#9733;</Typography>
+                                                    >- Valoración: &#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 2.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
                                                         color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;</Typography>
+                                                    >- Valoración: &#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 3.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
                                                         color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;&#9733;</Typography>
+                                                    >- Valoración: &#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 4.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
                                                         color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
+                                                    >- Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 5.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
                                                         color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
+                                                    >- Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
 
                                                 <ListItemSecondaryAction>
@@ -668,17 +714,27 @@ export default function Cartilla() {
 
     return (
         <div className={classes.Cartilla}>
-            <div class="col-12 row p-3">
-                {entidades()}
-                {localidades()}
-                {ratings()}
-                {search()}
-                {resetFilter()}
-                <Divider className={classes.divider} />
+            <div className={classes.barraIntro} >
+                <div style={{height:"1rem"}}></div>
+                <text style={{fontFamily: "Open Sans", fontSize: "2rem", color:"white", marginLeft:"2.5%"}}>Búsqueda de profesionales/lugares de interés</text>
             </div>
-            <div class="col-11 p-4">
-                {listEntidades()}
+            <div style={{marginTop:"2%"}}>
+                <text style={{fontFamily: "Open Sans", fontSize: "1.5rem", color:"black", marginLeft:"2.5%"}}>Filtros de búsqueda:</text>
+                {/* <Divider style={{ backgroundColor:"black", marginLeft:"25%", marginTop:"1%"}} /> */}
+            </div>
+            <div style={{display: "flex", alignContent:"center", marginTop:"1%"}} >
+                <div  style={{marginLeft:"3%"}}>
+                    {entidades()}
+                    {localidades()}
+                    {ratings()}
+                    {search()}
+                    {resetFilter()}
+                </div>             
+                <div className={classes.lista} >
+                    {listEntidades()}
+                </div>
             </div>
         </div>
     );
+
 }
