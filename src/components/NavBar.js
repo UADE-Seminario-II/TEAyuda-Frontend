@@ -1,26 +1,17 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import { useHistory} from "react-router-dom";
 import Logo from "./assets/LogoNegroAzulBrillante.png";
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
 import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';
 import Button from '@material-ui/core/Button';
+
 
 const drawerWidth = 240;
 
@@ -34,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }), */
-    backgroundColor:"white",//"#115DBF" //FONDO DEL NAVBAR
+    backgroundColor:"white",
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -118,10 +109,10 @@ export default function PersistentDrawerRight() {
         history.push({
             pathname: '/Cartilla',
         })
-      }else if(text==="AñadirEntidad"){
+      }else if(text==="AnadirEntidad"){
         setOpen(false);
         history.push({
-            pathname: '/Experiencias', //cambiar esto por formulario de Añadir profesional/lugar de interes
+            pathname: '/AnadirEntidad', 
         })
       }
   }
@@ -144,7 +135,7 @@ export default function PersistentDrawerRight() {
           <Button aria-controls="simple-menu" aria-haspopup="true" size="large" style={{paddingRight:"1.5%"}} onClick={()=> Redirect("Busqueda")}>
             <MenuBookRoundedIcon style={{paddingRight:"5%"}}/>Búsqueda
           </Button>
-          <Button aria-controls="simple-menu" aria-haspopup="true" size="large" onClick={()=> Redirect("AñadirEntidad")}> 
+          <Button aria-controls="simple-menu" aria-haspopup="true" size="large" onClick={()=> Redirect("AnadirEntidad")}> 
             <AddCircleOutlineRoundedIcon style={{paddingRight:"4%"}}/>Añadir entidad
           </Button>
         </Toolbar>

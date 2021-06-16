@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
-// import {LocalidadesList} from "./components/LocalidadesList";
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-// import {resultados} from "./components/resultados";
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -17,6 +15,8 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+
 
 export default function Cartilla() {
     const useStyles = makeStyles((theme) => ({
@@ -30,16 +30,18 @@ export default function Cartilla() {
         },
         margin: {
             color: "white",
+            fontWeight:"bold",
             backgroundColor: "#F9C25D",
             '&:hover': {
                 backgroundColor: "#D27805",
             },
             marginTop:"7%",
-            /* width:"200%", */
         },
         labels: {
-            fontSize: "1rem",
+            fontSize: "0.9rem",
             width:"20rem",
+            fontFamily:"Open Sans",
+            fontWeight:"bold",
         },
         input: {
             height: "2rem",
@@ -47,7 +49,6 @@ export default function Cartilla() {
         },
         divider: {
             backgroundColor: "black",
-            /* marginTop: "1.5rem", */
             width: "100%",
             orientation: "vertical",
         },
@@ -55,7 +56,6 @@ export default function Cartilla() {
             width: "13.8rem",
             height: "2rem",
             marginTop:"1%",
-            marginBottom:"1%",
         },
         listdivider: {
             backgroundColor: "black",
@@ -65,28 +65,30 @@ export default function Cartilla() {
         root: {
             width: "100%",
             maxWidth: "50rem",
-            marginTop:"2%"
-            
-            
+            marginTop:"2%",
+            marginLeft:"2%"
         },
         avatar: {
-            width: "4rem",
-            height: "4rem",
+            width: "5rem",
+            height: "5rem",
             marginTop: "0.5rem",
             marginRight: "0.5rem",
         },
         lista:{
             marginLeft:"2%",
             width:"60%",
-            backgroundColor:"#bcd7ff",
+            backgroundColor:"#e2eeff",//"#bcd7ff",
             borderRadius:"1rem",
-            
-            //width:"60%"
+        },
+        tituloEntidad:{
+            fontFamily: "Open Sans", color:"black", fontWeight:"bold", fontSize:"1.5rem",
+        },
+        inline:{
+            fontFamily: "Open Sans", color:"black", marginLeft:"1%",
         },
         barraIntro:{
             backgroundColor: "#115DBF", 
             height:"5rem",
-            //textAlign:"center",
         },
     }));
     const classes = useStyles();
@@ -255,10 +257,10 @@ export default function Cartilla() {
     }
     const entidades = () => {
         return (
-            <div style={{width:"300%"}}>
-                <label className={classes.labels} for="entidad">Seleccione una entidad</label><br />
+            <div style={{width:"300%",paddingBottom:"5%",}}>
+                <label className={classes.labels} for="entidad">ENTIDAD</label><br />
                 <select className={classes.select} value={entidadSelected} id="entidad" name="entidadlist" form="entidadform" onChange={(e) => { onEntidad(e.target.value) }}>
-                    <option value="" disabled selected>Entidad</option>
+                    <option value="" disabled selected>Seleccione una entidad</option>
                     <option value="Profesional">Especialista</option>
                     <option value="Institucion">Institución</option>
                     <option value="Actividad">Actividad</option>
@@ -266,41 +268,21 @@ export default function Cartilla() {
             </div>
         );
     }
-/*     const entidades = () => {
-        return (
-            <div class="col-md-2 mb-2 my-auto offset-md-1">
-                <label className={classes.labels} for="entidad">Seleccione una entidad</label><br />
-                <select className={classes.select} value={entidadSelected} id="entidad" name="entidadlist" form="entidadform" onChange={(e) => { onEntidad(e.target.value) }}>
-                    <option value="" disabled selected>Seleccione una entidad</option>
-                    <option value="Profesional">Especialista</option>
-                    <option value="Institucion">Institucion</option>
-                    <option value="Actividad">Actividad</option>
-                </select>
-            </div>
-        );
-    } */
+
     const localidades = () => {
         if (disableSearch === true) {
             return null;
         }
         else return (
-            <div class="col-md-2 mb-2 my-auto" syle={{width:"100%"}}>
-                {/*<label className={classes.labels}for="localidad">Seleccione una localidad</label><br />
-                    <select className={classes.select} value={localidadSelected} id="localidad" name="localidadlist" form="localidadform" onChange={(e) =>{onLocalidad(e.target.value)}}>
-                        <option value="" disabled selected>Seleccione una localidad</option>
-                        {LocalidadesB.map((value) => (
-                        <option value={value.localidad}>{value.localidad}</option>
-                        ))}
-                        </select>*/}
-                <label className={classes.labels} for="localidad">Seleccione una localidad</label><br />
+            <div class="col-md-2 mb-2 my-auto" syle={{ width:"100%"}}>
+                <label className={classes.labels} style={{marginTop:"2%", marginBottom:"10%"}} for="localidad">LOCALIDAD</label><br />
                 <Autocomplete
                     id="combo-box-demo"
                     options={LocalidadesB}
                     getOptionLabel={(option) => option.localidad}
                     onChange={(event, value) => { onLocalidad(value) }}
-                    style={{ width: 300, marginTop:"1%",
-                    marginBottom:"2%",}}
-                    renderInput={(params) => <TextField style={{ width: "13.8rem", backgroundColor: "white" }}  {...params} placeholder="Localidad" />}
+                    style={{ width: 300, paddingBottom:"15%",}}
+                    renderInput={(params) => <TextField style={{ width: "13.8rem", backgroundColor: "white" }}  {...params} placeholder="Seleccione una localidad" />}
                 />
             </div>
         )
@@ -312,9 +294,9 @@ export default function Cartilla() {
         } else {
             return (
                 <div class="col-md-2 mb-2 my-auto">
-                    <label className={classes.labels} style={{marginTop:"2%"}} for="rating">Seleccione una valoración</label><br />
+                    <label className={classes.labels} style={{marginTop:"2%", marginBottom:"10%"}} for="rating">VALORACIÓN</label><br />
                     <select className={classes.select} style={{marginTop:"2%"}} value={ratingSelected} id="rating" name="ratinglist" form="ratingform" onChange={(e) => { onRating(e.target.value) }}>
-                        <option value="" disabled selected>Valoración</option>
+                        <option value="" disabled selected>Seleccione una valoración</option>
                         <option value={1}>1 estrella (&#9733;)</option>
                         <option value={2}>2 estrellas (&#9733;&#9733;)</option>
                         <option value={3}>3 estrellas (&#9733;&#9733;&#9733;)</option>
@@ -402,8 +384,8 @@ export default function Cartilla() {
         else return (
             <div class="col-md-3 mb-2 my-auto">
                 {entidadSelected === "Profesional" ? (
-                    <div>
-                        <label className={classes.labels} for="search">Buscar por especialidad</label><br />
+                    <div style={{paddingBottom:"10%"}}>
+                        <label className={classes.labels} style={{marginTop:"2%", marginBottom:"10%"}} for="search">POR ESPECIALIDAD</label><br />
                         <input
                             id="search"
                             name="searchlist"
@@ -415,31 +397,29 @@ export default function Cartilla() {
                             onChange={(e) => { onSearch(e.target.value) }}
                             disabled={disableSearch}
                             className={classes.input}
-
                         />
                     </div>)
                     : <div />}
                 {entidadSelected === "Actividad" ? (
-                    <div>
-                        <label className={classes.labels} for="search">Buscar por actividad</label><br />
+                    <div style={{paddingBottom:"10%"}}>
+                        <label className={classes.labels} style={{marginTop:"2%", marginBottom:"10%"}} for="search">POR ACTIVIDAD</label><br />
                         <input
                             id="search"
                             name="searchlist"
                             form="searchform"
                             type="text"
-                            placeholder="p ej. taller de dibujo, rugby"
+                            placeholder="ej. taller de dibujo, rugby"
                             value={buscado}
                             autoComplete="off"
                             onChange={(e) => { onSearch(e.target.value) }}
                             disabled={disableSearch}
                             className={classes.input}
-
                         />
                     </div>)
                     : <div />}
                 {entidadSelected === "Institucion" ? (
-                    <div>
-                        <label className={classes.labels} for="search">Buscar institución por especialidad</label><br />
+                    <div style={{paddingBottom:"10%"}}>
+                        <label className={classes.labels} style={{marginTop:"2%", marginBottom:"10%"}} for="search">POR ESPECIALIDAD</label><br />
                         <input
                             id="search"
                             name="searchlist"
@@ -451,7 +431,6 @@ export default function Cartilla() {
                             onChange={(e) => { onSearch(e.target.value) }}
                             disabled={disableSearch}
                             className={classes.input}
-
                         />
                     </div>)
                     : <div />}
@@ -496,61 +475,67 @@ export default function Cartilla() {
                                 {value.entidad === "Profesional" &&
                                     <ListItemText
                                         style={{marginLeft:"5%"}}
-                                        primary={value.nombre + " " + value.apellido}
+                                        primary={
+                                            <Typography
+                                                    component="span"
+                                                    variant="body2"
+                                                    className={classes.tituloEntidad}
+                                                >
+                                                    {value.nombre + " " + value.apellido}
+                                                </Typography>
+                                            }
                                         secondary={
                                             <React.Fragment>
                                                 <Typography
                                                     component="span"
                                                     variant="body2"
                                                     className={classes.inline}
-                                                    color="textPrimary"
                                                 >
-                                                    {"- Especialidad médica: " + value.especialidad}
+                                                    <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  {"Especialidad médica: " + value.especialidad}
                                                 </Typography>
                                                 <br />
                                                 <Typography
                                                     component="span"
                                                     variant="body2"
                                                     className={classes.inline}
-                                                    color="textPrimary"
                                                 >
-                                                    {"- Localidad: " + value.localidad.localidad}
+                                                    <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>   {"Localidad: " + value.localidad.localidad}
                                                 </Typography>
                                                 <br />
                                                 {value.valoracionPromedio === 1.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >- Valoración: &#9733;</Typography>
+                                                        className={classes.inline}
+                                                    > <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 2.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >- Valoración: &#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    ><FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 3.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >- Valoración: &#9733;&#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    ><FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 4.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >- Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    ><FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 5.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >- Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    ><FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
 
                                                 <ListItemSecondaryAction>
@@ -565,61 +550,68 @@ export default function Cartilla() {
                                 {value.entidad === "Institucion" &&
                                     <ListItemText
                                         style={{marginLeft:"5%"}}
-                                        primary={value.nombre}
+                                        
+                                        primary={
+                                            <Typography
+                                                    component="span"
+                                                    variant="body2"
+                                                    className={classes.tituloEntidad}
+                                                >
+                                                    {value.nombre}
+                                                </Typography>
+                                            }
                                         secondary={
                                             <React.Fragment>
                                                 <Typography
                                                     component="span"
                                                     variant="body2"
                                                     className={classes.inline}
-                                                    color="textPrimary"
                                                 >
-                                                    {"- Nivel educativo: " + value.especialidad}
+                                                    <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/> {"Nivel educativo: " + value.especialidad}
                                                 </Typography>
                                                 <br />
                                                 <Typography
                                                     component="span"
                                                     variant="body2"
                                                     className={classes.inline}
-                                                    color="textPrimary"
                                                 >
-                                                    {"- Localidad: " + value.localidad.localidad}
+                                                    <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/> {" Localidad: " + value.localidad.localidad}
                                                 </Typography>
                                                 <br />
                                                 {value.valoracionPromedio === 1.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >- Valoración: &#9733;</Typography>
+                                                        className={classes.inline}
+                                                    ><FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 2.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >- Valoración: &#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    ><FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 3.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >- Valoración: &#9733;&#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    ><FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 4.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >- Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    ><FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 5.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >- Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    ><FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
 
                                                 <ListItemSecondaryAction>
@@ -631,67 +623,72 @@ export default function Cartilla() {
                                         }
                                     />
                                 }
-
                                 {value.entidad === "Actividad" &&
                                     <ListItemText
                                         style={{marginLeft:"5%"}}
-                                        primary={value.nombre}
+                                    
+                                        primary={
+                                            <Typography
+                                                    component="span"
+                                                    variant="body2"
+                                                    className={classes.tituloEntidad}
+                                                >
+                                                    {value.nombre}
+                                                </Typography>
+                                            }
                                         secondary={
                                             <React.Fragment>
                                                 <Typography
                                                     component="span"
                                                     variant="body2"
                                                     className={classes.inline}
-                                                    color="textPrimary"
                                                 >
-                                                    {"- Tipo de recreación: " + value.especialidad}
+                                                    <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/> {"Tipo de recreación: " + value.especialidad}
                                                 </Typography>
                                                 <br />
                                                 <Typography
                                                     component="span"
                                                     variant="body2"
                                                     className={classes.inline}
-                                                    color="textPrimary"
                                                 >
-                                                    {"- Localidad: " + value.localidad.localidad}
+                                                    <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/> {" Localidad: " + value.localidad.localidad}
                                                 </Typography>
                                                 <br />
                                                 {value.valoracionPromedio === 1.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >- Valoración: &#9733;</Typography>
+                                                        className={classes.inline}
+                                                    > <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 2.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >- Valoración: &#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    > <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 3.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >- Valoración: &#9733;&#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    > <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 4.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >- Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    > <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 5.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >- Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    > <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
-
                                                 <ListItemSecondaryAction>
                                                     <IconButton onClick={() => { seeMoreInfo(value) }} >
                                                         <VisibilityIcon />
@@ -701,8 +698,6 @@ export default function Cartilla() {
                                         }
                                     />
                                 }
-
-
                             </ListItem>
                             <Divider className={classes.listdivider} />
                         </List>
@@ -716,19 +711,20 @@ export default function Cartilla() {
         <div className={classes.Cartilla}>
             <div className={classes.barraIntro} >
                 <div style={{height:"1rem"}}></div>
-                <text style={{fontFamily: "Open Sans", fontSize: "2rem", color:"white", marginLeft:"2.5%"}}>Búsqueda de profesionales/lugares de interés</text>
+                <text style={{fontFamily: "Open Sans", fontSize: "2rem", color:"white", marginLeft:"2.5%", fontWeight:"bold"}}>Búsqueda de profesionales/lugares de interés</text>
             </div>
-            <div style={{marginTop:"2%"}}>
-                <text style={{fontFamily: "Open Sans", fontSize: "1.5rem", color:"black", marginLeft:"2.5%"}}>Filtros de búsqueda:</text>
-                {/* <Divider style={{ backgroundColor:"black", marginLeft:"25%", marginTop:"1%"}} /> */}
-            </div>
-            <div style={{display: "flex", alignContent:"center", marginTop:"1%"}} >
+            <div style={{display: "flex", alignContent:"center", marginTop:"2%"}} >
                 <div  style={{marginLeft:"3%"}}>
-                    {entidades()}
-                    {localidades()}
-                    {ratings()}
-                    {search()}
-                    {resetFilter()}
+                    <div >
+                        <text style={{fontFamily: "Open Sans", fontSize: "1.5rem", color:"black", marginLeft:"2.5%"}}>Filtrar resultados:</text>
+                    </div>
+                    <div style={{marginLeft:"2.5%", marginTop:"4%"}}>
+                        {entidades()}
+                        {search()}
+                        {localidades()}
+                        {ratings()}
+                        {resetFilter()}
+                    </div>
                 </div>             
                 <div className={classes.lista} >
                     {listEntidades()}

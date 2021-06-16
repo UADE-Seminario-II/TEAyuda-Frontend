@@ -13,25 +13,20 @@ import { BorderColor } from "@material-ui/icons";
 export default function Home() {
     const useStyles = makeStyles((theme) => ({
         Home:{
-          backgroundColor:"white",//"#F2EFEB",
+          backgroundColor:"white",
         },
         CardContainer:{
             flexDirection: "row",
-            // justifyContent:"center",
-            // alignItems: "center"
         },
         root: {
             marginTop:"3rem",
-            /* marginBottom:"5%", */
             maxWidth: 350,
             marginLeft:"40%",
             padding:"1%",
             borderColor:"red",
-            
         },
         root1: {
             marginTop:"2.9rem",
-          
             maxWidth: 350,
             marginLeft:"35%",
             padding:"1%"
@@ -55,7 +50,7 @@ export default function Home() {
       <div className={classes.Home}>
         <div className={classes.barraIntro} >
           <div style={{height:"1.8rem"}}></div>
-          <text style={{fontFamily: "Open Sans", fontSize: "4rem", color:"white"}}>¿Cómo te podemos ayudar?</text>
+          <text style={{fontFamily: "Open Sans", fontSize: "4rem", color:"white", fontWeight:"bold"}}>¿Cómo te podemos ayudar?</text>
         </div>
         <div class="col-12 row mx-auto" >
           <div class="col-md-5">
@@ -78,7 +73,7 @@ export default function Home() {
           </div>
           <div class="col-md-6">  
             <Card className={classes.root1} style={{backgroundColor:"#115DBF"}}>
-              <CardActionArea style={{backgroundColor:"white", padding:"2rem"}} onClick={() => history.push({pathname:'/Experiencias'})}>
+              <CardActionArea style={{backgroundColor:"white", padding:"2rem"}} onClick={() => history.push({pathname:"/AnadirEntidad"})}>
                 <CardMedia
                   className={classes.media}
                   image={Reviews}

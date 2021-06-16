@@ -3,16 +3,17 @@ import { makeStyles } from "@material-ui/styles/";
 import { Card, CardContent, CardActions, Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Rating from "@material-ui/lab/Rating";
+import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
 
 const CartasExperiencia = (props) => {
   const useStyles = makeStyles((theme) => ({
     container: {
-      backgroundColor: "#dddddd",
+      backgroundColor: "#e2eeff",
     },
     root: {
       minWidth: 275,
       display: "inline-block",
-      backgroundColor: "#dddddd",
+      backgroundColor: "#e2eeff",
       color: "black",
       width: "92%",
       marginLeft: "4%",
@@ -42,7 +43,7 @@ const CartasExperiencia = (props) => {
         <Card className={classes.root}>
           <CardContent>
             <Typography variant="p" component="p">
-              ✉ {item.usuario.usuario}
+              <PersonRoundedIcon/>  {item.usuario.usuario}
             </Typography>
             <Typography
               className={classes.title}
@@ -60,7 +61,7 @@ const CartasExperiencia = (props) => {
             <Typography variant="h5" component="h2">
               {item.detalleTipoExperiencia}
             </Typography>
-            <Typography variant="body2" component="p">
+            <Typography variant="body2" component="p" style={{fontStyle:"italic"}}>
               {'"' + item.comentario + '"'}
             </Typography>
           </CardContent>

@@ -15,6 +15,10 @@ const FooterPage = () => {
             color:"white",
             marginLeft:"1rem"
         },
+        titleCopyright:{
+          color:"white",
+          fontSize:"0.7rem",
+      },
       })); 
       const classes = useStyles();
   return (
@@ -25,7 +29,7 @@ const FooterPage = () => {
           <MDBCol md="6" >
             <div className="offset-md-3"><img alt="TEAyuda" src={Logo} width="300" height="100" /></div>
           </MDBCol>
-          <MDBCol md="6">
+          <MDBCol md="5" style={{marginLeft:"7%"}}>
             <h5 className={classes.title1}>Contacto</h5>
             <ul>
               <li className={classes.title}>
@@ -38,7 +42,7 @@ const FooterPage = () => {
           </MDBCol>
         </MDBRow>
       </MDBContainer>
-      <div className={classes.title}>
+      <div className={classes.titleCopyright}>
         <div className="footer-copyright text-center py-3">
             <MDBContainer fluid>
             &copy; {new Date().getFullYear()} Copyright: <a>TEAyuda</a>
