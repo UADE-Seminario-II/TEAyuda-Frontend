@@ -425,7 +425,7 @@ export default function Cartilla() {
                             name="searchlist"
                             form="searchform"
                             type="text"
-                            placeholder="p ej. primario, clases de idioma"
+                            placeholder="ej. primario, clases de idioma"
                             value={buscado}
                             autoComplete="off"
                             onChange={(e) => { onSearch(e.target.value) }}
