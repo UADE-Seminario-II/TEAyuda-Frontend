@@ -361,7 +361,7 @@ export function DetalleCartillaScreen(props) {
             google={props.google}
             zoom={17}
             style={{width:"32.2rem", height:"20rem", marginLeft: "62%"}}
-            center={{ lat: entidad.latitud, lng: entidad.longitud}}>
+            center={{ lat: entidad.latitud, lng: entidad.longitud}} >
             <Marker position={{ lat: entidad.latitud, lng: entidad.longitud}} title={entidad.direccion}/>
           </Map>
         }
