@@ -21,7 +21,7 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 export default function Cartilla() {
     const useStyles = makeStyles((theme) => ({
         Cartilla: {
-            backgroundColor: "white",
+            backgroundColor: "#e2eeff",// FONDOBLANCO: white  FONDOCELESTE: #e2eeff
             height: "100%",
             minHeight: "100vh"
         },
@@ -59,7 +59,7 @@ export default function Cartilla() {
         },
         listdivider: {
             backgroundColor: "black",
-            marginTop: "1.5rem",
+            marginTop: "1rem",
             maxWidth: "50rem",
         },
         root: {
@@ -77,7 +77,7 @@ export default function Cartilla() {
         lista:{
             marginLeft:"2%",
             width:"60%",
-            backgroundColor:"#e2eeff",//"#bcd7ff",
+            backgroundColor:"white",// FONDOBLANCO: #e2eeff  FONDOCELESTE: white
             borderRadius:"1rem",
         },
         tituloEntidad:{
@@ -87,7 +87,7 @@ export default function Cartilla() {
             fontFamily: "Open Sans", color:"black", marginLeft:"1%",
         },
         barraIntro:{
-            backgroundColor: "#115DBF", 
+            backgroundColor: "#115DBF", // FONDOBLANCO:  FONDOCELESTE: 
             height:"5rem",
         },
     }));
@@ -98,7 +98,7 @@ export default function Cartilla() {
     const [resultados, setResultados] = useState([]);
     const [copyResult, setCopyResult] = useState([]);
     const [copyTop6Result, setCopyTop6Result] = useState([]);
-    const [copyResultSearch, setCopyResultSearch] = useState([]);
+    //const [copyResultSearch, setCopyResultSearch] = useState([]);
 
     const [localidadSelected, setLocalidadSelected] = useState("");
     const [LocalidadesB, setLocalidadesB] = useState([]);
@@ -468,7 +468,7 @@ export default function Cartilla() {
                     
                     {resultados.map((value) => (
                         <List class="ml-md-auto ml-sm-auto">
-                            <ListItem alignItems="flex-start" button onClick={() => { seeMoreInfo(value) }}>
+                            <ListItem alignItems="flex-start" button style={{borderRadius:"1rem", paddingBottom:"2%"}} onClick={() => { seeMoreInfo(value) }}>
                                 <ListItemAvatar>
                                     <Avatar alt="imagen" className={classes.avatar} src={value.imagen} />
                                 </ListItemAvatar>

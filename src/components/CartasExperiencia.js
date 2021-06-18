@@ -1,23 +1,25 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles/";
-import { Card, CardContent, CardActions, Typography } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
+import { Card, CardContent, Typography } from "@material-ui/core";
+//import Button from "@material-ui/core/Button";
 import Rating from "@material-ui/lab/Rating";
 import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
 
 const CartasExperiencia = (props) => {
   const useStyles = makeStyles((theme) => ({
     container: {
-      backgroundColor: "#e2eeff",
+      backgroundColor: "white",// FONDOBLANCO: #e2eeff  FONDOCELESTE: white
     },
     root: {
       minWidth: 275,
       display: "inline-block",
-      backgroundColor: "#e2eeff",
+      backgroundColor: "white", // FONDOBLANCO: #e2eeff  FONDOCELESTE: white
       color: "black",
       width: "92%",
       marginLeft: "4%",
       wordWrap: "break-word",
+      borderRadius:"1rem",
+      marginBottom:"1%",
     },
     bullet: {
       display: "inline-block",
@@ -38,7 +40,7 @@ const CartasExperiencia = (props) => {
   const classes = useStyles();
 
   return (
-    <div>
+    <div style={{ width:"100%"}}>
       {props.cartas.map((item, index) => (
         <Card className={classes.root}>
           <CardContent>

@@ -16,7 +16,7 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 export default function DetalleCartillaScreen(props) {
   const useStyles = makeStyles((theme) => ({
     DetalleEntidad: {
-      backgroundColor: "white",
+      backgroundColor: "#e2eeff", // FONDOBLANCO: white  FONDOCELESTE: #e2eeff
       height: "100%",
       minHeight: "50vh",
       paddingTop:"3%",
@@ -410,7 +410,7 @@ export default function DetalleCartillaScreen(props) {
       </div>
       <br></br>
       <br></br>
-      <div>
+      <div style={{display:"flex", alignContent:"center", justifyContent:"center"}}>
         <CartasExperiencia cartas={responseData}></CartasExperiencia>
       </div>
       <div className={classes.footer}>

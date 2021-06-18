@@ -9,11 +9,10 @@ import Reviews from './components/assets/addentity.png';
 import Typography from '@material-ui/core/Typography';
 import { useHistory} from "react-router-dom";
 import Footer from "./components/Footer";
-import { BorderColor } from "@material-ui/icons";
 export default function Home() {
     const useStyles = makeStyles((theme) => ({
         Home:{
-          backgroundColor:"white",
+          backgroundColor:"#e2eeff",// FONDOBLANCO: white  FONDOCELESTE: #e2eeff
         },
         CardContainer:{
             flexDirection: "row",
