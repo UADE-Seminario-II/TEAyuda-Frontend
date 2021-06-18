@@ -12,12 +12,13 @@ import CartasExperiencia from "./components/CartasExperiencia";
 import Rating from "@material-ui/lab/Rating";
 import Avatar from '@material-ui/core/Avatar';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
-
-export default function DetalleCartillaScreen(props) {
+import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
+export function DetalleCartillaScreen(props) {
   const useStyles = makeStyles((theme) => ({
     DetalleEntidad: {
       backgroundColor: "white",
       height: "100%",
+      maxwidth:"100%",
       minHeight: "50vh",
       paddingTop:"3%",
     },
@@ -107,6 +108,9 @@ export default function DetalleCartillaScreen(props) {
       .then(
         (result) => {
           setIsLoaded(true);
+          result.latitud=Number(result.latitud);
+          result.longitud= Number(result.longitud)
+          console.log(result)
           setEntidad(result);
         },
         (error) => {
@@ -344,11 +348,25 @@ export default function DetalleCartillaScreen(props) {
           )}
         </div>
           {/*  ESPACIO PARA MAPA */}
-        <div style={{backgroundColor:"#115DBF", width:"28rem", height:"20rem", marginLeft:"3%", borderRadius:"1rem"}}>
-                 Mapa
-        </div>   
+        <div>
+        </div>
+        {isNaN(entidad.latitud)?
+          <Map
+            google={props.google}
+            zoom={15}
+            style={{width:"32.2rem", height:"20rem", marginLeft: "62%"}}
+            initialCenter={{ lat: -34.579425, lng: -58.490914}}>
+          </Map>:
+          <Map
+            google={props.google}
+            zoom={17}
+            style={{width:"32.2rem", height:"20rem", marginLeft: "62%"}}
+            center={{ lat: entidad.latitud, lng: entidad.longitud}}>
+            <Marker position={{ lat: entidad.latitud, lng: entidad.longitud}} title={entidad.direccion}/>
+          </Map>
+        }
       </div>
-      <div class="col-md-11 mx-auto">
+      <div class="col-md-11 mx-auto mt-4">
         <CopyToClipboard text={url}>
           <Button
             variant="outlined"
@@ -419,3 +437,6 @@ export default function DetalleCartillaScreen(props) {
     </div>
   );
 }
+export default GoogleApiWrapper({
+  apiKey: 'AIzaSyCHJTuTe3jqnByfXeNATnI5t2fmnF6htBY'
+})(DetalleCartillaScreen);
