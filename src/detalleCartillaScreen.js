@@ -178,11 +178,11 @@ export function DetalleCartillaScreen(props) {
      {/*  <div classes={classes.estiloNombre}>
         {entidad.nombre} {entidad.apellido}
       </div> */}
-      <div style={{display: "flex", alignContent:"center"}}>
+      <div style={{display: "flex", alignContent:"center", marginLeft:"0.5%"}}>
         <div style={{marginTop:"2%"}}>
           <Avatar className={classes.avatar} src={entidad.imagen} alt="Responsive image"/>
         </div>
-        <div style={{marginLeft:"5%", width:"40%"}}>
+        <div style={{marginLeft:"4%", width:"40%"}}>
           <div className={classes.Titulo}>
             {entidad.nombre} {entidad.apellido}
           </div>
@@ -354,13 +354,13 @@ export function DetalleCartillaScreen(props) {
           <Map
             google={props.google}
             zoom={15}
-            style={{width:"32.2rem", height:"20rem", marginLeft: "62%"}}
+            style={{width:"30rem", height:"20rem", marginLeft: "62%", borderRadius:"1rem"}}
             initialCenter={{ lat: -34.579425, lng: -58.490914}}>
           </Map>:
           <Map
             google={props.google}
             zoom={17}
-            style={{width:"32.2rem", height:"20rem", marginLeft: "62%"}}
+            style={{width:"30rem", height:"20rem", marginLeft: "62%", borderRadius:"1rem"}}
             center={{ lat: entidad.latitud, lng: entidad.longitud}} >
             <Marker position={{ lat: entidad.latitud, lng: entidad.longitud}} title={entidad.direccion}/>
           </Map>
