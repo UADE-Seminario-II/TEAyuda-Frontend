@@ -16,7 +16,7 @@ import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
 export function DetalleCartillaScreen(props) {
   const useStyles = makeStyles((theme) => ({
     DetalleEntidad: {
-      backgroundColor: "white",
+      backgroundColor: "#e2eeff", // FONDOBLANCO: white  FONDOCELESTE: #e2eeff
       height: "100%",
       maxwidth:"100%",
       minHeight: "50vh",
@@ -428,7 +428,7 @@ export function DetalleCartillaScreen(props) {
       </div>
       <br></br>
       <br></br>
-      <div>
+      <div style={{display:"flex", alignContent:"center", justifyContent:"center"}}>
         <CartasExperiencia cartas={responseData}></CartasExperiencia>
       </div>
       <div className={classes.footer}>

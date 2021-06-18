@@ -20,7 +20,7 @@ import Footer from "./components/Footer";
 
 const useStyles = makeStyles((theme) => ({
   container:{
-    backgroundColor: "white",
+    backgroundColor: "#e2eeff",// FONDOBLANCO: white  FONDOCELESTE: #e2eeff
   },
   root: {
     "& .MuiTextField-root": {
@@ -61,7 +61,7 @@ function Experiencias(props) {
     //     console.log("props   ", props);
     //   });
     const classes = useStyles();
-    const history = useHistory();
+    //const history = useHistory();
     const [isTwoImage, setIsTwoImage] = useState(false);
     const [isThreeImage, setIsThreeImage] = useState(false);
     const [image, setImage] = useState("");
@@ -208,7 +208,7 @@ function Experiencias(props) {
                 <div style={{height:"1rem"}}></div>
                 <text style={{fontFamily: "Open Sans", fontSize: "2rem", color:"white", marginLeft:"2.5%", fontWeight:"bold"}}>Contanos tu experiencia 😁 </text>
       </div>
-      <div style={{backgroundColor:"#e2eeff", width:"70%", height:"90%", alignSelf:"center", marginLeft:"15%", borderRadius:"1rem", marginBottom:"3%"}}>
+      <div style={{backgroundColor:"white", width:"70%", height:"90%", alignSelf:"center", marginLeft:"15%", borderRadius:"1rem", marginBottom:"3%"}}>
         <Grid
           container
           spacing={0}

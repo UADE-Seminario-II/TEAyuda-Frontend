@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import CssBaseline from '@material-ui/core/CssBaseline';
+//import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 import { useHistory} from "react-router-dom";
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }), */
-    backgroundColor:"white",
+    backgroundColor:"white", // FONDOBLANCO: white  FONDOCELESTE: #e2eeff
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
