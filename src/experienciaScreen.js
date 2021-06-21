@@ -33,56 +33,60 @@ const useStyles = makeStyles((theme) => ({
   margin: {
     color: "white",
     backgroundColor: "#D27805",
-    '&:hover': {
-        backgroundColor: "#E89907",
-    }
-  }
+    "&:hover": {
+      backgroundColor: "#E89907",
+    },
+  },
 }));
 
 function Experiencias(props) {
-    // console.log("props   ", props);
-    // useEffect(() => {
-    //     // will be true
-    //     console.log("props   ", props);
-    //   });
-    const classes = useStyles();
-    const history = useHistory();
-    const [isTwoImage, setIsTwoImage] = useState(false);
-    const [isThreeImage, setIsThreeImage] = useState(false);
-    const [image, setImage] = useState("");
-    const [image2, setImage2] = useState("");
-    const [image3, setImage3] = useState("");
-    const [isUploaded, setIsUploaded] = useState(false);
-    const [isUploaded2, setIsUploaded2] = useState(false);
-    const [isUploaded3, setIsUploaded3] = useState(false);
-    const [imageValue, setImageValue] = useState([]);
-    const [typeFile, setTypeFile] = useState("");
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [valueNew, setValueNew] = useState();
-    const [open, setOpen] = React.useState(false);
-    const [rating, setRating] = React.useState(0);
-    const [buttonDisabled, setButtonDisabled] = React.useState(true);
+  console.log("Experiencias");
+  // console.log("props   ", props);
+  // useEffect(() => {
+  //     // will be true
+  //     console.log("props   ", props);
+  //   });
+  const classes = useStyles();
+  const history = useHistory();
+  const [isTwoImage, setIsTwoImage] = useState(false);
+  const [isThreeImage, setIsThreeImage] = useState(false);
+  const [image, setImage] = useState("");
+  const [image2, setImage2] = useState("");
+  const [image3, setImage3] = useState("");
+  const [isUploaded, setIsUploaded] = useState(false);
+  const [isUploaded2, setIsUploaded2] = useState(false);
+  const [isUploaded3, setIsUploaded3] = useState(false);
+  const [imageValue, setImageValue] = useState([]);
+  const [typeFile, setTypeFile] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [valueNew, setValueNew] = useState();
+  const [open, setOpen] = React.useState(false);
+  const [rating, setRating] = React.useState(0);
+  const [buttonDisabled, setButtonDisabled] = React.useState(true);
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-    const handleClose = () => {
-        setIsUploaded(false);
-        setIsUploaded2(false);
-        setIsUploaded3(false);
-        setIsTwoImage(false);
-        setIsThreeImage(false);
-        setValueNew("");
-        setOpen(false);
-        props.history.push({ pathname: `/Cartilla/${props.location.state.entidad}/${props.location.state.id}`, state: props.location.state});   
-    };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setIsUploaded(false);
+    setIsUploaded2(false);
+    setIsUploaded3(false);
+    setIsTwoImage(false);
+    setIsThreeImage(false);
+    setValueNew("");
+    setOpen(false);
+    props.history.push({
+      pathname: `/Cartilla/${props.location.state.entidad}/${props.location.state.id}`,
+      state: props.location.state,
+    });
+  };
 
   function handleTitleChange(data) {
     setButtonDisabled(false);
     setTitle(data);
-    if(data === "" || data === null){
-        setButtonDisabled(true);
+    if (data === "" || data === null) {
+      setButtonDisabled(true);
     }
   }
 
@@ -137,59 +141,64 @@ function Experiencias(props) {
   function handleSubmit(event) {
     console.log("presione publicar");
     let exp = {
-        titulo: title,
-        comentario: description,
-        puntaje: rating,
-        tipoExperiencia: '',
-        usuario: {
-            idUsuario: 1
-        }
-    }; 
-    
-    if(props.location.state.entidad === "Profesional"){
-        exp.profesional = {};
-        exp.profesional.id = props.location.state.id;
+      titulo: title,
+      comentario: description,
+      puntaje: rating,
+      tipoExperiencia: "",
+      usuario: {
+        idUsuario: 1,
+      },
+    };
+
+    if (props.location.state.entidad === "Profesional") {
+      exp.profesional = {};
+      exp.profesional.id = props.location.state.id;
     }
-    if(props.location.state.entidad === "Institucion"){
-        exp.institucion = {};
-        exp.institucion.id = props.location.state.id;
+    if (props.location.state.entidad === "Institucion") {
+      exp.institucion = {};
+      exp.institucion.id = props.location.state.id;
     }
-    if(props.location.state.entidad === "Actividad"){
-        exp.actividad = {};
-        exp.actividad.id = props.location.state.id;
+    if (props.location.state.entidad === "Actividad") {
+      exp.actividad = {};
+      exp.actividad.id = props.location.state.id;
     }
 
-    axios.post(`https://sip2-backend.herokuapp.com/Experiencias`, exp )
-      .then(res => {
+    axios
+      .post(`https://sip2-backend.herokuapp.com/Experiencias`, exp)
+      .then((res) => {
         console.log(res);
         console.log(res.data);
         // guardar imagenes
         const formData = new FormData();
-        formData.append('image',imageValue);
+        formData.append("image", imageValue);
         let array = [];
         array.push(formData);
         const config = {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        }
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        };
         console.log("Array: ", array, "config: ", config);
-    
-        axios.post(`https://sip2-backend.herokuapp.com/Experiencias/${res.data.id}/uploadImages`, array, config
-        )
-        .then(res => {
+
+        axios
+          .post(
+            `https://sip2-backend.herokuapp.com/Experiencias/${res.data.id}/uploadImages`,
+            array,
+            config
+          )
+          .then((res) => {
             console.log(res);
             console.log(res.data);
             handleClickOpen();
-        })
-        .catch(error => {
+          })
+          .catch((error) => {
             console.log(error);
             return error;
-        });
+          });
         // fin
         handleClickOpen();
       });
-    }
+  }
 
   return (
     <div>
@@ -205,121 +214,141 @@ function Experiencias(props) {
         <form className={classes.root} noValidate autoComplete="off">
           <div>
             <h1>Contanos tu experiencia 😁</h1>
-        </div>
-        <Grid item xs = {12}>
-        {props.location.state.entidad === "Profesional" &&
-        <div>
-            <TextField style={{ width: 300 }}
-                id="filled-read-only-input"
-                label="Nombre"
-                defaultValue={props.location.state.nombre + " " + props.location.state.apellido}
-                InputProps={{
-                    readOnly: true,
-                }}
-                variant="filled"
-            />
-            <TextField style={{ width: 300 }}
-                id="filled-read-only-input"
-                label="Especialidad"
-                defaultValue={props.location.state.especialidad}
-                InputProps={{
-                    readOnly: true,
-                }}
-                variant="filled"
-            />
-        </div>
-        }
-        {props.location.state.entidad === "Institucion" &&
-        <div>
-            <TextField style={{ width: 300 }}
-                id="filled-read-only-input"
-                label="Nombre"
-                defaultValue={props.location.state.nombre}
-                InputProps={{
-                    readOnly: true,
-                }}
-                variant="filled"
-            />
-            <TextField style={{ width: 300 }}
-                id="filled-read-only-input"
-                label="Nivel educativo"
-                defaultValue={props.location.state.especialidad}
-                InputProps={{
-                    readOnly: true,
-                }}
-                variant="filled"
-            />
-        </div>
-        }
-        {props.location.state.entidad === "Actividad" &&
-        <div>
-            <TextField style={{ width: 300 }}
-                id="filled-read-only-input"
-                label="Actividad"
-                defaultValue={props.location.state.nombre}
-                InputProps={{
-                    readOnly: true,
-                }}
-                variant="filled"
-            />
-            <TextField style={{ width: 300 }}
-                id="filled-read-only-input"
-                label="Tipo de recreación"
-                defaultValue={props.location.state.especialidad}
-                InputProps={{
-                    readOnly: true,
-                }}
-                variant="filled"
-            />
-        </div>
-        }
-        <TextField style={{ width: 300 }}
-            id="filled-read-only-input"
-            label="Dirección"
-            defaultValue={props.location.state.direccion + " " + props.location.state.localidad.localidad}
-            InputProps={{
-                readOnly: true,
-            }}
-            variant="filled"
-        />
-        </Grid>
-        <Grid item xs = {12}>
-        <TextField style={{ width: 930 }}
-          required
-          id="outlined-required"
-          label="Título"
-          value={valueNew}
-          variant="outlined"
-          onChange= {(event) => handleTitleChange(event.target.value)}
-        />
-        </Grid>
-        <Grid item xs = {12}>
-        <TextField style={{ width: 930 }}
-          id="outlined-multiline-static"
-          label="Experiencia"
-          value={valueNew}
-          multiline
-          rows={10}
-          variant="outlined"
-          onChange= {(event) => handleDescriptionChange(event.target.value)}
-        />
-        </Grid>
-        <Grid container
-          alignItems="center"
-          style={{ minHeight: '20vh' }}>
-        <BoxUpload>
-          <div className="image-upload">
-            {!isUploaded ? (
-              <>
-                <label htmlFor="upload-input">
-                  <img
-                    src={FolderIcon}
-                    draggable={"false"}
-                    alt="placeholder"
-                    style={{ width: 70, height: 70 }}
+          </div>
+          <Grid item xs={12}>
+            {props.location.state == undefined ||
+              (props.location.state.entidad === "Profesional" && (
+                <div>
+                  <TextField
+                    style={{ width: 300 }}
+                    id="filled-read-only-input"
+                    label="Nombre"
+                    defaultValue={
+                      props.location.state.nombre +
+                      " " +
+                      props.location.state.apellido
+                    }
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    variant="filled"
                   />
-                  <p style={{ color: "#444" }}>Hacer Click</p>
-                </label>
+                  <TextField
+                    style={{ width: 300 }}
+                    id="filled-read-only-input"
+                    label="Especialidad"
+                    defaultValue={props.location.state.especialidad}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    variant="filled"
+                  />
+                </div>
+              ))}
+            {props.location.state == undefined ||
+              (props.location.state.entidad === "Institucion" && (
+                <div>
+                  <TextField
+                    style={{ width: 300 }}
+                    id="filled-read-only-input"
+                    label="Nombre"
+                    defaultValue={props.location.state.nombre}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    variant="filled"
+                  />
+                  <TextField
+                    style={{ width: 300 }}
+                    id="filled-read-only-input"
+                    label="Nivel educativo"
+                    defaultValue={props.location.state.especialidad}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    variant="filled"
+                  />
+                </div>
+              ))}
+            {props.location.state == undefined ||
+              (props.location.state.entidad === "Actividad" && (
+                <div>
+                  <TextField
+                    style={{ width: 300 }}
+                    id="filled-read-only-input"
+                    label="Actividad"
+                    defaultValue={props.location.state.nombre}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    variant="filled"
+                  />
+                  <TextField
+                    style={{ width: 300 }}
+                    id="filled-read-only-input"
+                    label="Tipo de recreación"
+                    defaultValue={props.location.state.especialidad}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    variant="filled"
+                  />
+                </div>
+              ))}
+            {props.location.state == undefined || (
+              <TextField
+                style={{ width: 300 }}
+                id="filled-read-only-input"
+                label="Dirección"
+                defaultValue={
+                  props.location.state.direccion +
+                  " " +
+                  props.location.state.localidad.localidad
+                }
+                InputProps={{
+                  readOnly: true,
+                }}
+                variant="filled"
+              />
+            )}
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              style={{ width: 930 }}
+              required
+              id="outlined-required"
+              label="Título"
+              value={valueNew}
+              variant="outlined"
+              onChange={(event) => handleTitleChange(event.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              style={{ width: 930 }}
+              id="outlined-multiline-static"
+              label="Experiencia"
+              value={valueNew}
+              multiline
+              rows={10}
+              variant="outlined"
+              onChange={(event) => handleDescriptionChange(event.target.value)}
+            />
+          </Grid>
+          <Grid container alignItems="center" style={{ minHeight: "20vh" }}>
+            <BoxUpload>
+              <div className="image-upload">
+                {!isUploaded ? (
+                  <>
+                    <label htmlFor="upload-input">
+                      <img
+                        src={FolderIcon}
+                        draggable={"false"}
+                        alt="placeholder"
+                        style={{ width: 70, height: 70 }}
+                      />
+                      <p style={{ color: "#444" }}>Hacer Click</p>
+                    </label>
 
                     <input
                       id="upload-input"
@@ -357,123 +386,128 @@ function Experiencias(props) {
                       />
                     )}
                   </ImagePreview>
-            )}
-          </div>
-        </BoxUpload>
-        {isTwoImage ? (
-        <BoxUpload>
-          <div className="image-upload" if={false}>
-            {!isUploaded2 ? (
-              <>
-                <label htmlFor="upload-input">
-                  <img
-                    src={FolderIcon}
-                    draggable={"false"}
-                    alt="placeholder"
-                    style={{ width: 70, height: 70 }}
-                  />
-                  <p style={{ color: "#444" }}>Hacer Click</p>
-                </label>
-
-                <input
-                  id="upload-input"
-                  type="file"
-                  accept=".jpg,.jpeg,.gif,.png,.mov,.mp4"
-                  onChange={handleImageChange2}
-                />
-              </>
-            ) : (
-              <ImagePreview>
-                <img
-                  className="close-icon"
-                  src={CloseIcon}
-                  alt="CloseIcon"
-                  onClick={() => {
-                    setIsUploaded2(false);
-                    setImage2(null);
-                    setIsTwoImage(false);
-                  }}
-                />
-                {typeFile.includes("video") ? (
-                  <video
-                    id="uploaded-image"
-                    src={image2}
-                    draggable={false}
-                    controls
-                    autoPlay
-                    alt="uploaded-img"
-                  />
-                ) : (
-                  <img
-                    id="uploaded-image"
-                    src={image2}
-                    draggable={false}
-                    alt="uploaded-img"
-                  />
                 )}
-              </ImagePreview>
-            )}
-          </div>
-        </BoxUpload>
-        ) : (null)}
-        {isThreeImage ? (
-        <BoxUpload>
-          <div className="image-upload" if={false}>
-            {!isUploaded3 ? (
-              <>
-                <label htmlFor="upload-input">
-                  <img
-                    src={FolderIcon}
-                    draggable={"false"}
-                    alt="placeholder"
-                    style={{ width: 70, height: 70 }}
-                  />
-                  <p style={{ color: "#444" }}>Hacer Click</p>
-                </label>
+              </div>
+            </BoxUpload>
+            {isTwoImage ? (
+              <BoxUpload>
+                <div className="image-upload" if={false}>
+                  {!isUploaded2 ? (
+                    <>
+                      <label htmlFor="upload-input">
+                        <img
+                          src={FolderIcon}
+                          draggable={"false"}
+                          alt="placeholder"
+                          style={{ width: 70, height: 70 }}
+                        />
+                        <p style={{ color: "#444" }}>Hacer Click</p>
+                      </label>
 
-                <input
-                  id="upload-input"
-                  type="file"
-                  accept=".jpg,.jpeg,.gif,.png,.mov,.mp4"
-                  onChange={handleImageChange3}
-                />
-              </>
-            ) : (
-              <ImagePreview>
-                <img
-                  className="close-icon"
-                  src={CloseIcon}
-                  alt="CloseIcon"
-                  onClick={() => {
-                    setIsUploaded3(false);
-                    setImage3(null);
-                    setIsThreeImage(false);
-                  }}
-                />
-                {typeFile.includes("video") ? (
-                  <video
-                    id="uploaded-image"
-                    src={image3}
-                    draggable={false}
-                    controls
-                    autoPlay
-                    alt="uploaded-img"
-                  />
-                ) : (
-                  <img
-                    id="uploaded-image"
-                    src={image3}
-                    draggable={false}
-                    alt="uploaded-img"
-                  />
-                )}
-              </ImagePreview>
-            )}
-          </div>
-        </BoxUpload>
-        ) : (null)}
-        </Grid>
-        <Grid container alignItems="center" justify="center" style={{minHeight: "7vh" }}> 
+                      <input
+                        id="upload-input"
+                        type="file"
+                        accept=".jpg,.jpeg,.gif,.png,.mov,.mp4"
+                        onChange={handleImageChange2}
+                      />
+                    </>
+                  ) : (
+                    <ImagePreview>
+                      <img
+                        className="close-icon"
+                        src={CloseIcon}
+                        alt="CloseIcon"
+                        onClick={() => {
+                          setIsUploaded2(false);
+                          setImage2(null);
+                          setIsTwoImage(false);
+                        }}
+                      />
+                      {typeFile.includes("video") ? (
+                        <video
+                          id="uploaded-image"
+                          src={image2}
+                          draggable={false}
+                          controls
+                          autoPlay
+                          alt="uploaded-img"
+                        />
+                      ) : (
+                        <img
+                          id="uploaded-image"
+                          src={image2}
+                          draggable={false}
+                          alt="uploaded-img"
+                        />
+                      )}
+                    </ImagePreview>
+                  )}
+                </div>
+              </BoxUpload>
+            ) : null}
+            {isThreeImage ? (
+              <BoxUpload>
+                <div className="image-upload" if={false}>
+                  {!isUploaded3 ? (
+                    <>
+                      <label htmlFor="upload-input">
+                        <img
+                          src={FolderIcon}
+                          draggable={"false"}
+                          alt="placeholder"
+                          style={{ width: 70, height: 70 }}
+                        />
+                        <p style={{ color: "#444" }}>Hacer Click</p>
+                      </label>
+
+                      <input
+                        id="upload-input"
+                        type="file"
+                        accept=".jpg,.jpeg,.gif,.png,.mov,.mp4"
+                        onChange={handleImageChange3}
+                      />
+                    </>
+                  ) : (
+                    <ImagePreview>
+                      <img
+                        className="close-icon"
+                        src={CloseIcon}
+                        alt="CloseIcon"
+                        onClick={() => {
+                          setIsUploaded3(false);
+                          setImage3(null);
+                          setIsThreeImage(false);
+                        }}
+                      />
+                      {typeFile.includes("video") ? (
+                        <video
+                          id="uploaded-image"
+                          src={image3}
+                          draggable={false}
+                          controls
+                          autoPlay
+                          alt="uploaded-img"
+                        />
+                      ) : (
+                        <img
+                          id="uploaded-image"
+                          src={image3}
+                          draggable={false}
+                          alt="uploaded-img"
+                        />
+                      )}
+                    </ImagePreview>
+                  )}
+                </div>
+              </BoxUpload>
+            ) : null}
+          </Grid>
+          <Grid
+            container
+            alignItems="center"
+            justify="center"
+            style={{ minHeight: "7vh" }}
+          >
             <Typography component="legend">
               De 1 a 5 estrellas, ¿Cómo valorarías la experiencia?.
             </Typography>
@@ -487,31 +521,39 @@ function Experiencias(props) {
               size="large"
             ></Rating>
           </Grid>
-        <Grid container
-          alignItems="center"
-          justify="center"
-          style={{ minHeight: '10vh' }}>
-              <Grid item xs = {2}>
-                <Button variant="contained" size="medium"
-                    onClick={() =>
-                        props.history.push({
-                        pathname: `/Cartilla/${props.location.state.entidad}/${props.location.state.id}`, state: props.location.state
-                    })}>
-                    Cancelar
-                </Button>
-              </Grid>
-              <Grid item xs = {2}>
-                <Button 
-                    variant="outlined"
-                    size="medium"
-                    color="primary"
-                    className={classes.margin}
-                    disabled={buttonDisabled} 
-                    onClick={() => handleSubmit()}>
-                    Publicar
-                </Button>
-              </Grid>
-        </Grid>
+          <Grid
+            container
+            alignItems="center"
+            justify="center"
+            style={{ minHeight: "10vh" }}
+          >
+            <Grid item xs={2}>
+              <Button
+                variant="contained"
+                size="medium"
+                onClick={() =>
+                  props.history.push({
+                    pathname: `/Cartilla/${props.location.state.entidad}/${props.location.state.id}`,
+                    state: props.location.state,
+                  })
+                }
+              >
+                Cancelar
+              </Button>
+            </Grid>
+            <Grid item xs={2}>
+              <Button
+                variant="outlined"
+                size="medium"
+                color="primary"
+                className={classes.margin}
+                disabled={buttonDisabled}
+                onClick={() => handleSubmit()}
+              >
+                Publicar
+              </Button>
+            </Grid>
+          </Grid>
         </form>
       </Grid>
       <Dialog
@@ -529,12 +571,14 @@ function Experiencias(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button 
+          <Button
             variant="outlined"
             size="medium"
             color="primary"
             className={classes.margin}
-            onClick={handleClose} autoFocus>
+            onClick={handleClose}
+            autoFocus
+          >
             Aceptar
           </Button>
         </DialogActions>
