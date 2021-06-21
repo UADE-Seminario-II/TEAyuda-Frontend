@@ -52,6 +52,8 @@ function Experiencias(props) {
     const [isUploaded2, setIsUploaded2] = useState(false);
     const [isUploaded3, setIsUploaded3] = useState(false);
     const [imageValue, setImageValue] = useState([]);
+    const [imageValue2, setImageValue2] = useState([]);
+    const [imageValue3, setImageValue3] = useState([]);
     const [typeFile, setTypeFile] = useState("");
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -100,7 +102,7 @@ function Experiencias(props) {
     if (e.target.files && e.target.files[0]) {
       setTypeFile(e.target.files[0].type);
       let reader = new FileReader();
-
+      setImageValue2(e.target.files[0]);
       reader.onload = function (e) {
         setImage2(e.target.result);
         setIsUploaded2(true);
@@ -115,7 +117,7 @@ function Experiencias(props) {
     if (e.target.files && e.target.files[0]) {
       setTypeFile(e.target.files[0].type);
       let reader = new FileReader();
-
+      setImageValue3(e.target.files[0]);
       reader.onload = function (e) {
         setImage3(e.target.result);
         setIsUploaded3(true);
@@ -157,17 +159,10 @@ function Experiencias(props) {
         // guardar imagenes
         const formData = new FormData();
         formData.append('image',imageValue);
-        let array = [];
-        array.push(formData);
-        const config = {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        }
-        console.log("Array: ", array, "config: ", config);
-    
-        axios.post(`https://sip2-backend.herokuapp.com/Experiencias/${res.data.id}/uploadImages`, array, config
-        )
+        formData.append('image',imageValue2);
+        formData.append('image',imageValue3);
+       console.log("id ", res.data.id, " imagenes ", formData)
+        axios.post(`https://sip2-backend.herokuapp.com/Experiencias/${res.data.id}/uploadImages`, formData)
         .then(res => {
             console.log(res);
             console.log(res.data);

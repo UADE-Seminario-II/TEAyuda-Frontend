@@ -10,6 +10,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import axios from "axios";
 import CartasExperiencia from "./components/CartasExperiencia";
 import Rating from "@material-ui/lab/Rating";
+import Modal from 'react-modal';
 
 export default function DetalleCartillaScreen(props) {
   const useStyles = makeStyles((theme) => ({
@@ -59,7 +60,9 @@ export default function DetalleCartillaScreen(props) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [entidad, setEntidad] = useState("");
   const [dataPasoExperiencia, setDataPasoExperiencia] = useState("");
-  const [dataInstructivos, setDataInstructivos] = useState("");
+  const [dataInstructivos, setDataInstructivos] = useState([]);
+  const [hasInstructives, setHasInstructives] = useState(false);
+  const [modalIsOpen, setIsOpen] = React.useState(false);
   let [responseData, setResponseData] = useState([]);
 
   useEffect(() => {
@@ -69,7 +72,6 @@ export default function DetalleCartillaScreen(props) {
       ""
     );
     setDataPasoExperiencia(props.location.state);
-    setDataInstructivos(props.location.state);
     let i = 0;
     let entidadd = "";
     let idd = "";
@@ -141,6 +143,23 @@ export default function DetalleCartillaScreen(props) {
         });
     }, []);
 
+  useEffect(() => {
+    axios.get(
+      `https://sip2-backend.herokuapp.com/${props.location.state.entidad}es/${props.location.state.id}/Instructivo`
+    )
+    .then((response) => {
+      console.log("Instructivos: ###### ", response.data);
+      let data = [];
+      if(response.data){
+        setHasInstructives(true);
+        setDataInstructivos(response.data);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }, []);
+
   const history = useHistory();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -154,6 +173,21 @@ export default function DetalleCartillaScreen(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const openModal = () => {
+    setIsOpen(true);
+  }
+  const closeModal = () => {
+    setIsOpen(false);
+  }
+  const renderPhotos = (source) => {
+    console.log('source: ', source);
+   
+    if(source.length != 0){
+      return source.map((photo) => {
+        return <img src={photo.imagen} alt="" key={photo.id} width="300" height="300"/>;
+      });
+    }
+	};
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
   const url = window.location.href;
@@ -354,20 +388,17 @@ export default function DetalleCartillaScreen(props) {
         >
           Añadir experiencia
         </Button>
+        {hasInstructives ? 
         <Button
           variant="outlined"
           size="medium"
           color="primary"
           className={classes.margin}
-          onClick={() =>
-            props.history.push({
-              pathname: "/Instructivos",
-              state: dataInstructivos,
-            })
-          }
+          onClick={openModal}
         >
-          Instructivos
+          Ayuda con Pictogramas
         </Button>
+        : null}
       </div>
       <br></br>
       <br></br>
@@ -377,6 +408,35 @@ export default function DetalleCartillaScreen(props) {
 
       <div className={classes.footer}>
         <Footer />
+      </div>
+      <div>
+      <Modal
+        isOpen={modalIsOpen}
+        //onAfterOpen={afterOpenModal}
+        onRequestClose={closeModal}
+        style={{content: {
+          marginTop: '200px',
+          top: '200px',
+          left: '50%',
+          right: '400px',
+          bottom: 'auto',
+          marginRight: '-50%',
+          transform: 'translate(-50%, -50%)',
+        }}}
+        contentLabel="Example Modal"
+      >
+        <div className="result">{renderPhotos(dataInstructivos)}</div>
+        <br></br><br></br>
+        <Button
+          variant="outlined"
+          size="medium"
+          color="primary"
+          className={classes.margin}
+          onClick={closeModal}
+        >
+          Cerrar
+        </Button>
+      </Modal>
       </div>
     </div>
   );
