@@ -48,6 +48,7 @@ function Experiencias(props) {
   //   });
   const classes = useStyles();
   const history = useHistory();
+  const [entidadSelected, setEntidadSelected] = useState("");
   const [isTwoImage, setIsTwoImage] = useState(false);
   const [isThreeImage, setIsThreeImage] = useState(false);
   const [image, setImage] = useState("");
@@ -64,6 +65,34 @@ function Experiencias(props) {
   const [open, setOpen] = React.useState(false);
   const [rating, setRating] = React.useState(0);
   const [buttonDisabled, setButtonDisabled] = React.useState(true);
+
+  const entidades = () => {
+    return (
+      <div class="col-md-2 mb-2 my-auto offset-md-1">
+        <label className={classes.labels} for="entidad">
+          Seleccione una entidad
+        </label>
+        <br />
+        <select
+          className={classes.select}
+          value={entidadSelected}
+          id="entidad"
+          name="entidadlist"
+          form="entidadform"
+          onChange={(e) => {
+            setEntidadSelected(e.target.value);
+          }}
+        >
+          <option value="" disabled selected>
+            Seleccione una entidad
+          </option>
+          <option value="Especialista">Especialista</option>
+          <option value="Institucion">Institucion</option>
+          <option value="Actividad">Actividad</option>
+        </select>
+      </div>
+    );
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -150,7 +179,7 @@ function Experiencias(props) {
       },
     };
 
-    if (props.location.state.entidad === "Profesional") {
+    if (props.location.state.entidad === "Especialista") {
       exp.profesional = {};
       exp.profesional.id = props.location.state.id;
     }
@@ -216,344 +245,528 @@ function Experiencias(props) {
             <h1>Contanos tu experiencia 😁</h1>
           </div>
           <Grid item xs={12}>
-            {props.location.state == undefined ||
-              (props.location.state.entidad === "Profesional" && (
-                <div>
+            <TextField
+              style={{ width: 300 }}
+              id="filled-read-input"
+              label="Tu nombre y apellido"
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="filled"
+            />
+            <TextField
+              style={{ width: 300 }}
+              id="filled-read-input"
+              label="Tu correo electrónico"
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="filled"
+            />
+            <TextField
+              style={{ width: 300 }}
+              id="filled-read-input"
+              label="Tu teléfono"
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="filled"
+            />
+          </Grid>
+          {entidades()}
+          {entidadSelected == "Institucion"}
+          <Grid item xs={12}>
+            {entidadSelected === "Especialista" && (
+              <>
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Nombre"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Apellido"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Matrícula"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <br></br>
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Especialidad"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Dirección"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Localidad"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <br></br>
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Piso"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Teléfono"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Correo electrónico"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <Grid item xs={12}>
                   <TextField
-                    style={{ width: 300 }}
-                    id="filled-read-only-input"
-                    label="Nombre"
-                    defaultValue={
-                      props.location.state.nombre +
-                      " " +
-                      props.location.state.apellido
+                    style={{ width: 930 }}
+                    id="outlined-multiline-static"
+                    label="Observaciones"
+                    value={valueNew}
+                    multiline
+                    rows={10}
+                    variant="outlined"
+                    onChange={(event) =>
+                      handleDescriptionChange(event.target.value)
                     }
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    variant="filled"
                   />
+                </Grid>
+              </>
+            )}
+            {entidadSelected === "Actividad" && (
+              <>
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Nombre"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Especialidad"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Dirección"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <br></br>
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Localidad"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Teléfono"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Correo electrónico"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <Grid item xs={12}>
                   <TextField
-                    style={{ width: 300 }}
-                    id="filled-read-only-input"
-                    label="Especialidad"
-                    defaultValue={props.location.state.especialidad}
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    variant="filled"
+                    style={{ width: 930 }}
+                    id="outlined-multiline-static"
+                    label="Descripción"
+                    value={valueNew}
+                    multiline
+                    rows={10}
+                    variant="outlined"
+                    onChange={(event) =>
+                      handleDescriptionChange(event.target.value)
+                    }
                   />
-                </div>
-              ))}
-            {props.location.state == undefined ||
-              (props.location.state.entidad === "Institucion" && (
-                <div>
+                </Grid>
+                <Grid item xs={12}>
                   <TextField
-                    style={{ width: 300 }}
-                    id="filled-read-only-input"
-                    label="Nombre"
-                    defaultValue={props.location.state.nombre}
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    variant="filled"
+                    style={{ width: 930 }}
+                    id="outlined-multiline-static"
+                    label="Observaciones"
+                    value={valueNew}
+                    multiline
+                    rows={10}
+                    variant="outlined"
+                    onChange={(event) =>
+                      handleDescriptionChange(event.target.value)
+                    }
                   />
+                </Grid>
+              </>
+            )}
+            {entidadSelected === "Institucion" && (
+              <>
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Nombre"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Especialidad"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Dirección"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <br></br>
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Teléfono"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Correo electrónico"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <Grid item xs={12}>
                   <TextField
-                    style={{ width: 300 }}
-                    id="filled-read-only-input"
-                    label="Nivel educativo"
-                    defaultValue={props.location.state.especialidad}
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    variant="filled"
+                    style={{ width: 930 }}
+                    id="outlined-multiline-static"
+                    label="Descripción"
+                    value={valueNew}
+                    multiline
+                    rows={10}
+                    variant="outlined"
+                    onChange={(event) =>
+                      handleDescriptionChange(event.target.value)
+                    }
                   />
-                </div>
-              ))}
-            {props.location.state == undefined ||
-              (props.location.state.entidad === "Actividad" && (
-                <div>
+                </Grid>
+                <Grid item xs={12}>
                   <TextField
-                    style={{ width: 300 }}
-                    id="filled-read-only-input"
-                    label="Actividad"
-                    defaultValue={props.location.state.nombre}
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    variant="filled"
+                    style={{ width: 930 }}
+                    id="outlined-multiline-static"
+                    label="Observaciones"
+                    value={valueNew}
+                    multiline
+                    rows={10}
+                    variant="outlined"
+                    onChange={(event) =>
+                      handleDescriptionChange(event.target.value)
+                    }
                   />
-                  <TextField
-                    style={{ width: 300 }}
-                    id="filled-read-only-input"
-                    label="Tipo de recreación"
-                    defaultValue={props.location.state.especialidad}
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    variant="filled"
-                  />
-                </div>
-              ))}
-            {props.location.state == undefined || (
-              <TextField
-                style={{ width: 300 }}
-                id="filled-read-only-input"
-                label="Dirección"
-                defaultValue={
-                  props.location.state.direccion +
-                  " " +
-                  props.location.state.localidad.localidad
-                }
-                InputProps={{
-                  readOnly: true,
-                }}
-                variant="filled"
-              />
+                </Grid>
+              </>
             )}
           </Grid>
-          <Grid item xs={12}>
-            <TextField
-              style={{ width: 930 }}
-              required
-              id="outlined-required"
-              label="Título"
-              value={valueNew}
-              variant="outlined"
-              onChange={(event) => handleTitleChange(event.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              style={{ width: 930 }}
-              id="outlined-multiline-static"
-              label="Experiencia"
-              value={valueNew}
-              multiline
-              rows={10}
-              variant="outlined"
-              onChange={(event) => handleDescriptionChange(event.target.value)}
-            />
-          </Grid>
-          <Grid container alignItems="center" style={{ minHeight: "20vh" }}>
-            <BoxUpload>
-              <div className="image-upload">
-                {!isUploaded ? (
-                  <>
-                    <label htmlFor="upload-input">
-                      <img
-                        src={FolderIcon}
-                        draggable={"false"}
-                        alt="placeholder"
-                        style={{ width: 70, height: 70 }}
-                      />
-                      <p style={{ color: "#444" }}>Hacer Click</p>
-                    </label>
+          {entidadSelected == "" || (
+            <>
+              <Grid container alignItems="center" style={{ minHeight: "20vh" }}>
+                <BoxUpload>
+                  <div className="image-upload">
+                    {!isUploaded ? (
+                      <>
+                        <label htmlFor="upload-input">
+                          <img
+                            src={FolderIcon}
+                            draggable={"false"}
+                            alt="placeholder"
+                            style={{ width: 70, height: 70 }}
+                          />
+                          <p style={{ color: "#444" }}>Hacer Click</p>
+                        </label>
 
-                    <input
-                      id="upload-input"
-                      type="file"
-                      accept=".jpg,.jpeg,.gif,.png,.mov,.mp4"
-                      onChange={handleImageChange}
-                    />
-                  </>
-                ) : (
-                  <ImagePreview>
-                    <img
-                      className="close-icon"
-                      src={CloseIcon}
-                      alt="CloseIcon"
-                      onClick={() => {
-                        setIsUploaded(false);
-                        setImage(null);
-                      }}
-                    />
-                    {typeFile.includes("video") ? (
-                      <video
-                        id="uploaded-image"
-                        src={image}
-                        draggable={false}
-                        controls
-                        autoPlay
-                        alt="uploaded-img"
-                      />
+                        <input
+                          id="upload-input"
+                          type="file"
+                          accept=".jpg,.jpeg,.gif,.png,.mov,.mp4"
+                          onChange={handleImageChange}
+                        />
+                      </>
                     ) : (
-                      <img
-                        id="uploaded-image"
-                        src={image}
-                        draggable={false}
-                        alt="uploaded-img"
-                      />
+                      <ImagePreview>
+                        <img
+                          className="close-icon"
+                          src={CloseIcon}
+                          alt="CloseIcon"
+                          onClick={() => {
+                            setIsUploaded(false);
+                            setImage(null);
+                          }}
+                        />
+                        {typeFile.includes("video") ? (
+                          <video
+                            id="uploaded-image"
+                            src={image}
+                            draggable={false}
+                            controls
+                            autoPlay
+                            alt="uploaded-img"
+                          />
+                        ) : (
+                          <img
+                            id="uploaded-image"
+                            src={image}
+                            draggable={false}
+                            alt="uploaded-img"
+                          />
+                        )}
+                      </ImagePreview>
                     )}
-                  </ImagePreview>
-                )}
-              </div>
-            </BoxUpload>
-            {isTwoImage ? (
-              <BoxUpload>
-                <div className="image-upload" if={false}>
-                  {!isUploaded2 ? (
-                    <>
-                      <label htmlFor="upload-input">
-                        <img
-                          src={FolderIcon}
-                          draggable={"false"}
-                          alt="placeholder"
-                          style={{ width: 70, height: 70 }}
-                        />
-                        <p style={{ color: "#444" }}>Hacer Click</p>
-                      </label>
+                  </div>
+                </BoxUpload>
+                {isTwoImage ? (
+                  <BoxUpload>
+                    <div className="image-upload" if={false}>
+                      {!isUploaded2 ? (
+                        <>
+                          <label htmlFor="upload-input">
+                            <img
+                              src={FolderIcon}
+                              draggable={"false"}
+                              alt="placeholder"
+                              style={{ width: 70, height: 70 }}
+                            />
+                            <p style={{ color: "#444" }}>Hacer Click</p>
+                          </label>
 
-                      <input
-                        id="upload-input"
-                        type="file"
-                        accept=".jpg,.jpeg,.gif,.png,.mov,.mp4"
-                        onChange={handleImageChange2}
-                      />
-                    </>
-                  ) : (
-                    <ImagePreview>
-                      <img
-                        className="close-icon"
-                        src={CloseIcon}
-                        alt="CloseIcon"
-                        onClick={() => {
-                          setIsUploaded2(false);
-                          setImage2(null);
-                          setIsTwoImage(false);
-                        }}
-                      />
-                      {typeFile.includes("video") ? (
-                        <video
-                          id="uploaded-image"
-                          src={image2}
-                          draggable={false}
-                          controls
-                          autoPlay
-                          alt="uploaded-img"
-                        />
+                          <input
+                            id="upload-input"
+                            type="file"
+                            accept=".jpg,.jpeg,.gif,.png,.mov,.mp4"
+                            onChange={handleImageChange2}
+                          />
+                        </>
                       ) : (
-                        <img
-                          id="uploaded-image"
-                          src={image2}
-                          draggable={false}
-                          alt="uploaded-img"
-                        />
+                        <ImagePreview>
+                          <img
+                            className="close-icon"
+                            src={CloseIcon}
+                            alt="CloseIcon"
+                            onClick={() => {
+                              setIsUploaded2(false);
+                              setImage2(null);
+                              setIsTwoImage(false);
+                            }}
+                          />
+                          {typeFile.includes("video") ? (
+                            <video
+                              id="uploaded-image"
+                              src={image2}
+                              draggable={false}
+                              controls
+                              autoPlay
+                              alt="uploaded-img"
+                            />
+                          ) : (
+                            <img
+                              id="uploaded-image"
+                              src={image2}
+                              draggable={false}
+                              alt="uploaded-img"
+                            />
+                          )}
+                        </ImagePreview>
                       )}
-                    </ImagePreview>
-                  )}
-                </div>
-              </BoxUpload>
-            ) : null}
-            {isThreeImage ? (
-              <BoxUpload>
-                <div className="image-upload" if={false}>
-                  {!isUploaded3 ? (
-                    <>
-                      <label htmlFor="upload-input">
-                        <img
-                          src={FolderIcon}
-                          draggable={"false"}
-                          alt="placeholder"
-                          style={{ width: 70, height: 70 }}
-                        />
-                        <p style={{ color: "#444" }}>Hacer Click</p>
-                      </label>
+                    </div>
+                  </BoxUpload>
+                ) : null}
+                {isThreeImage ? (
+                  <BoxUpload>
+                    <div className="image-upload" if={false}>
+                      {!isUploaded3 ? (
+                        <>
+                          <label htmlFor="upload-input">
+                            <img
+                              src={FolderIcon}
+                              draggable={"false"}
+                              alt="placeholder"
+                              style={{ width: 70, height: 70 }}
+                            />
+                            <p style={{ color: "#444" }}>Hacer Click</p>
+                          </label>
 
-                      <input
-                        id="upload-input"
-                        type="file"
-                        accept=".jpg,.jpeg,.gif,.png,.mov,.mp4"
-                        onChange={handleImageChange3}
-                      />
-                    </>
-                  ) : (
-                    <ImagePreview>
-                      <img
-                        className="close-icon"
-                        src={CloseIcon}
-                        alt="CloseIcon"
-                        onClick={() => {
-                          setIsUploaded3(false);
-                          setImage3(null);
-                          setIsThreeImage(false);
-                        }}
-                      />
-                      {typeFile.includes("video") ? (
-                        <video
-                          id="uploaded-image"
-                          src={image3}
-                          draggable={false}
-                          controls
-                          autoPlay
-                          alt="uploaded-img"
-                        />
+                          <input
+                            id="upload-input"
+                            type="file"
+                            accept=".jpg,.jpeg,.gif,.png,.mov,.mp4"
+                            onChange={handleImageChange3}
+                          />
+                        </>
                       ) : (
-                        <img
-                          id="uploaded-image"
-                          src={image3}
-                          draggable={false}
-                          alt="uploaded-img"
-                        />
+                        <ImagePreview>
+                          <img
+                            className="close-icon"
+                            src={CloseIcon}
+                            alt="CloseIcon"
+                            onClick={() => {
+                              setIsUploaded3(false);
+                              setImage3(null);
+                              setIsThreeImage(false);
+                            }}
+                          />
+                          {typeFile.includes("video") ? (
+                            <video
+                              id="uploaded-image"
+                              src={image3}
+                              draggable={false}
+                              controls
+                              autoPlay
+                              alt="uploaded-img"
+                            />
+                          ) : (
+                            <img
+                              id="uploaded-image"
+                              src={image3}
+                              draggable={false}
+                              alt="uploaded-img"
+                            />
+                          )}
+                        </ImagePreview>
                       )}
-                    </ImagePreview>
-                  )}
-                </div>
-              </BoxUpload>
-            ) : null}
-          </Grid>
-          <Grid
-            container
-            alignItems="center"
-            justify="center"
-            style={{ minHeight: "7vh" }}
-          >
-            <Typography component="legend">
-              De 1 a 5 estrellas, ¿Cómo valorarías la experiencia?.
-            </Typography>
-          </Grid>
-          <Grid container alignItems="center" justify="center">
-            <Rating
-              name="experiencia-rating"
-              onChange={(event, newValue) => {
-                setRating(newValue);
-              }}
-              size="large"
-            ></Rating>
-          </Grid>
-          <Grid
-            container
-            alignItems="center"
-            justify="center"
-            style={{ minHeight: "10vh" }}
-          >
-            <Grid item xs={2}>
-              <Button
-                variant="contained"
-                size="medium"
-                onClick={() =>
-                  props.history.push({
-                    pathname: `/Cartilla/${props.location.state.entidad}/${props.location.state.id}`,
-                    state: props.location.state,
-                  })
-                }
+                    </div>
+                  </BoxUpload>
+                ) : null}
+              </Grid>
+
+              <Grid
+                container
+                alignItems="center"
+                justify="center"
+                style={{ minHeight: "7vh" }}
               >
-                Cancelar
-              </Button>
-            </Grid>
-            <Grid item xs={2}>
-              <Button
-                variant="outlined"
-                size="medium"
-                color="primary"
-                className={classes.margin}
-                disabled={buttonDisabled}
-                onClick={() => handleSubmit()}
+                <Typography component="legend">
+                  De 1 a 5 estrellas, ¿Cómo valorarías la experiencia?.
+                </Typography>
+              </Grid>
+              <Grid container alignItems="center" justify="center">
+                <Rating
+                  name="experiencia-rating"
+                  onChange={(event, newValue) => {
+                    setRating(newValue);
+                  }}
+                  size="large"
+                ></Rating>
+              </Grid>
+              <Grid
+                container
+                alignItems="center"
+                justify="center"
+                style={{ minHeight: "10vh" }}
               >
-                Publicar
-              </Button>
-            </Grid>
-          </Grid>
+                <Grid item xs={2}>
+                  <Button
+                    variant="contained"
+                    size="medium"
+                    onClick={() =>
+                      props.history.push({
+                        pathname: `/Cartilla/${props.location.state.entidad}/${props.location.state.id}`,
+                        state: props.location.state,
+                      })
+                    }
+                  >
+                    Cancelar
+                  </Button>
+                </Grid>
+                <Grid item xs={2}>
+                  <Button
+                    variant="outlined"
+                    size="medium"
+                    color="primary"
+                    className={classes.margin}
+                    disabled={buttonDisabled}
+                    onClick={() => handleSubmit()}
+                  >
+                    Publicar
+                  </Button>
+                </Grid>
+              </Grid>
+            </>
+          )}
         </form>
       </Grid>
       <Dialog
