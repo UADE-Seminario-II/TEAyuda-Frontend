@@ -161,98 +161,279 @@ export default function Cartilla() {
         // console.log(value)
     }
     const filterentidad = (value, result) => {
-        if (ratingSelected !== "" && localidadSelected !== "") {
-            setResultados(
-                result.filter((valor) =>
-                    (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected))
-                ))
-        } else if (ratingSelected === "" && localidadSelected !== "") {
-            setResultados(
-                result.filter((valor) =>
-                    (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected))
-                ))
-        } else if (ratingSelected !== "" && localidadSelected === "") {
-            setResultados(
-                result.filter((valor) =>
-                    (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio))
-                ))
-        } else {
-            setResultados(
-                result.filter((valor) =>
-                    valor.entidad.match(value)
-                ))
+        if(value==="Profesional"){
+            if (ratingSelected !== "" && localidadSelected !== "" && buscado!=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected) && valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            } else if (ratingSelected === "" && localidadSelected !== "" && buscado !=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected)&& valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            } else if (ratingSelected !== "" && localidadSelected === "" && buscado!=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio)&& valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            } else if (ratingSelected !== "" && localidadSelected !== "" && buscado==="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected))
+                    ))
+            }else if (ratingSelected === "" && localidadSelected === "" && buscado!=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            }
+            else if (ratingSelected !== "" && localidadSelected === "" && buscado==="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio))
+                    ))
+            }
+            else if (ratingSelected === "" && localidadSelected !== "" && buscado==="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) &&  valor.localidad.localidad.match(localidadSelected))
+                    ))
+            }
+            else {
+                setResultados(
+                    result.filter((valor) =>
+                        valor.entidad.match(value)
+                    ))
+            }
+        }else if(value==="Actividad"){
+            if (ratingSelected !== "" && localidadSelected !== "" && buscado!=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected) && valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            } else if (ratingSelected === "" && localidadSelected !== "" && buscado !=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected)&& valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            } else if (ratingSelected !== "" && localidadSelected === "" && buscado!=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio)&& valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            } else if (ratingSelected !== "" && localidadSelected !== "" && buscado==="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected))
+                    ))
+            }else if (ratingSelected === "" && localidadSelected === "" && buscado!=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            }
+            else if (ratingSelected !== "" && localidadSelected === "" && buscado==="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio))
+                    ))
+            }
+            else if (ratingSelected === "" && localidadSelected !== "" && buscado==="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) &&  valor.localidad.localidad.match(localidadSelected))
+                    ))
+            }
+            else {
+                setResultados(
+                    result.filter((valor) =>
+                        valor.entidad.match(value)
+                    ))
+            }
+        }else if(value==="Institucion"){
+            if (ratingSelected !== "" && localidadSelected !== "" && buscado!=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected) && valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            } else if (ratingSelected === "" && localidadSelected !== "" && buscado !=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected)&& valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            } else if (ratingSelected !== "" && localidadSelected === "" && buscado!=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio)&& valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            } else if (ratingSelected !== "" && localidadSelected !== "" && buscado==="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected))
+                    ))
+            }else if (ratingSelected === "" && localidadSelected === "" && buscado!=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            }
+            else if (ratingSelected !== "" && localidadSelected === "" && buscado==="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio))
+                    ))
+            }
+            else if (ratingSelected === "" && localidadSelected !== "" && buscado==="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) &&  valor.localidad.localidad.match(localidadSelected))
+                    ))
+            }
+            else {
+                setResultados(
+                    result.filter((valor) =>
+                        valor.entidad.match(value)
+                    ))
+            }
         }
     }
     const onLocalidad = (value) => {
         if (value === null) {
             setResultados(copyResult)
             setLocalidadSelected("")
-            if (entidadSelected !== "" && ratingSelected !== "") {
-                setResultados(
-                    copyResult.filter((valor) =>
+            if(entidadSelected==="Profesional" || entidadSelected==="Institucion"){
+                if (ratingSelected !== "" && buscado!=="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                            valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio) && valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                        ))
+                } else if (ratingSelected === "" && buscado!=="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                            valor.entidad.match(entidadSelected)&& valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                        ))
+                } else if (ratingSelected !== "" && buscado==="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
                         valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio)
-                    ))
-            } else if (entidadSelected !== "" && ratingSelected === "") {
-                setResultados(
-                    copyResult.filter((valor) =>
-                        valor.entidad.match(entidadSelected)
-                    ))
-            } else if (entidadSelected === "" && ratingSelected !== "") {
-                setResultados(
-                    copyResult.filter((valor) =>
-                        ratingSelected.match(valor.valoracionPromedio)
-                    ))
+                        ))
+                }
+            }else if(entidadSelected==="Actividad"){
+                if (ratingSelected !== "" && buscado!=="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                            valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio) && valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                        ))
+                } else if (ratingSelected === "" && buscado!=="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                            valor.entidad.match(entidadSelected)&& valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                        ))
+                } else if (ratingSelected !== "" && buscado==="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                        valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio)
+                        ))
+                }
             }
         } else {
             setLocalidadSelected(value.localidad);
-            if (entidadSelected !== "" && ratingSelected !== "") {
-                setResultados(
-                    copyResult.filter((valor) =>
-                        valor.localidad.localidad.match(value.localidad) && valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio)
-                    ))
-            } else if (entidadSelected !== "" && ratingSelected === "") {
-                setResultados(
-                    copyResult.filter((valor) =>
-                        valor.localidad.localidad.match(value.localidad) && valor.entidad.match(entidadSelected)
-                    ))
-            } else if (entidadSelected === "" && ratingSelected !== "") {
-                setResultados(
-                    copyResult.filter((valor) =>
-                        valor.localidad.localidad.match(value.localidad) && ratingSelected.match(valor.valoracionPromedio)
-                    ))
-            }
-            else {
-                setLocalidadSelected(value.localidad);
-                setResultados(
-                    copyResult.filter((valor) =>
-                        valor.localidad.localidad.match(value.localidad)
-                    ))
+            if(entidadSelected==="Profesional" || entidadSelected==="Institucion"){
+                if (ratingSelected !== "" && buscado!=="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                        valor.localidad.localidad.match(value.localidad)&&valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio) && valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                        ))
+                } else if (ratingSelected === "" && buscado!=="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                        valor.localidad.localidad.match(value.localidad)&&valor.entidad.match(entidadSelected)&& valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                        ))
+                } else if (ratingSelected !== "" && buscado==="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                        valor.localidad.localidad.match(value.localidad)&&valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio)
+                        ))
+                }else {
+                    setLocalidadSelected(value.localidad);
+                    setResultados(
+                        copyResult.filter((valor) =>
+                            valor.localidad.localidad.match(value.localidad)
+                        ))
+                }
+            }else if(entidadSelected==="Actividad"){
+                if (ratingSelected !== "" && buscado!=="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                        valor.localidad.localidad.match(value.localidad)&&valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio) && valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                        ))
+                } else if (ratingSelected === "" && buscado!=="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                        valor.localidad.localidad.match(value.localidad)&&valor.entidad.match(entidadSelected)&& valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                        ))
+                } else if (ratingSelected !== "" && buscado==="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                        valor.localidad.localidad.match(value.localidad)&&valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio)
+                        ))
+                }else {
+                    setLocalidadSelected(value.localidad);
+                    setResultados(
+                        copyResult.filter((valor) =>
+                            valor.localidad.localidad.match(value.localidad)
+                        ))
+                }
             }
         }
     }
     const onRating = (value) => {
         setRatingSelected(value);
-        if (localidadSelected !== "" && entidadSelected !== "") {
-            setResultados(
-                copyResult.filter((valor) =>
-                    (valor.localidad.localidad.match(localidadSelected) && value.match(valor.valoracionPromedio) && valor.entidad.match(entidadSelected))
-                ))
-        } else if (localidadSelected === "" && entidadSelected !== "") {
-            setResultados(
-                copyResult.filter((valor) =>
-                    (valor.entidad.match(entidadSelected) && value.match(valor.valoracionPromedio))
-                ))
-        } else if (localidadSelected !== "" && entidadSelected === "") {
-            setResultados(
-                copyResult.filter((valor) =>
-                    (valor.localidad.localidad.match(localidadSelected) && value.match(valor.valoracionPromedio))
-                ))
-        }
-        else {
-            setResultados(
-                copyResult.filter((valor) =>
-                    value.match(valor.valoracionPromedio)
-                ))
+        if(entidadSelected==="Profesional" || entidadSelected==="Institucion"){
+            if (localidadSelected !== "" && buscado!=="") {
+                setResultados(
+                    copyResult.filter((valor) =>
+                    valor.localidad.localidad.match(entidadSelected)&&valor.entidad.match(entidadSelected) && value.match(valor.valoracionPromedio) && valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                    ))
+            } else if (localidadSelected === "" && buscado!=="") {
+                setResultados(
+                    copyResult.filter((valor) =>
+                    value.match(valor.valoracionPromedio)&&valor.entidad.match(entidadSelected)&& valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                    ))
+            } else if (localidadSelected !== "" && buscado==="") {
+                setResultados(
+                    copyResult.filter((valor) =>
+                    valor.localidad.localidad.match(localidadSelected)&&valor.entidad.match(entidadSelected) && value.match(valor.valoracionPromedio)
+                    ))
+            }else {
+                setResultados(
+                    copyResult.filter((valor) =>
+                        value.match(valor.valoracionPromedio)
+                    ))
+            }
+        }else if(entidadSelected==="Actividad"){
+            if (localidadSelected !== "" && buscado!=="") {
+                setResultados(
+                    copyResult.filter((valor) =>
+                    valor.localidad.localidad.match(localidadSelected)&&valor.entidad.match(entidadSelected) && value.match(valor.valoracionPromedio) && valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                    ))
+            } else if (localidadSelected === "" && buscado!=="") {
+                setResultados(
+                    copyResult.filter((valor) =>
+                    value.match(valor.valoracionPromedio)&&valor.entidad.match(entidadSelected)&& valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                    ))
+            } else if (localidadSelected !== "" && buscado==="") {
+                setResultados(
+                    copyResult.filter((valor) =>
+                    valor.localidad.localidad.match(localidadSelected)&&valor.entidad.match(entidadSelected) && value.match(valor.valoracionPromedio)
+                    ))
+            }else {
+                setResultados(
+                    copyResult.filter((valor) =>
+                        value.match(valor.valoracionPromedio)
+                    ))
+            }
         }
     }
     const entidades = () => {
@@ -360,24 +541,83 @@ export default function Cartilla() {
                                         
                                     }
         } else
-            if (entidadSelected === "Profesional") {
+            if (entidadSelected === "Profesional" && ratingSelected !== "" && localidadSelected !== "") {
+                setResultados(
+                    copyResult.filter((valor) =>
+                        valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))&& ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected)
+                    ))
+            }else if (entidadSelected === "Profesional" && ratingSelected === "" && localidadSelected !== "") {
+                setResultados(
+                    copyResult.filter((valor) =>
+                        valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))&& valor.localidad.localidad.match(localidadSelected)
+                    ))
+            }
+            else if (entidadSelected === "Profesional" && ratingSelected !== "" && localidadSelected === "") {
+                setResultados(
+                    copyResult.filter((valor) =>
+                        valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))&& ratingSelected.match(valor.valoracionPromedio)
+                    ))
+            }
+            else if (entidadSelected === "Profesional" && ratingSelected === "" && localidadSelected === "") {
                 setResultados(
                     copyResult.filter((valor) =>
                         valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
                     ))
-            } else
-                if (entidadSelected === "Actividad") {
+            }
+             else
+                if (entidadSelected === "Actividad" && ratingSelected !== "" && localidadSelected !== "") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                            valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))&& ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected)
+                        ))
+                }  else
+                if (entidadSelected === "Actividad" && ratingSelected === "" && localidadSelected !== "") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                            valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")) && valor.localidad.localidad.match(localidadSelected)
+                        ))
+                } else
+                if (entidadSelected === "Actividad" && ratingSelected !== "" && localidadSelected === "") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                            valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))&& ratingSelected.match(valor.valoracionPromedio)
+                        ))
+                } else
+                if (entidadSelected === "Actividad" && ratingSelected === "" && localidadSelected === "") {
                     setResultados(
                         copyResult.filter((valor) =>
                             valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
                         ))
-                } else
-                    if (entidadSelected === "Institucion") {
+                }
+                else
+                    if (entidadSelected === "Institucion" && ratingSelected !== "" && localidadSelected !== "") {
+                        setResultados(
+                            copyResult.filter((valor) =>
+                                valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))&& ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected)
+                            ))
+                    }
+                else
+                    if (entidadSelected === "Institucion" && ratingSelected === "" && localidadSelected !== "") {
+                        setResultados(
+                            copyResult.filter((valor) =>
+                                valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))&& valor.localidad.localidad.match(localidadSelected)
+                            ))
+                    }
+                else
+                    if (entidadSelected === "Institucion" && ratingSelected !== "" && localidadSelected === "") {
+                        setResultados(
+                            copyResult.filter((valor) =>
+                                valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))&& ratingSelected.match(valor.valoracionPromedio)
+                            ))
+                    }
+                else
+                    if (entidadSelected === "Institucion" && ratingSelected === "" && localidadSelected === "") {
                         setResultados(
                             copyResult.filter((valor) =>
                                 valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
                             ))
                     }
+
     }
     const search = () => {
         if (disableSearch === true) return null;
