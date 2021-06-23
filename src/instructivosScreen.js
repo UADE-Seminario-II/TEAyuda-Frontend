@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react"; //{ useState, useEffect } ;
 import NavBar from "./components/NavBar";
 import axios from "axios";
-import GaleriaInstructivos from './components/Instructivos'
-let ready = false;
+import GaleriaInstructivos from './components/Instructivos';
+import Footer from './components/Footer';
+//let ready = false;
 
 function Instructivos(props) {
   let [responseData, setResponseData] = React.useState([]);
-
+      
   React.useEffect(() => {
       axios
         .get(`https://sip2-backend.herokuapp.com/${props.location.state.entidad}es/${props.location.state.id}/Instructivo`)
@@ -34,12 +35,17 @@ function Instructivos(props) {
     ];*/
 
   return (
-    <div>
-      <NavBar></NavBar>
-
-      <GaleriaInstructivos elem={responseData}></GaleriaInstructivos>
+    <div style={{backgroundColor: "#e2eeff", height: "100%", minHeight: "100vh"}}> {/* // FONDOBLANCO: white  FONDOCELESTE: #e2eeff */}
+        <NavBar></NavBar>
+        <div style={{backgroundColor: "#115DBF",height:"5rem", }} >
+            <div style={{height:"1rem"}}></div>
+            <text style={{fontFamily: "Open Sans", fontSize: "2rem", color:"white", marginLeft:"2.5%", fontWeight:"bold"}}>Ayuda visual del ambiente</text> {/* Chequear como era el nombre de la pantalla NO ES INSTRUCTIVOS*/}
+        </div>
+        <GaleriaInstructivos elem={responseData}></GaleriaInstructivos>
     </div>
   );
 }
 
 export default Instructivos;
+
+
