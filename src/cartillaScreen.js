@@ -502,6 +502,13 @@ export default function Cartilla() {
                                                     <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>   {"Localidad: " + value.localidad.localidad}
                                                 </Typography>
                                                 <br />
+                                                {value.valoracionPromedio === 0 ? (
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        className={classes.inline}
+                                                    > <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: -</Typography>
+                                                ) : <div />}
                                                 {value.valoracionPromedio === 1.0 ? (
                                                     <Typography
                                                         component="span"
@@ -578,6 +585,13 @@ export default function Cartilla() {
                                                     <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/> {" Localidad: " + value.localidad.localidad}
                                                 </Typography>
                                                 <br />
+                                                {value.valoracionPromedio === 0 ? (
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        className={classes.inline}
+                                                    > <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: -</Typography>
+                                                ) : <div />}
                                                 {value.valoracionPromedio === 1.0 ? (
                                                     <Typography
                                                         component="span"
@@ -654,6 +668,13 @@ export default function Cartilla() {
                                                     <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/> {" Localidad: " + value.localidad.localidad}
                                                 </Typography>
                                                 <br />
+                                                {value.valoracionPromedio === 0 ? (
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        className={classes.inline}
+                                                    > <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: -</Typography>
+                                                ) : <div />}
                                                 {value.valoracionPromedio === 1.0 ? (
                                                     <Typography
                                                         component="span"
