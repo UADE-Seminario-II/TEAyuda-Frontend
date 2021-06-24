@@ -12,81 +12,85 @@ import Footer from "./components/Footer";
 export default function Home() {
     const useStyles = makeStyles((theme) => ({
         Home:{
-          backgroundColor:"#F2EFEB",
+          backgroundColor:"#e2eeff",// FONDOBLANCO: white  FONDOCELESTE: #e2eeff
         },
         CardContainer:{
             flexDirection: "row",
-            // justifyContent:"center",
-            // alignItems: "center"
         },
         root: {
             marginTop:"3rem",
-            marginBottom:"5%",
             maxWidth: 350,
-            marginLeft:"32%",
-            padding:"3.96%"
-          },
-          root1: {
-            marginTop:"3rem",
-            marginBottom:"5%",
+            marginLeft:"40%",
+            padding:"1%",
+            borderColor:"red",
+        },
+        root1: {
+            marginTop:"2.9rem",
             maxWidth: 350,
-            marginLeft:"32%",
-            padding:"5.00%"
-          },
-          media: {
-            height: 350,
-            backgroundSize:"contain",
-          },
-          title: {
-            marginBottom:"11%",
-          }
+            marginLeft:"35%",
+            padding:"1%"
+          }, 
+        media: {
+          height: 170,
+          backgroundSize:"contain",
+        },
+        title: {
+          marginBottom:"11%",
+        },
+        barraIntro:{
+          backgroundColor: "#115DBF", 
+          height:"10rem",
+          textAlign:"center",
+        },
     }));
     const classes = useStyles();
     const history= useHistory();
     return(
-        <div className={classes.Home}>
-            {/* <div>En el home</div>
-            <button onClick={() => history.push({pathname:'/Cartilla',state:"Vengo del home"})}>Ir a cartilla</button> */}
-            <div class="col-12 row mx-auto" >
-              <div class="col-md-6" >
-                <Card className={classes.root}>
-                  <CardActionArea onClick={() => history.push({pathname:'/Cartilla'})}>
-                    <CardMedia
-                      className={classes.media}
-                      image={Cartilla}
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2" className={classes.title}>
-                        Cartilla
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary" component="p">
-                        Busque profesionales, instituciones y actividades especializadas en el TEA (Transtorno del Espectro Autista)
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </div>
-              <div class="col-md-4">  
-                <Card className={classes.root1}>
-                  <CardActionArea onClick={() => history.push({pathname:'/Experiencias'})}>
-                    <CardMedia
-                      className={classes.media}
-                      image={Reviews}
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        Añadir profesional o lugar de interés
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary" component="p">
-                        Conoces un profesional/lugar de interés y queres compartirlo con nosotros? Hace click acá
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </div>       
-          </div>         
-      <Footer />
-    </div>
+      <div className={classes.Home}>
+        <div className={classes.barraIntro} >
+          <div style={{height:"1.8rem"}}></div>
+          <text style={{fontFamily: "Open Sans", fontSize: "4rem", color:"white", fontWeight:"bold"}}>¿Cómo te podemos ayudar?</text>
+        </div>
+        <div class="col-12 row mx-auto" >
+          <div class="col-md-5">
+            <Card className={classes.root} style={{backgroundColor:"#115DBF"}}>
+              <CardActionArea style={{backgroundColor:"white", padding:"2rem"}} onClick={() => history.push({pathname:'/Cartilla'})}>
+                <CardMedia
+                  className={classes.media}
+                  image={Cartilla}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2" className={classes.title}>
+                    Buscar profesionales y lugares de interés
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" component="p">
+                    Busque profesionales, instituciones y actividades especializadas en el TEA (Transtorno del Espectro Autista)
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </div>
+          <div class="col-md-6">  
+            <Card className={classes.root1} style={{backgroundColor:"#115DBF"}}>
+              <CardActionArea style={{backgroundColor:"white", padding:"2rem"}} onClick={() => history.push({pathname:"/AnadirEntidad"})}>
+                <CardMedia
+                  className={classes.media}
+                  image={Reviews}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2" className={classes.title}>
+                    Añadir profesional o lugar de interés
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" component="p">
+                    ¿Conoces un profesional/lugar de interés y queres compartirlo con nosotros? Hace click acá!
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </div>       
+        </div>         
+        <Footer />
+      </div>
         
     );
 }

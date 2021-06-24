@@ -1,22 +1,25 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles/";
-import { Card, CardContent, CardActions, Typography } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
+import { Card, CardContent, Typography } from "@material-ui/core";
+//import Button from "@material-ui/core/Button";
 import Rating from "@material-ui/lab/Rating";
+import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
 
 const CartasExperiencia = (props) => {
   const useStyles = makeStyles((theme) => ({
     container: {
-      backgroundColor: "#dddddd",
+      backgroundColor: "white",// FONDOBLANCO: #e2eeff  FONDOCELESTE: white
     },
     root: {
       minWidth: 275,
       display: "inline-block",
-      backgroundColor: "#dddddd",
+      backgroundColor: "white", // FONDOBLANCO: #e2eeff  FONDOCELESTE: white
       color: "black",
       width: "92%",
       marginLeft: "4%",
       wordWrap: "break-word",
+      borderRadius:"1rem",
+      marginBottom:"1%",
     },
     bullet: {
       display: "inline-block",
@@ -37,13 +40,13 @@ const CartasExperiencia = (props) => {
   const classes = useStyles();
 
   return (
-    <div>
+    <div style={{ width:"100%"}}>
       {props.cartas.map((item, index) => (
         <Card className={classes.root}>
           <CardContent>
-            <Typography variant="p" component="p">
-              ✉ {item.usuario.usuario}
-            </Typography>
+            {/* <Typography variant="p" component="p">
+              <PersonRoundedIcon/>  {item.usuario.usuario}
+            </Typography> */}
             <Typography
               className={classes.title}
               color="textSecondary"
@@ -60,7 +63,7 @@ const CartasExperiencia = (props) => {
             <Typography variant="h5" component="h2">
               {item.detalleTipoExperiencia}
             </Typography>
-            <Typography variant="body2" component="p">
+            <Typography variant="body2" component="p" style={{fontStyle:"italic"}}>
               {'"' + item.comentario + '"'}
             </Typography>
           </CardContent>

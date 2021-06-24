@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
-// import {LocalidadesList} from "./components/LocalidadesList";
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-// import {resultados} from "./components/resultados";
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -17,11 +15,13 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+
 
 export default function Cartilla() {
     const useStyles = makeStyles((theme) => ({
         Cartilla: {
-            backgroundColor: "#F2EFEB",
+            backgroundColor: "#e2eeff",// FONDOBLANCO: white  FONDOCELESTE: #e2eeff
             height: "100%",
             minHeight: "100vh"
         },
@@ -30,13 +30,18 @@ export default function Cartilla() {
         },
         margin: {
             color: "white",
-            backgroundColor: "#D27805",
+            fontWeight:"bold",
+            backgroundColor: "#F9C25D",
             '&:hover': {
-                backgroundColor: "#E89907",
-            }
+                backgroundColor: "#D27805",
+            },
+            marginTop:"7%",
         },
         labels: {
-            fontSize: "1rem",
+            fontSize: "0.9rem",
+            width:"20rem",
+            fontFamily:"Open Sans",
+            fontWeight:"bold",
         },
         input: {
             height: "2rem",
@@ -44,28 +49,46 @@ export default function Cartilla() {
         },
         divider: {
             backgroundColor: "black",
-            marginTop: "1.5rem",
-            width: "100%"
+            width: "100%",
+            orientation: "vertical",
         },
         select: {
             width: "13.8rem",
             height: "2rem",
+            marginTop:"1%",
         },
         listdivider: {
             backgroundColor: "black",
-            marginTop: "1.5rem",
-            maxWidth: "35rem"
+            marginTop: "1rem",
+            maxWidth: "50rem",
         },
         root: {
-            width: '100%',
-            maxWidth: 600,
-            marginLeft: "1rem"
+            width: "100%",
+            maxWidth: "50rem",
+            marginTop:"2%",
+            marginLeft:"2%"
         },
         avatar: {
-            width: "4rem",
-            height: "4rem",
+            width: "5rem",
+            height: "5rem",
             marginTop: "0.5rem",
             marginRight: "0.5rem",
+        },
+        lista:{
+            marginLeft:"2%",
+            width:"60%",
+            backgroundColor:"white",// FONDOBLANCO: #e2eeff  FONDOCELESTE: white
+            borderRadius:"1rem",
+        },
+        tituloEntidad:{
+            fontFamily: "Open Sans", color:"black", fontWeight:"bold", fontSize:"1.5rem",
+        },
+        inline:{
+            fontFamily: "Open Sans", color:"black", marginLeft:"1%",
+        },
+        barraIntro:{
+            backgroundColor: "#115DBF", // FONDOBLANCO:  FONDOCELESTE: 
+            height:"5rem",
         },
     }));
     const classes = useStyles();
@@ -75,7 +98,7 @@ export default function Cartilla() {
     const [resultados, setResultados] = useState([]);
     const [copyResult, setCopyResult] = useState([]);
     const [copyTop6Result, setCopyTop6Result] = useState([]);
-    const [copyResultSearch, setCopyResultSearch] = useState([]);
+    //const [copyResultSearch, setCopyResultSearch] = useState([]);
 
     const [localidadSelected, setLocalidadSelected] = useState("");
     const [LocalidadesB, setLocalidadesB] = useState([]);
@@ -138,133 +161,308 @@ export default function Cartilla() {
         // console.log(value)
     }
     const filterentidad = (value, result) => {
-        if (ratingSelected !== "" && localidadSelected !== "") {
-            setResultados(
-                result.filter((valor) =>
-                    (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected))
-                ))
-        } else if (ratingSelected === "" && localidadSelected !== "") {
-            setResultados(
-                result.filter((valor) =>
-                    (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected))
-                ))
-        } else if (ratingSelected !== "" && localidadSelected === "") {
-            setResultados(
-                result.filter((valor) =>
-                    (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio))
-                ))
-        } else {
-            setResultados(
-                result.filter((valor) =>
-                    valor.entidad.match(value)
-                ))
+        if(value==="Profesional"){
+            if (ratingSelected !== "" && localidadSelected !== "" && buscado!=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected) && valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            } else if (ratingSelected === "" && localidadSelected !== "" && buscado !=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected)&& valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            } else if (ratingSelected !== "" && localidadSelected === "" && buscado!=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio)&& valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            } else if (ratingSelected !== "" && localidadSelected !== "" && buscado==="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected))
+                    ))
+            }else if (ratingSelected === "" && localidadSelected === "" && buscado!=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            }
+            else if (ratingSelected !== "" && localidadSelected === "" && buscado==="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio))
+                    ))
+            }
+            else if (ratingSelected === "" && localidadSelected !== "" && buscado==="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) &&  valor.localidad.localidad.match(localidadSelected))
+                    ))
+            }
+            else {
+                setResultados(
+                    result.filter((valor) =>
+                        valor.entidad.match(value)
+                    ))
+            }
+        }else if(value==="Actividad"){
+            if (ratingSelected !== "" && localidadSelected !== "" && buscado!=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected) && valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            } else if (ratingSelected === "" && localidadSelected !== "" && buscado !=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected)&& valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            } else if (ratingSelected !== "" && localidadSelected === "" && buscado!=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio)&& valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            } else if (ratingSelected !== "" && localidadSelected !== "" && buscado==="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected))
+                    ))
+            }else if (ratingSelected === "" && localidadSelected === "" && buscado!=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            }
+            else if (ratingSelected !== "" && localidadSelected === "" && buscado==="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio))
+                    ))
+            }
+            else if (ratingSelected === "" && localidadSelected !== "" && buscado==="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) &&  valor.localidad.localidad.match(localidadSelected))
+                    ))
+            }
+            else {
+                setResultados(
+                    result.filter((valor) =>
+                        valor.entidad.match(value)
+                    ))
+            }
+        }else if(value==="Institucion"){
+            if (ratingSelected !== "" && localidadSelected !== "" && buscado!=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected) && valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            } else if (ratingSelected === "" && localidadSelected !== "" && buscado !=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected)&& valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            } else if (ratingSelected !== "" && localidadSelected === "" && buscado!=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio)&& valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            } else if (ratingSelected !== "" && localidadSelected !== "" && buscado==="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected))
+                    ))
+            }else if (ratingSelected === "" && localidadSelected === "" && buscado!=="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))
+                    ))
+            }
+            else if (ratingSelected !== "" && localidadSelected === "" && buscado==="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) && ratingSelected.match(valor.valoracionPromedio))
+                    ))
+            }
+            else if (ratingSelected === "" && localidadSelected !== "" && buscado==="") {
+                setResultados(
+                    result.filter((valor) =>
+                        (valor.entidad.match(value) &&  valor.localidad.localidad.match(localidadSelected))
+                    ))
+            }
+            else {
+                setResultados(
+                    result.filter((valor) =>
+                        valor.entidad.match(value)
+                    ))
+            }
         }
     }
     const onLocalidad = (value) => {
         if (value === null) {
             setResultados(copyResult)
             setLocalidadSelected("")
-            if (entidadSelected !== "" && ratingSelected !== "") {
-                setResultados(
-                    copyResult.filter((valor) =>
+            if(entidadSelected==="Profesional" || entidadSelected==="Institucion"){
+                if (ratingSelected !== "" && buscado!=="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                            valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio) && valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                        ))
+                } else if (ratingSelected === "" && buscado!=="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                            valor.entidad.match(entidadSelected)&& valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                        ))
+                } else if (ratingSelected !== "" && buscado==="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
                         valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio)
-                    ))
-            } else if (entidadSelected !== "" && ratingSelected === "") {
-                setResultados(
-                    copyResult.filter((valor) =>
-                        valor.entidad.match(entidadSelected)
-                    ))
-            } else if (entidadSelected === "" && ratingSelected !== "") {
-                setResultados(
-                    copyResult.filter((valor) =>
-                        ratingSelected.match(valor.valoracionPromedio)
-                    ))
+                        ))
+                }
+            }else if(entidadSelected==="Actividad"){
+                if (ratingSelected !== "" && buscado!=="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                            valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio) && valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                        ))
+                } else if (ratingSelected === "" && buscado!=="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                            valor.entidad.match(entidadSelected)&& valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                        ))
+                } else if (ratingSelected !== "" && buscado==="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                        valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio)
+                        ))
+                }
             }
         } else {
             setLocalidadSelected(value.localidad);
-            if (entidadSelected !== "" && ratingSelected !== "") {
-                setResultados(
-                    copyResult.filter((valor) =>
-                        valor.localidad.localidad.match(value.localidad) && valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio)
-                    ))
-            } else if (entidadSelected !== "" && ratingSelected === "") {
-                setResultados(
-                    copyResult.filter((valor) =>
-                        valor.localidad.localidad.match(value.localidad) && valor.entidad.match(entidadSelected)
-                    ))
-            } else if (entidadSelected === "" && ratingSelected !== "") {
-                setResultados(
-                    copyResult.filter((valor) =>
-                        valor.localidad.localidad.match(value.localidad) && ratingSelected.match(valor.valoracionPromedio)
-                    ))
-            }
-            else {
-                setLocalidadSelected(value.localidad);
-                setResultados(
-                    copyResult.filter((valor) =>
-                        valor.localidad.localidad.match(value.localidad)
-                    ))
+            if(entidadSelected==="Profesional" || entidadSelected==="Institucion"){
+                if (ratingSelected !== "" && buscado!=="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                        valor.localidad.localidad.match(value.localidad)&&valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio) && valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                        ))
+                } else if (ratingSelected === "" && buscado!=="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                        valor.localidad.localidad.match(value.localidad)&&valor.entidad.match(entidadSelected)&& valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                        ))
+                } else if (ratingSelected !== "" && buscado==="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                        valor.localidad.localidad.match(value.localidad)&&valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio)
+                        ))
+                }else {
+                    setLocalidadSelected(value.localidad);
+                    setResultados(
+                        copyResult.filter((valor) =>
+                            valor.localidad.localidad.match(value.localidad)
+                        ))
+                }
+            }else if(entidadSelected==="Actividad"){
+                if (ratingSelected !== "" && buscado!=="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                        valor.localidad.localidad.match(value.localidad)&&valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio) && valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                        ))
+                } else if (ratingSelected === "" && buscado!=="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                        valor.localidad.localidad.match(value.localidad)&&valor.entidad.match(entidadSelected)&& valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                        ))
+                } else if (ratingSelected !== "" && buscado==="") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                        valor.localidad.localidad.match(value.localidad)&&valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio)
+                        ))
+                }else {
+                    setLocalidadSelected(value.localidad);
+                    setResultados(
+                        copyResult.filter((valor) =>
+                            valor.localidad.localidad.match(value.localidad)
+                        ))
+                }
             }
         }
     }
     const onRating = (value) => {
         setRatingSelected(value);
-        if (localidadSelected !== "" && entidadSelected !== "") {
-            setResultados(
-                copyResult.filter((valor) =>
-                    (valor.localidad.localidad.match(localidadSelected) && value.match(valor.valoracionPromedio) && valor.entidad.match(entidadSelected))
-                ))
-        } else if (localidadSelected === "" && entidadSelected !== "") {
-            setResultados(
-                copyResult.filter((valor) =>
-                    (valor.entidad.match(entidadSelected) && value.match(valor.valoracionPromedio))
-                ))
-        } else if (localidadSelected !== "" && entidadSelected === "") {
-            setResultados(
-                copyResult.filter((valor) =>
-                    (valor.localidad.localidad.match(localidadSelected) && value.match(valor.valoracionPromedio))
-                ))
-        }
-        else {
-            setResultados(
-                copyResult.filter((valor) =>
-                    value.match(valor.valoracionPromedio)
-                ))
+        if(entidadSelected==="Profesional" || entidadSelected==="Institucion"){
+            if (localidadSelected !== "" && buscado!=="") {
+                setResultados(
+                    copyResult.filter((valor) =>
+                    valor.localidad.localidad.match(localidadSelected)&&valor.entidad.match(entidadSelected) && value.match(valor.valoracionPromedio) && valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                    ))
+            } else if (localidadSelected === "" && buscado!=="") {
+                setResultados(
+                    copyResult.filter((valor) =>
+                    value.match(valor.valoracionPromedio)&&valor.entidad.match(entidadSelected)&& valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                    ))
+            } else if (localidadSelected !== "" && buscado==="") {
+                setResultados(
+                    copyResult.filter((valor) =>
+                    valor.localidad.localidad.match(localidadSelected)&&valor.entidad.match(entidadSelected) && value.match(valor.valoracionPromedio)
+                    ))
+            }else {
+                setResultados(
+                    copyResult.filter((valor) =>
+                        value.match(valor.valoracionPromedio)
+                    ))
+            }
+        }else if(entidadSelected==="Actividad"){
+            if (localidadSelected !== "" && buscado!=="") {
+                setResultados(
+                    copyResult.filter((valor) =>
+                    valor.localidad.localidad.match(localidadSelected)&&valor.entidad.match(entidadSelected) && value.match(valor.valoracionPromedio) && valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                    ))
+            } else if (localidadSelected === "" && buscado!=="") {
+                setResultados(
+                    copyResult.filter((valor) =>
+                    value.match(valor.valoracionPromedio)&&valor.entidad.match(entidadSelected)&& valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                    ))
+            } else if (localidadSelected !== "" && buscado==="") {
+                setResultados(
+                    copyResult.filter((valor) =>
+                    valor.localidad.localidad.match(localidadSelected)&&valor.entidad.match(entidadSelected) && value.match(valor.valoracionPromedio)
+                    ))
+            }else {
+                setResultados(
+                    copyResult.filter((valor) =>
+                        value.match(valor.valoracionPromedio)
+                    ))
+            }
         }
     }
     const entidades = () => {
         return (
-            <div class="col-md-2 mb-2 my-auto offset-md-1">
-                <label className={classes.labels} for="entidad">Seleccione una entidad</label><br />
+            <div style={{width:"300%",paddingBottom:"5%",}}>
+                <label className={classes.labels} for="entidad">ENTIDAD</label><br />
                 <select className={classes.select} value={entidadSelected} id="entidad" name="entidadlist" form="entidadform" onChange={(e) => { onEntidad(e.target.value) }}>
                     <option value="" disabled selected>Seleccione una entidad</option>
                     <option value="Profesional">Especialista</option>
-                    <option value="Institucion">Institucion</option>
+                    <option value="Institucion">Institución</option>
                     <option value="Actividad">Actividad</option>
                 </select>
             </div>
         );
     }
+
     const localidades = () => {
         if (disableSearch === true) {
             return null;
         }
         else return (
-            <div class="col-md-2 mb-2 my-auto">
-                {/*<label className={classes.labels}for="localidad">Seleccione una localidad</label><br />
-                    <select className={classes.select} value={localidadSelected} id="localidad" name="localidadlist" form="localidadform" onChange={(e) =>{onLocalidad(e.target.value)}}>
-                        <option value="" disabled selected>Seleccione una localidad</option>
-                        {LocalidadesB.map((value) => (
-                        <option value={value.localidad}>{value.localidad}</option>
-                        ))}
-                        </select>*/}
-                <label className={classes.labels} for="localidad">Seleccione una localidad</label><br />
+            <div class="col-md-2 mb-2 my-auto" syle={{ width:"100%"}}>
+                <label className={classes.labels} style={{marginTop:"2%", marginBottom:"10%"}} for="localidad">LOCALIDAD</label><br />
                 <Autocomplete
                     id="combo-box-demo"
                     options={LocalidadesB}
                     getOptionLabel={(option) => option.localidad}
                     onChange={(event, value) => { onLocalidad(value) }}
-                    style={{ width: 300 }}
+                    style={{ width: 300, paddingBottom:"15%",}}
                     renderInput={(params) => <TextField style={{ width: "13.8rem", backgroundColor: "white" }}  {...params} placeholder="Seleccione una localidad" />}
                 />
             </div>
@@ -277,8 +475,8 @@ export default function Cartilla() {
         } else {
             return (
                 <div class="col-md-2 mb-2 my-auto">
-                    <label className={classes.labels} for="rating">Valoración</label><br />
-                    <select className={classes.select} value={ratingSelected} id="rating" name="ratinglist" form="ratingform" onChange={(e) => { onRating(e.target.value) }}>
+                    <label className={classes.labels} style={{marginTop:"2%", marginBottom:"10%"}} for="rating">VALORACIÓN</label><br />
+                    <select className={classes.select} style={{marginTop:"2%"}} value={ratingSelected} id="rating" name="ratinglist" form="ratingform" onChange={(e) => { onRating(e.target.value) }}>
                         <option value="" disabled selected>Seleccione una valoración</option>
                         <option value={1}>1 estrella (&#9733;)</option>
                         <option value={2}>2 estrellas (&#9733;&#9733;)</option>
@@ -298,118 +496,181 @@ export default function Cartilla() {
                     copyResult.filter((valor) =>
                         (valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected))
                     ))
+                
             } else
                 if (entidadSelected === "" && ratingSelected !== "" && localidadSelected !== "") {
                     setResultados(
                         copyResult.filter((valor) =>
                             (ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected))
                         ))
+                   
                 } else
                     if (entidadSelected !== "" && ratingSelected === "" && localidadSelected !== "") {
                         setResultados(
                             copyResult.filter((valor) =>
                                 (valor.entidad.match(entidadSelected) && valor.localidad.localidad.match(localidadSelected))
                             ))
+                        
                     } else
                         if (entidadSelected !== "" && ratingSelected !== "" && localidadSelected === "") {
                             setResultados(
                                 copyResult.filter((valor) =>
                                     (valor.entidad.match(entidadSelected) && ratingSelected.match(valor.valoracionPromedio))
                                 ))
+                            
                         } else
                             if (entidadSelected !== "" && ratingSelected === "" && localidadSelected === "") {
                                 setResultados(
                                     copyResult.filter((valor) =>
                                         (valor.entidad.match(entidadSelected))
                                     ))
+                               
                             } else
                                 if (entidadSelected === "" && ratingSelected !== "" && localidadSelected === "") {
                                     setResultados(
                                         copyResult.filter((valor) =>
                                             (ratingSelected.match(valor.valoracionPromedio))
                                         ))
+                                    
                                 } else
                                     if (entidadSelected === "" && ratingSelected === "" && localidadSelected !== "") {
                                         setResultados(
                                             copyResult.filter((valor) =>
                                                 (valor.localidad.localidad.match(localidadSelected))
                                             ))
+                                        
                                     }
         } else
-            if (entidadSelected === "Profesional") {
+            if (entidadSelected === "Profesional" && ratingSelected !== "" && localidadSelected !== "") {
+                setResultados(
+                    copyResult.filter((valor) =>
+                        valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))&& ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected)
+                    ))
+            }else if (entidadSelected === "Profesional" && ratingSelected === "" && localidadSelected !== "") {
+                setResultados(
+                    copyResult.filter((valor) =>
+                        valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))&& valor.localidad.localidad.match(localidadSelected)
+                    ))
+            }
+            else if (entidadSelected === "Profesional" && ratingSelected !== "" && localidadSelected === "") {
+                setResultados(
+                    copyResult.filter((valor) =>
+                        valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))&& ratingSelected.match(valor.valoracionPromedio)
+                    ))
+            }
+            else if (entidadSelected === "Profesional" && ratingSelected === "" && localidadSelected === "") {
                 setResultados(
                     copyResult.filter((valor) =>
                         valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
                     ))
-            } else
-                if (entidadSelected === "Actividad") {
+            }
+             else
+                if (entidadSelected === "Actividad" && ratingSelected !== "" && localidadSelected !== "") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                            valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))&& ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected)
+                        ))
+                }  else
+                if (entidadSelected === "Actividad" && ratingSelected === "" && localidadSelected !== "") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                            valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")) && valor.localidad.localidad.match(localidadSelected)
+                        ))
+                } else
+                if (entidadSelected === "Actividad" && ratingSelected !== "" && localidadSelected === "") {
+                    setResultados(
+                        copyResult.filter((valor) =>
+                            valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))&& ratingSelected.match(valor.valoracionPromedio)
+                        ))
+                } else
+                if (entidadSelected === "Actividad" && ratingSelected === "" && localidadSelected === "") {
                     setResultados(
                         copyResult.filter((valor) =>
                             valor.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
                         ))
-                } else
-                    if (entidadSelected === "Institucion") {
+                }
+                else
+                    if (entidadSelected === "Institucion" && ratingSelected !== "" && localidadSelected !== "") {
+                        setResultados(
+                            copyResult.filter((valor) =>
+                                valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))&& ratingSelected.match(valor.valoracionPromedio) && valor.localidad.localidad.match(localidadSelected)
+                            ))
+                    }
+                else
+                    if (entidadSelected === "Institucion" && ratingSelected === "" && localidadSelected !== "") {
+                        setResultados(
+                            copyResult.filter((valor) =>
+                                valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))&& valor.localidad.localidad.match(localidadSelected)
+                            ))
+                    }
+                else
+                    if (entidadSelected === "Institucion" && ratingSelected !== "" && localidadSelected === "") {
+                        setResultados(
+                            copyResult.filter((valor) =>
+                                valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))&& ratingSelected.match(valor.valoracionPromedio)
+                            ))
+                    }
+                else
+                    if (entidadSelected === "Institucion" && ratingSelected === "" && localidadSelected === "") {
                         setResultados(
                             copyResult.filter((valor) =>
                                 valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
                             ))
                     }
+
     }
     const search = () => {
         if (disableSearch === true) return null;
         else return (
             <div class="col-md-3 mb-2 my-auto">
                 {entidadSelected === "Profesional" ? (
-                    <div>
-                        <label className={classes.labels} for="search">Buscar por especialidad</label><br />
+                    <div style={{paddingBottom:"10%"}}>
+                        <label className={classes.labels} style={{marginTop:"2%", marginBottom:"10%"}} for="search">POR ESPECIALIDAD</label><br />
                         <input
                             id="search"
                             name="searchlist"
                             form="searchform"
                             type="text"
-                            placeholder="p ej. psicólogo, médico clínico"
+                            placeholder="ej. psicólogo, médico clínico"
                             value={buscado}
                             autoComplete="off"
                             onChange={(e) => { onSearch(e.target.value) }}
                             disabled={disableSearch}
                             className={classes.input}
-
                         />
                     </div>)
                     : <div />}
                 {entidadSelected === "Actividad" ? (
-                    <div>
-                        <label className={classes.labels} for="search">Buscar por actividad</label><br />
+                    <div style={{paddingBottom:"10%"}}>
+                        <label className={classes.labels} style={{marginTop:"2%", marginBottom:"10%"}} for="search">POR ACTIVIDAD</label><br />
                         <input
                             id="search"
                             name="searchlist"
                             form="searchform"
                             type="text"
-                            placeholder="p ej. taller de dibujo, rugby"
+                            placeholder="ej. taller de dibujo, rugby"
                             value={buscado}
                             autoComplete="off"
                             onChange={(e) => { onSearch(e.target.value) }}
                             disabled={disableSearch}
                             className={classes.input}
-
                         />
                     </div>)
                     : <div />}
                 {entidadSelected === "Institucion" ? (
-                    <div>
-                        <label className={classes.labels} for="search">Buscar institución por especialidad</label><br />
+                    <div style={{paddingBottom:"10%"}}>
+                        <label className={classes.labels} style={{marginTop:"2%", marginBottom:"10%"}} for="search">POR ESPECIALIDAD</label><br />
                         <input
                             id="search"
                             name="searchlist"
                             form="searchform"
                             type="text"
-                            placeholder="p ej. primario, clases de idioma"
+                            placeholder="ej. primario, clases de idioma"
                             value={buscado}
                             autoComplete="off"
                             onChange={(e) => { onSearch(e.target.value) }}
                             disabled={disableSearch}
                             className={classes.input}
-
                         />
                     </div>)
                     : <div />}
@@ -426,8 +687,8 @@ export default function Cartilla() {
     }
     const resetFilter = () => {
         return (
-            <div class="col-md-2 mb-1 my-auto">
-                <Button variant="outlined" size="medium" color="primary" className={classes.margin} onClick={resetFilters}>
+            <div class="col-md-2 mb-2 my-auto" style={{width:"100%"}} >
+                <Button  size="medium" color="primary" className={classes.margin} onClick={resetFilters}>
                     Resetear filtros
                 </Button>
             </div>
@@ -440,73 +701,88 @@ export default function Cartilla() {
         if (error) {
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
-            return <LinearProgress />;
-        } else {
+            return <LinearProgress style={{marginLeft:"0rem"}}/>;
+        }else {
             return (
                 <div className={classes.root}>
+                    
                     {resultados.map((value) => (
                         <List class="ml-md-auto ml-sm-auto">
-                            <ListItem alignItems="flex-start" button onClick={() => { seeMoreInfo(value) }}>
+                            <ListItem alignItems="flex-start" button style={{borderRadius:"1rem", paddingBottom:"2%"}} onClick={() => { seeMoreInfo(value) }}>
                                 <ListItemAvatar>
                                     <Avatar alt="imagen" className={classes.avatar} src={value.imagen} />
                                 </ListItemAvatar>
                                 {value.entidad === "Profesional" &&
                                     <ListItemText
-                                        primary={value.nombre + " " + value.apellido}
+                                        style={{marginLeft:"5%"}}
+                                        primary={
+                                            <Typography
+                                                    component="span"
+                                                    variant="body2"
+                                                    className={classes.tituloEntidad}
+                                                >
+                                                    {value.nombre + " " + value.apellido}
+                                                </Typography>
+                                            }
                                         secondary={
                                             <React.Fragment>
                                                 <Typography
                                                     component="span"
                                                     variant="body2"
                                                     className={classes.inline}
-                                                    color="textPrimary"
                                                 >
-                                                    {"Especialidad médica: " + value.especialidad}
+                                                    <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  {"Especialidad médica: " + value.especialidad}
                                                 </Typography>
                                                 <br />
                                                 <Typography
                                                     component="span"
                                                     variant="body2"
                                                     className={classes.inline}
-                                                    color="textPrimary"
                                                 >
-                                                    {"Localidad: " + value.localidad.localidad}
+                                                    <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>   {"Localidad: " + value.localidad.localidad}
                                                 </Typography>
                                                 <br />
+                                                {value.valoracionPromedio === 0 ? (
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        className={classes.inline}
+                                                    > <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: -</Typography>
+                                                ) : <div />}
                                                 {value.valoracionPromedio === 1.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >Valoración: &#9733;</Typography>
+                                                        className={classes.inline}
+                                                    > <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 2.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    ><FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 3.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    ><FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 4.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    ><FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 5.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    ><FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
 
                                                 <ListItemSecondaryAction>
@@ -520,61 +796,76 @@ export default function Cartilla() {
                                 }
                                 {value.entidad === "Institucion" &&
                                     <ListItemText
-                                        primary={value.nombre}
+                                        style={{marginLeft:"5%"}}
+                                        
+                                        primary={
+                                            <Typography
+                                                    component="span"
+                                                    variant="body2"
+                                                    className={classes.tituloEntidad}
+                                                >
+                                                    {value.nombre}
+                                                </Typography>
+                                            }
                                         secondary={
                                             <React.Fragment>
                                                 <Typography
                                                     component="span"
                                                     variant="body2"
                                                     className={classes.inline}
-                                                    color="textPrimary"
                                                 >
-                                                    {"Nivel educativo: " + value.especialidad}
+                                                    <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/> {"Nivel educativo: " + value.especialidad}
                                                 </Typography>
                                                 <br />
                                                 <Typography
                                                     component="span"
                                                     variant="body2"
                                                     className={classes.inline}
-                                                    color="textPrimary"
                                                 >
-                                                    {"Localidad: " + value.localidad.localidad}
+                                                    <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/> {" Localidad: " + value.localidad.localidad}
                                                 </Typography>
                                                 <br />
+                                                {value.valoracionPromedio === 0 ? (
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        className={classes.inline}
+                                                    > <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: -</Typography>
+                                                ) : <div />}
                                                 {value.valoracionPromedio === 1.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >Valoración: &#9733;</Typography>
+                                                        className={classes.inline}
+                                                    ><FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 2.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    ><FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 3.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    ><FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 4.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    ><FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 5.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    ><FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
 
                                                 <ListItemSecondaryAction>
@@ -586,66 +877,79 @@ export default function Cartilla() {
                                         }
                                     />
                                 }
-
                                 {value.entidad === "Actividad" &&
                                     <ListItemText
-                                        primary={value.nombre}
+                                        style={{marginLeft:"5%"}}
+                                    
+                                        primary={
+                                            <Typography
+                                                    component="span"
+                                                    variant="body2"
+                                                    className={classes.tituloEntidad}
+                                                >
+                                                    {value.nombre}
+                                                </Typography>
+                                            }
                                         secondary={
                                             <React.Fragment>
                                                 <Typography
                                                     component="span"
                                                     variant="body2"
                                                     className={classes.inline}
-                                                    color="textPrimary"
                                                 >
-                                                    {"Tipo de recreación: " + value.especialidad}
+                                                    <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/> {"Tipo de recreación: " + value.especialidad}
                                                 </Typography>
                                                 <br />
                                                 <Typography
                                                     component="span"
                                                     variant="body2"
                                                     className={classes.inline}
-                                                    color="textPrimary"
                                                 >
-                                                    {"Localidad: " + value.localidad.localidad}
+                                                    <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/> {" Localidad: " + value.localidad.localidad}
                                                 </Typography>
                                                 <br />
+                                                {value.valoracionPromedio === 0 ? (
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        className={classes.inline}
+                                                    > <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: -</Typography>
+                                                ) : <div />}
                                                 {value.valoracionPromedio === 1.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >Valoración: &#9733;</Typography>
+                                                        className={classes.inline}
+                                                    > <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 2.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    > <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 3.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    > <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 4.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    > <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
                                                 {value.valoracionPromedio === 5.0 ? (
                                                     <Typography
                                                         component="span"
                                                         variant="body2"
-                                                        color="textPrimary"
-                                                    >Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
+                                                        className={classes.inline}
+                                                    > <FiberManualRecordIcon style={{fontSize:"0.5rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>  Valoración: &#9733;&#9733;&#9733;&#9733;&#9733;</Typography>
                                                 ) : <div />}
-
                                                 <ListItemSecondaryAction>
                                                     <IconButton onClick={() => { seeMoreInfo(value) }} >
                                                         <VisibilityIcon />
@@ -655,8 +959,6 @@ export default function Cartilla() {
                                         }
                                     />
                                 }
-
-
                             </ListItem>
                             <Divider className={classes.listdivider} />
                         </List>
@@ -668,17 +970,28 @@ export default function Cartilla() {
 
     return (
         <div className={classes.Cartilla}>
-            <div class="col-12 row p-3">
-                {entidades()}
-                {localidades()}
-                {ratings()}
-                {search()}
-                {resetFilter()}
-                <Divider className={classes.divider} />
+            <div className={classes.barraIntro} >
+                <div style={{height:"1rem"}}></div>
+                <text style={{fontFamily: "Open Sans", fontSize: "2rem", color:"white", marginLeft:"2.5%", fontWeight:"bold"}}>Búsqueda de profesionales/lugares de interés</text>
             </div>
-            <div class="col-11 p-4">
-                {listEntidades()}
+            <div style={{display: "flex", alignContent:"center", marginTop:"2%"}} >
+                <div  style={{marginLeft:"3%"}}>
+                    <div >
+                        <text style={{fontFamily: "Open Sans", fontSize: "1.5rem", color:"black", marginLeft:"2.5%"}}>Filtrar resultados:</text>
+                    </div>
+                    <div style={{marginLeft:"2.5%", marginTop:"4%"}}>
+                        {entidades()}
+                        {search()}
+                        {localidades()}
+                        {ratings()}
+                        {resetFilter()}
+                    </div>
+                </div>             
+                <div className={classes.lista} >
+                    {listEntidades()}
+                </div>
             </div>
         </div>
     );
+
 }

@@ -10,51 +10,62 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import axios from "axios";
 import CartasExperiencia from "./components/CartasExperiencia";
 import Rating from "@material-ui/lab/Rating";
+import Avatar from '@material-ui/core/Avatar';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
 import Modal from 'react-modal';
-
-export default function DetalleCartillaScreen(props) {
+export function DetalleCartillaScreen(props) {
   const useStyles = makeStyles((theme) => ({
     DetalleEntidad: {
-      backgroundColor: "#F2EFEB",
+      backgroundColor: "#e2eeff", // FONDOBLANCO: white  FONDOCELESTE: #e2eeff
       height: "100%",
+      maxwidth:"100%",
       minHeight: "50vh",
+      paddingTop:"3%",
     },
     Titulo: {
-      fontFamily: "Garamond",
+      fontFamily: "Open Sans",
       fontWeight: "bold",
-      fontSize: "35px",
-      textAlign: "left",
-      paddingLeft: "12.5rem",
-      paddingTop: "2rem",
+      fontSize: "50px",
+      paddingLeft: "1.5rem",
     },
     Titulo1: {
-      fontFamily: "Garamond",
+      fontFamily: "Open Sans",
       fontWeight: "bold",
       fontSize: "50px",
       textAlign: "left",
       color: "#7F3004",
     },
     Titulo2: {
-      fontSize: "25px",
-      textAlign: "left",
-      textAlign: "left",
-      marginLeft: "12rem",
+      fontSize: "20px",
+      marginLeft: "3rem",
     },
     footer: {
       marginTop: "16rem",
     },
     margin: {
-      color: "white",
-      backgroundColor: "#D27805",
+      color: "white", // marron "#644100", naranja oscuro "#915e00", BLANCO QUEDA MUY CLARO
+      fontWeight:"bold",
+      backgroundColor: "#F9C25D",
       "&:hover": {
-        backgroundColor: "#E89907",
+        backgroundColor: "#D27805",
       },
       marginLeft: "1rem",
     },
     typography: {
       padding: theme.spacing(2),
-      backgroundColor: "#F2EFEB",
+      backgroundColor: "white",
     },
+
+    avatar: {
+      width: "15rem",
+      height: "15rem",
+      marginLeft:"20%",
+    },
+    inline:{
+      fontFamily: "Open Sans", color:"black", fontWeight:"bold", fontSize:"20px",
+    },
+   
   }));
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -99,6 +110,9 @@ export default function DetalleCartillaScreen(props) {
       .then(
         (result) => {
           setIsLoaded(true);
+          result.latitud=Number(result.latitud);
+          result.longitud= Number(result.longitud)
+          console.log(result)
           setEntidad(result);
         },
         (error) => {
@@ -195,61 +209,75 @@ export default function DetalleCartillaScreen(props) {
     <LinearProgress />
   ) : (
     <div className={classes.DetalleEntidad}>
-      <div class="col-12 row mb-5">
-        <div class="col-lg-3 col-md-8 col-sm-12 mt-5">
-          <img
-            src={entidad.imagen}
-            style={{ marginLeft: "5rem" }}
-            height="500px"
-            class="img-fluid"
-            alt="Responsive image"
-          />
+     {/*  <div classes={classes.estiloNombre}>
+        {entidad.nombre} {entidad.apellido}
+      </div> */}
+      <div style={{display: "flex", alignContent:"center", marginLeft:"0.5%"}}>
+        <div style={{marginTop:"2%"}}>
+          <Avatar className={classes.avatar} src={entidad.imagen} alt="Responsive image"/>
         </div>
-        <div class="col-lg-7 col-md-4 col-sm-12 row">
+        <div style={{marginLeft:"4%", width:"40%"}}>
           <div className={classes.Titulo}>
             {entidad.nombre} {entidad.apellido}
           </div>
 
           {entidad.entidad === "Profesional" && (
             <div className={classes.Titulo2}>
-              Especialidad: {entidad.especialidad}
+               <FiberManualRecordIcon style={{fontSize:"1rem", marginBottom:"0.5%", marginRight:"0.5%"}}/>
+               <Typography component="span" variant="body2" className={classes.inline}> Especialidad:  </Typography>{entidad.especialidad}
               <br />
-              Dirección: {entidad.direccion} {entidad.piso},{" "}
+              <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
+              <Typography component="span" variant="body2" className={classes.inline}> Dirección:  </Typography>{entidad.direccion} {entidad.piso},{" "}
               {entidad.localidad.localidad}
               <br />
-              Teléfono: {entidad.telefono}
+              <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
+              <Typography component="span" variant="body2" className={classes.inline}> Teléfono:  </Typography>{entidad.telefono}
               <br />
-              E-mail: {entidad.email}
+              <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
+              <Typography component="span" variant="body2" className={classes.inline}> E-mail:  </Typography>{entidad.email}
               <br />
-              Matrícula: {entidad.matricula}
+              <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
+              <Typography component="span" variant="body2" className={classes.inline}> Matrícula:  </Typography>{entidad.matricula}
               <br />
+              {entidad.valoracionPromedio === 0 ? (
+                <div>
+                  <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography>  0 estrellas (<Rating value="0" name="read-only"size="medium"  readOnly/>)
+                  <br />
+                </div>
+              ) : null}
               {entidad.valoracionPromedio === 1.0 ? (
                 <div>
-                  Valoración: 1 estrella (<Rating value="1" name="read-only"size="medium" readOnly/>)
+                  <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography> 1 estrella  (<Rating value="1" name="read-only"size="medium"  readOnly/>)
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 2.0 ? (
                 <div>
-                  Valoración: 2 estrellas (<Rating value="2" name="read-only"size="medium" readOnly/>)
+                  <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography> 2 estrellas  (<Rating value="2" name="read-only"size="medium"  readOnly/>)
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 3.0 ? (
                 <div>
-                  Valoración: 3 estrellas (<Rating value="3" name="read-only"size="medium" readOnly/>)
+                  <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography> 3 estrellas  (<Rating value="3" name="read-only"size="medium"  readOnly/>)
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 4.0 ? (
                 <div>
-                  Valoración: 4 estrellas (<Rating value="4" name="read-only"size="medium" readOnly/>)
+                  <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography> 4 estrellas  (<Rating value="4" name="read-only"size="medium"  readOnly/>)
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 5.0 ? (
                 <div>
-                  Valoración: 5 estrellas (<Rating value="5" name="read-only"size="medium" readOnly/>)
+                  <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography> 5 estrellas  (<Rating value="5" name="read-only" size="medium" readOnly/>)
                   <br />
                 </div>
               ) : null}
@@ -258,41 +286,57 @@ export default function DetalleCartillaScreen(props) {
 
           {entidad.entidad === "Institucion" && (
             <div className={classes.Titulo2}>
-              Nivel educativo: {entidad.especialidad}
+              <FiberManualRecordIcon style={{fontSize:"1rem", marginBottom:"0.5%", marginRight:"0.5%"}}/>
+              <Typography component="span" variant="body2" className={classes.inline}> Nivel educativo: </Typography> {entidad.especialidad}
               <br />
-              Dirección: {entidad.direccion}, {entidad.localidad.localidad}
+              <FiberManualRecordIcon style={{fontSize:"1rem", marginBottom:"0.5%", marginRight:"0.5%"}}/>
+              <Typography component="span" variant="body2" className={classes.inline}> Dirección:  </Typography> {entidad.direccion}, {entidad.localidad.localidad}
               <br />
-              Teléfono: {entidad.telefono}
+              <FiberManualRecordIcon style={{fontSize:"1rem", marginBottom:"0.5%", marginRight:"0.5%"}}/>
+              <Typography component="span" variant="body2" className={classes.inline}> Teléfono: </Typography>{entidad.telefono}
               <br />
-              E-mail: {entidad.email}
+              <FiberManualRecordIcon style={{fontSize:"1rem", marginBottom:"0.5%", marginRight:"0.5%"}}/>
+              <Typography component="span" variant="body2" className={classes.inline}> E-mail:  </Typography> {entidad.email}
               <br />
+              {entidad.valoracionPromedio === 0 ? (
+                <div>
+                  <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography>  0 estrellas (<Rating value="0" name="read-only"size="medium"  readOnly/>)
+                  <br />
+                </div>
+              ) : null}
               {entidad.valoracionPromedio === 1.0 ? (
                 <div>
-                  Valoración: 1 estrella (<Rating value="1" name="read-only"size="medium" readOnly/>)
+                  <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography>  1 estrella (<Rating value="1" name="read-only"size="medium"  readOnly/>)
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 2.0 ? (
                 <div>
-                  Valoración: 2 estrellas (<Rating value="2" name="read-only"size="medium" readOnly/>)
+                  <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography> 2 estrellas  (<Rating value="2" name="read-only"size="medium"  readOnly/>)
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 3.0 ? (
                 <div>
-                  Valoración: 3 estrellas (<Rating value="3" name="read-only"size="medium" readOnly/>)
+                  <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography> 3 estrellas  (<Rating value="3" name="read-only"size="medium"  readOnly/>)
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 4.0 ? (
                 <div>
-                  Valoración: 4 estrellas (<Rating value="4" name="read-only"size="medium" readOnly/>)
+                  <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography> 4 estrellas  (<Rating value="4" name="read-only"size="medium"  readOnly/>)
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 5.0 ? (
                 <div>
-                  Valoración: 5 estrellas (<Rating value="5" name="read-only"size="medium" readOnly/>)
+                  <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography> 5 estrellas  (<Rating value="5" name="read-only" size="medium" readOnly/>)
                   <br />
                 </div>
               ) : null}
@@ -301,49 +345,83 @@ export default function DetalleCartillaScreen(props) {
 
           {entidad.entidad === "Actividad" && (
             <div className={classes.Titulo2}>
-              Descripción: {entidad.descripcion}
+              <FiberManualRecordIcon style={{fontSize:"1rem", marginBottom:"0.5%", marginRight:"0.5%"}}/>
+              <Typography component="span" variant="body2" className={classes.inline}> Descripción: </Typography>{entidad.descripcion}
               <br />
-              Dirección: {entidad.direccion}, {entidad.localidad.localidad}
+              <FiberManualRecordIcon style={{fontSize:"1rem", marginBottom:"0.5%", marginRight:"0.5%"}}/>
+              <Typography component="span" variant="body2" className={classes.inline}> Dirección:  </Typography> {entidad.direccion}, {entidad.localidad.localidad}
               <br />
-              Teléfono: {entidad.telefono}
+              <FiberManualRecordIcon style={{fontSize:"1rem", marginBottom:"0.5%", marginRight:"0.5%"}}/>
+              <Typography component="span" variant="body2" className={classes.inline}> Teléfono: </Typography>{entidad.telefono}
               <br />
-              E-mail: {entidad.email}
+              <FiberManualRecordIcon style={{fontSize:"1rem", marginBottom:"0.5%", marginRight:"0.5%"}}/>
+              <Typography component="span" variant="body2" className={classes.inline}> E-mail:  </Typography>{entidad.email}
               <br />
+              {entidad.valoracionPromedio === 0 ? (
+                <div>
+                  <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography>  0 estrellas (<Rating value="0" name="read-only"size="medium"  readOnly/>)
+                  <br />
+                </div>
+              ) : null}
               {entidad.valoracionPromedio === 1.0 ? (
                 <div>
-                  Valoración: 1 estrella (<Rating value="1" name="read-only"size="medium" readOnly/>)
+                  <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography> 1 estrella  (<Rating value="1" name="read-only"size="medium"  readOnly/>)
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 2.0 ? (
                 <div>
-                  Valoración: 2 estrellas (<Rating value="2" name="read-only"size="medium" readOnly/>)
+                  <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography> 2 estrellas  (<Rating value="2" name="read-only"size="medium"  readOnly/>)
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 3.0 ? (
                 <div>
-                  Valoración: 3 estrellas (<Rating value="3" name="read-only"size="medium" readOnly/>)
+                  <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography> 3 estrellas  (<Rating value="3" name="read-only"size="medium"  readOnly/>)
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 4.0 ? (
                 <div>
-                  Valoración: 4 estrellas (<Rating value="4" name="read-only"size="medium" readOnly/>)
+                  <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración: </Typography> 4 estrellas   (<Rating value="4" name="read-only"size="medium"  readOnly/>)
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 5.0 ? (
                 <div>
-                  Valoración: 5 estrellas (<Rating value="5" name="read-only"size="medium" readOnly/>)
+                  <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography> 5 estrellas  (<Rating value="5" name="read-only" size="medium" readOnly/>)
                   <br />
                 </div>
               ) : null}
             </div>
           )}
         </div>
+          {/*  ESPACIO PARA MAPA */}
+        <div>
+        </div>
+        {isNaN(entidad.latitud)?
+          <Map
+            google={props.google}
+            zoom={15}
+            style={{width:"30rem", height:"20rem", marginLeft: "62%", borderRadius:"1rem"}}
+            initialCenter={{ lat: -34.579425, lng: -58.490914}}>
+          </Map>:
+          <Map
+            google={props.google}
+            zoom={17}
+            style={{width:"30rem", height:"20rem", marginLeft: "62%", borderRadius:"1rem"}}
+            center={{ lat: entidad.latitud, lng: entidad.longitud}} >
+            <Marker position={{ lat: entidad.latitud, lng: entidad.longitud}} title={entidad.direccion}/>
+          </Map>
+        }
       </div>
-      <div class="col-md-11 mx-auto">
+      <div class="col-md-11 mx-auto mt-4">
         <CopyToClipboard text={url}>
           <Button
             variant="outlined"
@@ -402,10 +480,9 @@ export default function DetalleCartillaScreen(props) {
       </div>
       <br></br>
       <br></br>
-      <div>
+      <div style={{display:"flex", alignContent:"center", justifyContent:"center"}}>
         <CartasExperiencia cartas={responseData}></CartasExperiencia>
       </div>
-
       <div className={classes.footer}>
         <Footer />
       </div>
@@ -441,3 +518,6 @@ export default function DetalleCartillaScreen(props) {
     </div>
   );
 }
+export default GoogleApiWrapper({
+  apiKey: 'AIzaSyCHJTuTe3jqnByfXeNATnI5t2fmnF6htBY'
+})(DetalleCartillaScreen);
