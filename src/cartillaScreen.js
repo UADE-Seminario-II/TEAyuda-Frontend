@@ -394,7 +394,7 @@ export default function Cartilla() {
             if (localidadSelected !== "" && buscado!=="") {
                 setResultados(
                     copyResult.filter((valor) =>
-                    valor.localidad.localidad.match(entidadSelected)&&valor.entidad.match(entidadSelected) && value.match(valor.valoracionPromedio) && valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                    valor.localidad.localidad.match(localidadSelected)&&valor.entidad.match(entidadSelected) && value.match(valor.valoracionPromedio) && valor.especialidad.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(buscado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
                     ))
             } else if (localidadSelected === "" && buscado!=="") {
                 setResultados(
