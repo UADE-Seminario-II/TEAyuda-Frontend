@@ -180,7 +180,7 @@ export default function Cartilla() {
             } else if (ratingSelected !== "" && localidadSelected !== "" && buscado==="") {
                 setResultados(
                     result.filter((valor) =>
-                        (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected))
+                        (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected)&& ratingSelected.match(valor.valoracionPromedio))
                     ))
             }else if (ratingSelected === "" && localidadSelected === "" && buscado!=="") {
                 setResultados(
@@ -225,7 +225,7 @@ export default function Cartilla() {
             } else if (ratingSelected !== "" && localidadSelected !== "" && buscado==="") {
                 setResultados(
                     result.filter((valor) =>
-                        (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected))
+                        (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected)&& ratingSelected.match(valor.valoracionPromedio))
                     ))
             }else if (ratingSelected === "" && localidadSelected === "" && buscado!=="") {
                 setResultados(
@@ -270,7 +270,7 @@ export default function Cartilla() {
             } else if (ratingSelected !== "" && localidadSelected !== "" && buscado==="") {
                 setResultados(
                     result.filter((valor) =>
-                        (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected))
+                        (valor.entidad.match(value) && valor.localidad.localidad.match(localidadSelected)&& ratingSelected.match(valor.valoracionPromedio))
                     ))
             }else if (ratingSelected === "" && localidadSelected === "" && buscado!=="") {
                 setResultados(
