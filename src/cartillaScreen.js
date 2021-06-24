@@ -696,7 +696,7 @@ export default function Cartilla() {
         )
     }
     const seeMoreInfo = (value) => {
-            history.push({ pathname: `/Cartilla/${value.entidad}/${value.id}`, state: value })
+            history.push({ pathname: `/Busqueda/${value.entidad}/${value.id}`, state: value })
         }
     const listEntidades = () => {
         if (error) {

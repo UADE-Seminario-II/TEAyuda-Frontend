@@ -16,8 +16,8 @@ export default function Routes(){
                 <Switch>
                     <Route exact path="/" component={Home}/>
                     <Route exact path="/Home" component={Home}/>
-                    <Route exact path="/Cartilla" component={Cartilla}/>
-                    <Route exact path="/Cartilla/:entidad/:id" component={DetalleCartilla} />
+                    <Route exact path="/Busqueda" component={Cartilla}/>
+                    <Route exact path="/Busqueda/:entidad/:id" component={DetalleCartilla} />
                     <Route exact path="/Experiencia/Crear" component={Experiencia} />
                     <Route exact path="/Instructivos" component={Instructivos} />
                     <Route exact path="/AnadirEntidad" component={AnadirEntidad}/>

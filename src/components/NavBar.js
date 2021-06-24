@@ -107,7 +107,7 @@ export default function PersistentDrawerRight() {
       }else if(text==="Busqueda"){
         setOpen(false);
         history.push({
-            pathname: '/Cartilla',
+            pathname: '/Busqueda',
         })
       }else if(text==="AnadirEntidad"){
         setOpen(false);

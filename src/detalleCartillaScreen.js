@@ -79,7 +79,7 @@ export function DetalleCartillaScreen(props) {
   useEffect(() => {
     window.scrollTo(0, 0);
     let urlp = window.location.href.replace(
-      "http://localhost:3000/Cartilla/",
+      "http://localhost:3000/Busqueda/",
       ""
     );
     setDataPasoExperiencia(props.location.state);
@@ -124,7 +124,7 @@ export function DetalleCartillaScreen(props) {
 
   useEffect(() => {
     let urlp = window.location.href.replace(
-      "http://localhost:3000/Cartilla/",
+      "http://localhost:3000/Busqueda/",
       ""
     );
     let i = 0;
@@ -159,7 +159,7 @@ export function DetalleCartillaScreen(props) {
 
   useEffect(() => {
     let urlp = window.location.href.replace(
-      "http://localhost:3000/Cartilla/",
+      "http://localhost:3000/Busqueda/",
       ""
     );
     let i = 0;
