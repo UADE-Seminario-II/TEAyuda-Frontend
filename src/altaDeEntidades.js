@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Experiencias(props) {
+function AltaEntidades(props) {
   console.log("Experiencias");
   // console.log("props   ", props);
   // useEffect(() => {
@@ -241,9 +241,9 @@ function Experiencias(props) {
         style={{ minHeight: "80vh" }}
       >
         <form className={classes.root} noValidate autoComplete="off">
-          <div>
-            <h1>Contanos tu experiencia 😁</h1>
-          </div>
+          {/*<div>
+            <h1>Contanos tu experiencia</h1>
+          </div>}*/}
           <Grid item xs={12}>
             <TextField
               style={{ width: 300 }}

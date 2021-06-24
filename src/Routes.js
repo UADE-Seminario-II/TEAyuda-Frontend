@@ -9,6 +9,7 @@ import Home from "./homeScreen";
 import Cartilla from "./cartillaScreen";
 import NavBar from "./components/NavBar";
 import DetalleCartilla from "./detalleCartillaScreen";
+import AltaEntidades from "./altaDeEntidades";
 import Experiencia from "./experienciaScreen";
 import Instructivos from "./instructivosScreen";
 
@@ -27,6 +28,7 @@ export default function Routes() {
           component={DetalleCartilla}
         />
         <Route exact path="/Experiencias" component={Experiencia} />
+        <Route exact path="/NuevaEntidad" component={AltaEntidades} />
         <Route exact path="/Instructivos" component={Instructivos} />
       </Switch>
     </Router>
