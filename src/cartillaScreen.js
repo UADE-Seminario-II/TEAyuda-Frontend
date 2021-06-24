@@ -75,7 +75,7 @@ export default function Cartilla() {
             marginRight: "0.5rem",
         },
         lista:{
-            marginLeft:"2%",
+            marginLeft:"25%",
             width:"60%",
             backgroundColor:"white",// FONDOBLANCO: #e2eeff  FONDOCELESTE: white
             borderRadius:"1rem",
@@ -439,8 +439,8 @@ export default function Cartilla() {
     }
     const entidades = () => {
         return (
-            <div style={{width:"300%",paddingBottom:"5%",}}>
-                <label className={classes.labels} for="entidad">ENTIDAD</label><br />
+            <div style={{width:"300%",paddingBottom:"5%"}}>
+                <label className={classes.labels} for="entidad">CATEGORÍA</label><br />
                 <select className={classes.select} value={entidadSelected} id="entidad" name="entidadlist" form="entidadform" onChange={(e) => { onEntidad(e.target.value) }}>
                     <option value="" disabled selected>Seleccione una entidad</option>
                     <option value="Profesional">Especialista</option>
@@ -976,11 +976,11 @@ export default function Cartilla() {
                 <text style={{fontFamily: "Open Sans", fontSize: "2rem", color:"white", marginLeft:"2.5%", fontWeight:"bold"}}>Búsqueda de profesionales/lugares de interés</text>
             </div>
             <div style={{display: "flex", alignContent:"center", marginTop:"2%"}} >
-                <div  style={{marginLeft:"3%"}}>
-                    <div >
-                        <text style={{fontFamily: "Open Sans", fontSize: "1.5rem", color:"black", marginLeft:"2.5%"}}>Filtrar resultados:</text>
+                <div  style={{marginLeft:"3%",position: "fixed"}}>
+                    <div>
+                        <text style={{fontFamily: "Open Sans", fontSize: "1.5rem", color:"black"}}>Filtrar resultados:</text>
                     </div>
-                    <div style={{marginLeft:"2.5%", marginTop:"4%"}}>
+                    <div style={{marginLeft:"2.5%", marginTop:"1%"}}>
                         {entidades()}
                         {search()}
                         {localidades()}
