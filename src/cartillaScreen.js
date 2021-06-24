@@ -442,7 +442,7 @@ export default function Cartilla() {
             <div style={{width:"300%",paddingBottom:"5%"}}>
                 <label className={classes.labels} for="entidad">CATEGORÍA</label><br />
                 <select className={classes.select} value={entidadSelected} id="entidad" name="entidadlist" form="entidadform" onChange={(e) => { onEntidad(e.target.value) }}>
-                    <option value="" disabled selected>Seleccione una entidad</option>
+                    <option value="" disabled selected>Seleccione una categoría</option>
                     <option value="Profesional">Especialista</option>
                     <option value="Institucion">Institución</option>
                     <option value="Actividad">Actividad</option>
