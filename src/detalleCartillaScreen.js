@@ -158,8 +158,29 @@ export function DetalleCartillaScreen(props) {
     }, []);
 
   useEffect(() => {
+    let urlp = window.location.href.replace(
+      "http://localhost:3000/Cartilla/",
+      ""
+    );
+    let i = 0;
+    let entidadd = "";
+    let idd = "";
+    while (i <= urlp.length) {
+      if (urlp[i] !== "/") {
+        if (isNaN(urlp[i])) {
+          entidadd = entidadd + urlp[i];
+        } else {
+          idd = idd + urlp[i];
+        }
+      } else {
+        console.log("");
+      }
+      i++;
+    }
+    console.log(entidadd.replace("undefined", "")); //guarde la entidad
+    entidadd = entidadd.replace("undefined", "");
     axios.get(
-      `https://sip2-backend.herokuapp.com/${props.location.state.entidad}es/${props.location.state.id}/Instructivo`
+      `https://sip2-backend.herokuapp.com/${entidadd}es/${idd}/Instructivo`
     )
     .then((response) => {
       console.log("Instructivos: ###### ", response.data);
@@ -242,42 +263,42 @@ export function DetalleCartillaScreen(props) {
               {entidad.valoracionPromedio === 0 ? (
                 <div>
                   <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
-                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography>  0 estrellas (<Rating value="0" name="read-only"size="medium"  readOnly/>)
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography><Rating value="0" name="read-only"size="medium"  readOnly/>
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 1.0 ? (
                 <div>
                   <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
-                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography> 1 estrella  (<Rating value="1" name="read-only"size="medium"  readOnly/>)
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography><Rating value="1" name="read-only"size="medium"  readOnly/>
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 2.0 ? (
                 <div>
                   <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
-                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography> 2 estrellas  (<Rating value="2" name="read-only"size="medium"  readOnly/>)
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography><Rating value="2" name="read-only"size="medium"  readOnly/>
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 3.0 ? (
                 <div>
                   <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
-                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography> 3 estrellas  (<Rating value="3" name="read-only"size="medium"  readOnly/>)
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography><Rating value="3" name="read-only"size="medium"  readOnly/>
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 4.0 ? (
                 <div>
                   <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
-                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography> 4 estrellas  (<Rating value="4" name="read-only"size="medium"  readOnly/>)
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography><Rating value="4" name="read-only" size="medium" readOnly/>
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 5.0 ? (
                 <div>
                   <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
-                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography> 5 estrellas  (<Rating value="5" name="read-only" size="medium" readOnly/>)
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography><Rating value="5" name="read-only" size="medium" readOnly/>
                   <br />
                 </div>
               ) : null}
@@ -301,42 +322,42 @@ export function DetalleCartillaScreen(props) {
               {entidad.valoracionPromedio === 0 ? (
                 <div>
                   <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
-                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography>  0 estrellas (<Rating value="0" name="read-only"size="medium"  readOnly/>)
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography><Rating value="0" name="read-only"size="medium"  readOnly/>
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 1.0 ? (
                 <div>
                   <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
-                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography>  1 estrella (<Rating value="1" name="read-only"size="medium"  readOnly/>)
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography><Rating value="1" name="read-only"size="medium"  readOnly/>
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 2.0 ? (
                 <div>
                   <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
-                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography> 2 estrellas  (<Rating value="2" name="read-only"size="medium"  readOnly/>)
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography><Rating value="2" name="read-only"size="medium"  readOnly/>
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 3.0 ? (
                 <div>
                   <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
-                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography> 3 estrellas  (<Rating value="3" name="read-only"size="medium"  readOnly/>)
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography><Rating value="3" name="read-only"size="medium"  readOnly/>
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 4.0 ? (
                 <div>
                   <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
-                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography> 4 estrellas  (<Rating value="4" name="read-only"size="medium"  readOnly/>)
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography><Rating value="4" name="read-only"size="medium"  readOnly/>
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 5.0 ? (
                 <div>
                   <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
-                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography> 5 estrellas  (<Rating value="5" name="read-only" size="medium" readOnly/>)
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography><Rating value="5" name="read-only" size="medium" readOnly/>
                   <br />
                 </div>
               ) : null}
@@ -360,42 +381,42 @@ export function DetalleCartillaScreen(props) {
               {entidad.valoracionPromedio === 0 ? (
                 <div>
                   <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
-                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography>  0 estrellas (<Rating value="0" name="read-only"size="medium"  readOnly/>)
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography><Rating value="0" name="read-only"size="medium"  readOnly/>
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 1.0 ? (
                 <div>
                   <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
-                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography> 1 estrella  (<Rating value="1" name="read-only"size="medium"  readOnly/>)
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography><Rating value="1" name="read-only"size="medium"  readOnly/>
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 2.0 ? (
                 <div>
                   <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
-                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography> 2 estrellas  (<Rating value="2" name="read-only"size="medium"  readOnly/>)
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:   </Typography><Rating value="2" name="read-only"size="medium"  readOnly/>
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 3.0 ? (
                 <div>
                   <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
-                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography> 3 estrellas  (<Rating value="3" name="read-only"size="medium"  readOnly/>)
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography><Rating value="3" name="read-only"size="medium"  readOnly/>
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 4.0 ? (
                 <div>
                   <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
-                  <Typography component="span" variant="body2" className={classes.inline}> Valoración: </Typography> 4 estrellas   (<Rating value="4" name="read-only"size="medium"  readOnly/>)
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración: </Typography><Rating value="4" name="read-only"size="medium"  readOnly/>
                   <br />
                 </div>
               ) : null}
               {entidad.valoracionPromedio === 5.0 ? (
                 <div>
                   <FiberManualRecordIcon style={{fontSize:"1rem",marginBottom:"0.5%", marginRight:"0.5%"}}/>
-                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography> 5 estrellas  (<Rating value="5" name="read-only" size="medium" readOnly/>)
+                  <Typography component="span" variant="body2" className={classes.inline}> Valoración:  </Typography><Rating value="5" name="read-only" size="medium" readOnly/>
                   <br />
                 </div>
               ) : null}
