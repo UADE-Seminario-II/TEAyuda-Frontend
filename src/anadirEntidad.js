@@ -15,6 +15,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import axios from "axios";
 import { Typography } from "@material-ui/core";
+import { Formik, Field } from "formik";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,60 +48,13 @@ function AnadirEntidad(props) {
   //   });
   const classes = useStyles();
   const history = useHistory();
-  const [entidadSelected, setEntidadSelected] = useState("");
-  const [isTwoImage, setIsTwoImage] = useState(false);
-  const [isThreeImage, setIsThreeImage] = useState(false);
-  const [image, setImage] = useState("");
-  const [image2, setImage2] = useState("");
-  const [image3, setImage3] = useState("");
-  const [isUploaded, setIsUploaded] = useState(false);
-  const [isUploaded2, setIsUploaded2] = useState(false);
-  const [isUploaded3, setIsUploaded3] = useState(false);
-  const [imageValue, setImageValue] = useState([]);
-  const [typeFile, setTypeFile] = useState("");
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
   const [valueNew, setValueNew] = useState();
   const [open, setOpen] = React.useState(false);
-  const [buttonDisabled, setButtonDisabled] = React.useState(true);
-
-  const entidades = () => {
-    return (
-      <div class="col-md-2 mb-2 my-auto offset-md-1">
-        <label className={classes.labels} for="entidad">
-          Seleccione una entidad
-        </label>
-        <br />
-        <select
-          className={classes.select}
-          value={entidadSelected}
-          id="entidad"
-          name="entidadlist"
-          form="entidadform"
-          onChange={(e) => {
-            setEntidadSelected(e.target.value);
-          }}
-        >
-          <option value="" disabled selected>
-            Seleccione una entidad
-          </option>
-          <option value="Especialista">Especialista</option>
-          <option value="Institucion">Institucion</option>
-          <option value="Actividad">Actividad</option>
-        </select>
-      </div>
-    );
-  };
 
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
-    setIsUploaded(false);
-    setIsUploaded2(false);
-    setIsUploaded3(false);
-    setIsTwoImage(false);
-    setIsThreeImage(false);
     setValueNew("");
     setOpen(false);
     props.history.push({
@@ -109,86 +63,12 @@ function AnadirEntidad(props) {
     });
   };
 
-  function handleTitleChange(data) {
-    setButtonDisabled(false);
-    setTitle(data);
-    if (data === "" || data === null) {
-      setButtonDisabled(true);
-    }
-  }
-
-  function handleDescriptionChange(data) {
-    setDescription(data);
-  }
-
-  function handleImageChange(e) {
-    if (e.target.files && e.target.files[0]) {
-      setTypeFile(e.target.files[0].type);
-      let reader = new FileReader();
-      setImageValue(e.target.files[0]);
-      reader.onload = function (e) {
-        setImage(e.target.result);
-        setIsUploaded(true);
-      };
-
-      reader.readAsDataURL(e.target.files[0]);
-    }
-    setIsTwoImage(true);
-  }
-
-  function handleImageChange2(e) {
-    if (e.target.files && e.target.files[0]) {
-      setTypeFile(e.target.files[0].type);
-      let reader = new FileReader();
-
-      reader.onload = function (e) {
-        setImage2(e.target.result);
-        setIsUploaded2(true);
-      };
-
-      reader.readAsDataURL(e.target.files[0]);
-    }
-    setIsThreeImage(true);
-  }
-
-  function handleImageChange3(e) {
-    if (e.target.files && e.target.files[0]) {
-      setTypeFile(e.target.files[0].type);
-      let reader = new FileReader();
-
-      reader.onload = function (e) {
-        setImage3(e.target.result);
-        setIsUploaded3(true);
-      };
-
-      reader.readAsDataURL(e.target.files[0]);
-    }
-  }
-
-  function handleSubmit(event) {
-    console.log("presione publicar");
-    let exp = {
-      titulo: title,
-      comentario: description,
-      tipoExperiencia: "",
-      usuario: {
-        idUsuario: 1,
-      },
-    };
-
-    if (props.location.state.entidad === "Especialista") {
-      exp.profesional = {};
-      exp.profesional.id = props.location.state.id;
-    }
-    if (props.location.state.entidad === "Institucion") {
-      exp.institucion = {};
-      exp.institucion.id = props.location.state.id;
-    }
-    if (props.location.state.entidad === "Actividad") {
-      exp.actividad = {};
-      exp.actividad.id = props.location.state.id;
-    }
-
+  function myHandleSubmit(data, callback) {
+    console.log("Enviando solicitud");
+    console.log(
+      "--- La solicitud todavia no se envía porque falta hacer la conección del front al End Point ---"
+    );
+    /*
     axios
       .post(`https://sip2-backend.herokuapp.com/Experiencias`, exp)
       .then((res) => {
@@ -215,6 +95,7 @@ function AnadirEntidad(props) {
           .then((res) => {
             console.log(res);
             console.log(res.data);
+            callback();
             handleClickOpen();
           })
           .catch((error) => {
@@ -224,6 +105,7 @@ function AnadirEntidad(props) {
         // fin
         handleClickOpen();
       });
+      */
   }
 
   return (
@@ -237,347 +119,404 @@ function AnadirEntidad(props) {
         justify="center"
         style={{ minHeight: "80vh" }}
       >
-        <form className={classes.root} noValidate autoComplete="off">
-          {/*<div>
-            <h1>Contanos tu experiencia</h1>
-          </div>}*/}
-          <Grid item xs={12}>
-            <TextField
-              style={{ width: 300 }}
-              id="filled-read-input"
-              label="Tu nombre y apellido"
-              InputProps={{
-                readOnly: true,
-              }}
-              variant="filled"
-            />
-            <TextField
-              style={{ width: 300 }}
-              id="filled-read-input"
-              label="Tu correo electrónico"
-              InputProps={{
-                readOnly: true,
-              }}
-              variant="filled"
-            />
-            <TextField
-              style={{ width: 300 }}
-              id="filled-read-input"
-              label="Tu teléfono"
-              InputProps={{
-                readOnly: true,
-              }}
-              variant="filled"
-            />
-          </Grid>
-          {entidades()}
-          {entidadSelected == "Institucion"}
-          <Grid item xs={12}>
-            {entidadSelected === "Especialista" && (
-              <>
-                <TextField
-                  style={{ width: 300 }}
-                  id="filled-read-only-input"
-                  label="Nombre"
-                  InputProps={{
-                    readOnly: true,
-                  }}
+        <Formik
+          initialValues={{
+            nombreSolicitante: "",
+            emailSolicitante: "",
+            telefonoSolicitante: "",
+            tipo: "",
+            nombre: "",
+            apellido: "",
+            matricula: "",
+            especialidad: "",
+            direccion: "",
+            localidad: "",
+            piso: "",
+            telefono: "",
+            email: "",
+            observaciones: "",
+            descripcion: "",
+          }}
+          onSubmit={(data, { setSubmitting }) => {
+            setSubmitting(true);
+            console.log(data);
+            myHandleSubmit(data, () => {
+              setSubmitting(false);
+            });
+          }}
+        >
+          {({
+            values,
+            isSubmitting,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+          }) => (
+            <form
+              className={classes.root}
+              noValidate
+              autoComplete="off"
+              onSubmit={handleSubmit}
+            >
+              <Grid item xs={12}>
+                <Field
+                  name="nombreSolicitante"
+                  label="Tu nombre y apellido"
                   variant="filled"
-                />
-                <TextField
+                  type="input"
+                  as={TextField}
                   style={{ width: 300 }}
-                  id="filled-read-only-input"
-                  label="Apellido"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="filled"
                 />
-                <TextField
+                <Field
+                  name="emailSolicitante"
+                  label="Tu correo electrónico"
+                  variant="filled"
+                  type="input"
+                  as={TextField}
                   style={{ width: 300 }}
-                  id="filled-read-only-input"
-                  label="Matrícula"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="filled"
                 />
-                <br></br>
-                <TextField
+                <Field
+                  name="telefonoSolicitante"
+                  label="Tu teléfono"
+                  variant="filled"
+                  type="input"
+                  as={TextField}
                   style={{ width: 300 }}
-                  id="filled-read-only-input"
-                  label="Especialidad"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="filled"
                 />
-                <TextField
-                  style={{ width: 300 }}
-                  id="filled-read-only-input"
-                  label="Dirección"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="filled"
-                />
-                <TextField
-                  style={{ width: 300 }}
-                  id="filled-read-only-input"
-                  label="Localidad"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="filled"
-                />
-                <br></br>
-                <TextField
-                  style={{ width: 300 }}
-                  id="filled-read-only-input"
-                  label="Piso"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="filled"
-                />
-                <TextField
-                  style={{ width: 300 }}
-                  id="filled-read-only-input"
-                  label="Teléfono"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="filled"
-                />
-                <TextField
-                  style={{ width: 300 }}
-                  id="filled-read-only-input"
-                  label="Correo electrónico"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="filled"
-                />
-                <Grid item xs={12}>
-                  <TextField
-                    style={{ width: 930 }}
-                    id="outlined-multiline-static"
-                    label="Observaciones"
-                    value={valueNew}
-                    multiline
-                    rows={10}
-                    variant="outlined"
-                    onChange={(event) =>
-                      handleDescriptionChange(event.target.value)
-                    }
-                  />
-                </Grid>
-              </>
-            )}
-            {entidadSelected === "Actividad" && (
-              <>
-                <TextField
-                  style={{ width: 300 }}
-                  id="filled-read-only-input"
-                  label="Nombre"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="filled"
-                />
-                <TextField
-                  style={{ width: 300 }}
-                  id="filled-read-only-input"
-                  label="Especialidad"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="filled"
-                />
-                <TextField
-                  style={{ width: 300 }}
-                  id="filled-read-only-input"
-                  label="Dirección"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="filled"
-                />
-                <br></br>
-                <TextField
-                  style={{ width: 300 }}
-                  id="filled-read-only-input"
-                  label="Localidad"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="filled"
-                />
-                <TextField
-                  style={{ width: 300 }}
-                  id="filled-read-only-input"
-                  label="Teléfono"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="filled"
-                />
-                <TextField
-                  style={{ width: 300 }}
-                  id="filled-read-only-input"
-                  label="Correo electrónico"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="filled"
-                />
-                <Grid item xs={12}>
-                  <TextField
-                    style={{ width: 930 }}
-                    id="outlined-multiline-static"
-                    label="Descripción"
-                    value={valueNew}
-                    multiline
-                    rows={10}
-                    variant="outlined"
-                    onChange={(event) =>
-                      handleDescriptionChange(event.target.value)
-                    }
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    style={{ width: 930 }}
-                    id="outlined-multiline-static"
-                    label="Observaciones"
-                    value={valueNew}
-                    multiline
-                    rows={10}
-                    variant="outlined"
-                    onChange={(event) =>
-                      handleDescriptionChange(event.target.value)
-                    }
-                  />
-                </Grid>
-              </>
-            )}
-            {entidadSelected === "Institucion" && (
-              <>
-                <TextField
-                  style={{ width: 300 }}
-                  id="filled-read-only-input"
-                  label="Nombre"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="filled"
-                />
-                <TextField
-                  style={{ width: 300 }}
-                  id="filled-read-only-input"
-                  label="Especialidad"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="filled"
-                />
-                <TextField
-                  style={{ width: 300 }}
-                  id="filled-read-only-input"
-                  label="Dirección"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="filled"
-                />
-                <br></br>
-                <TextField
-                  style={{ width: 300 }}
-                  id="filled-read-only-input"
-                  label="Teléfono"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="filled"
-                />
-                <TextField
-                  style={{ width: 300 }}
-                  id="filled-read-only-input"
-                  label="Correo electrónico"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="filled"
-                />
-                <Grid item xs={12}>
-                  <TextField
-                    style={{ width: 930 }}
-                    id="outlined-multiline-static"
-                    label="Descripción"
-                    value={valueNew}
-                    multiline
-                    rows={10}
-                    variant="outlined"
-                    onChange={(event) =>
-                      handleDescriptionChange(event.target.value)
-                    }
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    style={{ width: 930 }}
-                    id="outlined-multiline-static"
-                    label="Observaciones"
-                    value={valueNew}
-                    multiline
-                    rows={10}
-                    variant="outlined"
-                    onChange={(event) =>
-                      handleDescriptionChange(event.target.value)
-                    }
-                  />
-                </Grid>
-              </>
-            )}
-          </Grid>
-          {entidadSelected == "" || (
-            <>
-              <Grid
-                container
-                alignItems="center"
-                justify="center"
-                style={{ minHeight: "10vh" }}
-              >
-                <Grid item xs={2}>
-                  <Button
-                    variant="contained"
-                    size="medium"
-                    onClick={() =>
-                      props.history.push({
-                        pathname: `/Cartilla/${props.location.state.entidad}/${props.location.state.id}`,
-                        state: props.location.state,
-                      })
-                    }
-                  >
-                    Cancelar
-                  </Button>
-                </Grid>
-                <Grid item xs={2}>
-                  <Button
-                    variant="outlined"
-                    size="medium"
-                    color="primary"
-                    className={classes.margin}
-                    disabled={buttonDisabled}
-                    onClick={() => handleSubmit()}
-                  >
-                    Publicar
-                  </Button>
-                </Grid>
               </Grid>
-            </>
+              <div class="col-md-2 mb-2 my-auto offset-md-1">
+                <label className={classes.labels} for="entidad">
+                  Seleccione una entidad
+                </label>
+                <br />
+                <select
+                  className={classes.select}
+                  value={values.tipo}
+                  id="entidad"
+                  name="tipo"
+                  form="entidadform"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                >
+                  <option value="" disabled selected>
+                    Seleccione una entidad
+                  </option>
+                  <option value="Especialista">Especialista</option>
+                  <option value="Institucion">Institucion</option>
+                  <option value="Actividad">Actividad</option>
+                </select>
+              </div>
+              {values.tipo == "Institucion"}
+              <Grid item xs={12}>
+                {values.tipo === "Especialista" && (
+                  <>
+                    <Field
+                      name="nombre"
+                      label="Nombre"
+                      variant="filled"
+                      type="input"
+                      as={TextField}
+                      style={{ width: 300 }}
+                    />
+                    <Field
+                      name="apellido"
+                      label="Apellido"
+                      variant="filled"
+                      type="input"
+                      as={TextField}
+                      style={{ width: 300 }}
+                    />
+                    <Field
+                      name="matricula"
+                      label="Matrícula"
+                      variant="filled"
+                      type="input"
+                      as={TextField}
+                      style={{ width: 300 }}
+                    />
+                    <br></br>
+                    <Field
+                      name="especialidad"
+                      label="Especialidad"
+                      variant="filled"
+                      type="input"
+                      as={TextField}
+                      style={{ width: 300 }}
+                    />
+                    <Field
+                      name="direccion"
+                      label="Dirección"
+                      variant="filled"
+                      type="input"
+                      as={TextField}
+                      style={{ width: 300 }}
+                    />
+                    <Field
+                      name="localidad"
+                      label="Localidad"
+                      variant="filled"
+                      type="input"
+                      as={TextField}
+                      style={{ width: 300 }}
+                    />
+                    <br></br>
+                    <Field
+                      name="piso"
+                      label="Piso"
+                      variant="filled"
+                      type="input"
+                      as={TextField}
+                      style={{ width: 300 }}
+                    />
+                    <Field
+                      name="telefono"
+                      label="Teléfono"
+                      variant="filled"
+                      type="input"
+                      as={TextField}
+                      style={{ width: 300 }}
+                    />
+                    <Field
+                      name="email"
+                      label="Correo electrónico"
+                      variant="filled"
+                      type="input"
+                      as={TextField}
+                      style={{ width: 300 }}
+                    />
+                    <Grid item xs={12}>
+                      <TextField
+                        style={{ width: 930 }}
+                        id="outlined-multiline-static"
+                        label="Observaciones"
+                        multiline
+                        rows={10}
+                        variant="outlined"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        name="descripcion"
+                        value={values.descripcion}
+                      />
+                    </Grid>
+                  </>
+                )}
+                {values.tipo === "Actividad" && (
+                  <>
+                    <Field
+                      name="nombre"
+                      label="Nombre"
+                      variant="filled"
+                      type="input"
+                      as={TextField}
+                      style={{ width: 300 }}
+                    />
+                    <Field
+                      name="especialidad"
+                      label="Especialidad"
+                      variant="filled"
+                      type="input"
+                      as={TextField}
+                      style={{ width: 300 }}
+                    />
+                    <Field
+                      name="direccion"
+                      label="Dirección"
+                      variant="filled"
+                      type="input"
+                      as={TextField}
+                      style={{ width: 300 }}
+                    />
+                    <br></br>
+                    <Field
+                      name="localidad"
+                      label="Localidad"
+                      variant="filled"
+                      type="input"
+                      as={TextField}
+                      style={{ width: 300 }}
+                    />
+                    <Field
+                      name="telefono"
+                      label="Teléfono"
+                      variant="filled"
+                      type="input"
+                      as={TextField}
+                      style={{ width: 300 }}
+                    />
+                    <Field
+                      name="email"
+                      label="Correo electrónico"
+                      variant="filled"
+                      type="input"
+                      as={TextField}
+                      style={{ width: 300 }}
+                    />
+                    <Grid item xs={12}>
+                      <TextField
+                        style={{ width: 930 }}
+                        id="outlined-multiline-static"
+                        label="Descripción"
+                        multiline
+                        rows={10}
+                        variant="outlined"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        name="descripcion"
+                        value={values.descripcion}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        style={{ width: 930 }}
+                        id="outlined-multiline-static"
+                        label="Observaciones"
+                        multiline
+                        rows={10}
+                        variant="outlined"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        name="observaciones"
+                        value={values.observaciones}
+                      />
+                    </Grid>
+                  </>
+                )}
+                {values.tipo === "Institucion" && (
+                  <>
+                    <Field
+                      name="nombre"
+                      label="Nombre"
+                      variant="filled"
+                      type="input"
+                      as={TextField}
+                      style={{ width: 300 }}
+                    />
+                    <Field
+                      name="especialidad"
+                      label="Especialidad"
+                      variant="filled"
+                      type="input"
+                      as={TextField}
+                      style={{ width: 300 }}
+                    />
+                    <Field
+                      name="direccion"
+                      label="Dirección"
+                      variant="filled"
+                      type="input"
+                      as={TextField}
+                      style={{ width: 300 }}
+                    />
+                    <br></br>
+                    <Field
+                      name="telefono"
+                      label="Teléfono"
+                      variant="filled"
+                      type="input"
+                      as={TextField}
+                      style={{ width: 300 }}
+                    />
+                    <Field
+                      name="email"
+                      label="Correo electrónico"
+                      variant="filled"
+                      type="input"
+                      as={TextField}
+                      style={{ width: 300 }}
+                    />
+                    <Grid item xs={12}>
+                      <TextField
+                        style={{ width: 930 }}
+                        id="outlined-multiline-static"
+                        label="Descripción"
+                        multiline
+                        rows={10}
+                        variant="outlined"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        name="descripcion"
+                        value={values.descripcion}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        style={{ width: 930 }}
+                        id="outlined-multiline-static"
+                        label="Observaciones"
+                        multiline
+                        rows={10}
+                        variant="outlined"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        name="observaciones"
+                        value={values.observaciones}
+                      />
+                    </Grid>
+                  </>
+                )}
+              </Grid>
+              {(values.tipo == "" && (
+                <Grid
+                  container
+                  alignItems="center"
+                  justify="center"
+                  style={{ minHeight: "10vh" }}
+                >
+                  <Grid item xs={2}>
+                    <Button
+                      variant="contained"
+                      size="medium"
+                      onClick={() =>
+                        props.history.push({
+                          pathname: `/Home`,
+                          state: props.location.state,
+                        })
+                      }
+                    >
+                      Cancelar
+                    </Button>
+                  </Grid>
+                </Grid>
+              )) || (
+                <>
+                  <Grid
+                    container
+                    alignItems="center"
+                    justify="center"
+                    style={{ minHeight: "10vh" }}
+                  >
+                    <Grid item xs={2}>
+                      <Button
+                        variant="contained"
+                        size="medium"
+                        onClick={() =>
+                          props.history.push({
+                            pathname: `/Home`,
+                            state: props.location.state,
+                          })
+                        }
+                      >
+                        Cancelar
+                      </Button>
+                    </Grid>
+                    <Grid item xs={2}>
+                      <Button
+                        type="submit"
+                        variant="outlined"
+                        size="medium"
+                        color="primary"
+                        className={classes.margin}
+                        disabled={isSubmitting}
+                      >
+                        Publicar
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </>
+              )}
+            </form>
           )}
-        </form>
+        </Formik>
       </Grid>
       <Dialog
         open={open}
