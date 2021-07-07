@@ -44,9 +44,9 @@ const CartasExperiencia = (props) => {
       {props.cartas.map((item, index) => (
         <Card className={classes.root}>
           <CardContent>
-            {/* <Typography variant="p" component="p">
-              <PersonRoundedIcon/>  {item.usuario.usuario}
-            </Typography> */}
+            <Typography variant="p" component="p">
+              <PersonRoundedIcon/>  {item.nickname}
+            </Typography>
             <Typography
               className={classes.title}
               color="textSecondary"
