@@ -45,7 +45,7 @@ const CartasExperiencia = (props) => {
         <Card className={classes.root}>
           <CardContent>
             <Typography variant="p" component="p">
-              <PersonRoundedIcon/>  {item.nickname}
+              <PersonRoundedIcon/>  {(item.nickname != null) ? item.nickname : "Anonimo/a"}
             </Typography>
             <Typography
               className={classes.title}

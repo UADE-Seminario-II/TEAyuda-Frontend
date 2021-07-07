@@ -180,7 +180,7 @@ function Experiencias(props) {
         exp.actividad = {};
         exp.actividad.id = props.location.state.id;
     }
-
+    console.log(exp);
     axios.post(`https://sip2-backend.herokuapp.com/Experiencias`, exp )
       .then(res => {
         console.log(res);
