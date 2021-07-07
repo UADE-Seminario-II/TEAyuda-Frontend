@@ -54,7 +54,7 @@ export default function Home() {
         <div class="col-12 row mx-auto" >
           <div class="col-md-5">
             <Card className={classes.root} style={{backgroundColor:"#115DBF"}}>
-              <CardActionArea style={{backgroundColor:"white", padding:"2rem"}} onClick={() => history.push({pathname:'/Cartilla'})}>
+              <CardActionArea style={{backgroundColor:"white", padding:"2rem"}} onClick={() => history.push({pathname:'/Busqueda'})}>
                 <CardMedia
                   className={classes.media}
                   image={Cartilla}

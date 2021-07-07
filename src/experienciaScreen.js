@@ -91,7 +91,7 @@ function Experiencias(props) {
         setIsThreeImage(false);
         setValueNew("");
         setOpen(false);
-        props.history.push({ pathname: `/Cartilla/${props.location.state.entidad}/${props.location.state.id}`, state: props.location.state});   
+        props.history.push({ pathname: `/Busqueda/${props.location.state.entidad}/${props.location.state.id}`, state: props.location.state});   
     };
 
   function handleTitleChange(data) {
@@ -510,7 +510,7 @@ function Experiencias(props) {
                     className={classes.margin}
                     onClick={() =>
                       props.history.push({
-                      pathname: `/Cartilla/${props.location.state.entidad}/${props.location.state.id}`, state: props.location.state
+                      pathname: `/Busqueda/${props.location.state.entidad}/${props.location.state.id}`, state: props.location.state
                   })}
                   >
                     Cancelar

@@ -1,16 +1,613 @@
-import React from "react"; //{ useState, useEffect , useStyles} from "react";
+import React, { useState } from "react";
 import NavBar from "./components/NavBar";
-//import { makeStyles } from '@material-ui/core/styles';
+import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import { BoxUpload, ImagePreview } from "./style";
+import { useHistory } from "react-router-dom";
+import FolderIcon from "./components/assets/folder_icon_transparent.png";
+import CloseIcon from "./components/assets/CloseIcon.svg";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import axios from "axios";
+import { Typography } from "@material-ui/core";
 
-export default function AnadirEntidad() {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: "25ch",
+    },
+    closeButton: {
+      position: "absolute",
+      right: theme.spacing(1),
+      top: theme.spacing(1),
+      color: theme.palette.grey[500],
+    },
+  },
+  margin: {
+    color: "white",
+    backgroundColor: "#D27805",
+    "&:hover": {
+      backgroundColor: "#E89907",
+    },
+  },
+}));
 
+function AnadirEntidad(props) {
+  console.log("Experiencias");
+  // console.log("props   ", props);
+  // useEffect(() => {
+  //     // will be true
+  //     console.log("props   ", props);
+  //   });
+  const classes = useStyles();
+  const history = useHistory();
+  const [entidadSelected, setEntidadSelected] = useState("");
+  const [isTwoImage, setIsTwoImage] = useState(false);
+  const [isThreeImage, setIsThreeImage] = useState(false);
+  const [image, setImage] = useState("");
+  const [image2, setImage2] = useState("");
+  const [image3, setImage3] = useState("");
+  const [isUploaded, setIsUploaded] = useState(false);
+  const [isUploaded2, setIsUploaded2] = useState(false);
+  const [isUploaded3, setIsUploaded3] = useState(false);
+  const [imageValue, setImageValue] = useState([]);
+  const [typeFile, setTypeFile] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [valueNew, setValueNew] = useState();
+  const [open, setOpen] = React.useState(false);
+  const [buttonDisabled, setButtonDisabled] = React.useState(true);
+
+  const entidades = () => {
     return (
-        <div style={{backgroundColor: "#e2eeff", height: "100%", minHeight: "100vh"}}> {/* // FONDOBLANCO: white  FONDOCELESTE: #e2eeff */}
-            <NavBar></NavBar>
-            <div style={{backgroundColor: "#115DBF",height:"5rem", }} >
-                <div style={{height:"1rem"}}></div>
-                <text style={{fontFamily: "Open Sans", fontSize: "2rem", color:"white", marginLeft:"2.5%", fontWeight:"bold"}}>Añadir profesional o lugar de interés</text>
-            </div>
-        </div>
+      <div class="col-md-2 mb-2 my-auto offset-md-1">
+        <label className={classes.labels} for="entidad">
+          Seleccione una entidad
+        </label>
+        <br />
+        <select
+          className={classes.select}
+          value={entidadSelected}
+          id="entidad"
+          name="entidadlist"
+          form="entidadform"
+          onChange={(e) => {
+            setEntidadSelected(e.target.value);
+          }}
+        >
+          <option value="" disabled selected>
+            Seleccione una entidad
+          </option>
+          <option value="Especialista">Especialista</option>
+          <option value="Institucion">Institucion</option>
+          <option value="Actividad">Actividad</option>
+        </select>
+      </div>
     );
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setIsUploaded(false);
+    setIsUploaded2(false);
+    setIsUploaded3(false);
+    setIsTwoImage(false);
+    setIsThreeImage(false);
+    setValueNew("");
+    setOpen(false);
+    props.history.push({
+      pathname: `/Cartilla/${props.location.state.entidad}/${props.location.state.id}`,
+      state: props.location.state,
+    });
+  };
+
+  function handleTitleChange(data) {
+    setButtonDisabled(false);
+    setTitle(data);
+    if (data === "" || data === null) {
+      setButtonDisabled(true);
+    }
+  }
+
+  function handleDescriptionChange(data) {
+    setDescription(data);
+  }
+
+  function handleImageChange(e) {
+    if (e.target.files && e.target.files[0]) {
+      setTypeFile(e.target.files[0].type);
+      let reader = new FileReader();
+      setImageValue(e.target.files[0]);
+      reader.onload = function (e) {
+        setImage(e.target.result);
+        setIsUploaded(true);
+      };
+
+      reader.readAsDataURL(e.target.files[0]);
+    }
+    setIsTwoImage(true);
+  }
+
+  function handleImageChange2(e) {
+    if (e.target.files && e.target.files[0]) {
+      setTypeFile(e.target.files[0].type);
+      let reader = new FileReader();
+
+      reader.onload = function (e) {
+        setImage2(e.target.result);
+        setIsUploaded2(true);
+      };
+
+      reader.readAsDataURL(e.target.files[0]);
+    }
+    setIsThreeImage(true);
+  }
+
+  function handleImageChange3(e) {
+    if (e.target.files && e.target.files[0]) {
+      setTypeFile(e.target.files[0].type);
+      let reader = new FileReader();
+
+      reader.onload = function (e) {
+        setImage3(e.target.result);
+        setIsUploaded3(true);
+      };
+
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  }
+
+  function handleSubmit(event) {
+    console.log("presione publicar");
+    let exp = {
+      titulo: title,
+      comentario: description,
+      tipoExperiencia: "",
+      usuario: {
+        idUsuario: 1,
+      },
+    };
+
+    if (props.location.state.entidad === "Especialista") {
+      exp.profesional = {};
+      exp.profesional.id = props.location.state.id;
+    }
+    if (props.location.state.entidad === "Institucion") {
+      exp.institucion = {};
+      exp.institucion.id = props.location.state.id;
+    }
+    if (props.location.state.entidad === "Actividad") {
+      exp.actividad = {};
+      exp.actividad.id = props.location.state.id;
+    }
+
+    axios
+      .post(`https://sip2-backend.herokuapp.com/Experiencias`, exp)
+      .then((res) => {
+        console.log(res);
+        console.log(res.data);
+        // guardar imagenes
+        const formData = new FormData();
+        formData.append("image", imageValue);
+        let array = [];
+        array.push(formData);
+        const config = {
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        };
+        console.log("Array: ", array, "config: ", config);
+
+        axios
+          .post(
+            `https://sip2-backend.herokuapp.com/Experiencias/${res.data.id}/uploadImages`,
+            array,
+            config
+          )
+          .then((res) => {
+            console.log(res);
+            console.log(res.data);
+            handleClickOpen();
+          })
+          .catch((error) => {
+            console.log(error);
+            return error;
+          });
+        // fin
+        handleClickOpen();
+      });
+  }
+
+  return (
+    <div>
+      <NavBar></NavBar>
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justify="center"
+        style={{ minHeight: "80vh" }}
+      >
+        <form className={classes.root} noValidate autoComplete="off">
+          {/*<div>
+            <h1>Contanos tu experiencia</h1>
+          </div>}*/}
+          <Grid item xs={12}>
+            <TextField
+              style={{ width: 300 }}
+              id="filled-read-input"
+              label="Tu nombre y apellido"
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="filled"
+            />
+            <TextField
+              style={{ width: 300 }}
+              id="filled-read-input"
+              label="Tu correo electrónico"
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="filled"
+            />
+            <TextField
+              style={{ width: 300 }}
+              id="filled-read-input"
+              label="Tu teléfono"
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="filled"
+            />
+          </Grid>
+          {entidades()}
+          {entidadSelected == "Institucion"}
+          <Grid item xs={12}>
+            {entidadSelected === "Especialista" && (
+              <>
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Nombre"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Apellido"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Matrícula"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <br></br>
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Especialidad"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Dirección"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Localidad"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <br></br>
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Piso"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Teléfono"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Correo electrónico"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <Grid item xs={12}>
+                  <TextField
+                    style={{ width: 930 }}
+                    id="outlined-multiline-static"
+                    label="Observaciones"
+                    value={valueNew}
+                    multiline
+                    rows={10}
+                    variant="outlined"
+                    onChange={(event) =>
+                      handleDescriptionChange(event.target.value)
+                    }
+                  />
+                </Grid>
+              </>
+            )}
+            {entidadSelected === "Actividad" && (
+              <>
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Nombre"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Especialidad"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Dirección"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <br></br>
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Localidad"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Teléfono"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Correo electrónico"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <Grid item xs={12}>
+                  <TextField
+                    style={{ width: 930 }}
+                    id="outlined-multiline-static"
+                    label="Descripción"
+                    value={valueNew}
+                    multiline
+                    rows={10}
+                    variant="outlined"
+                    onChange={(event) =>
+                      handleDescriptionChange(event.target.value)
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    style={{ width: 930 }}
+                    id="outlined-multiline-static"
+                    label="Observaciones"
+                    value={valueNew}
+                    multiline
+                    rows={10}
+                    variant="outlined"
+                    onChange={(event) =>
+                      handleDescriptionChange(event.target.value)
+                    }
+                  />
+                </Grid>
+              </>
+            )}
+            {entidadSelected === "Institucion" && (
+              <>
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Nombre"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Especialidad"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Dirección"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <br></br>
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Teléfono"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <TextField
+                  style={{ width: 300 }}
+                  id="filled-read-only-input"
+                  label="Correo electrónico"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                <Grid item xs={12}>
+                  <TextField
+                    style={{ width: 930 }}
+                    id="outlined-multiline-static"
+                    label="Descripción"
+                    value={valueNew}
+                    multiline
+                    rows={10}
+                    variant="outlined"
+                    onChange={(event) =>
+                      handleDescriptionChange(event.target.value)
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    style={{ width: 930 }}
+                    id="outlined-multiline-static"
+                    label="Observaciones"
+                    value={valueNew}
+                    multiline
+                    rows={10}
+                    variant="outlined"
+                    onChange={(event) =>
+                      handleDescriptionChange(event.target.value)
+                    }
+                  />
+                </Grid>
+              </>
+            )}
+          </Grid>
+          {entidadSelected == "" || (
+            <>
+              <Grid
+                container
+                alignItems="center"
+                justify="center"
+                style={{ minHeight: "10vh" }}
+              >
+                <Grid item xs={2}>
+                  <Button
+                    variant="contained"
+                    size="medium"
+                    onClick={() =>
+                      props.history.push({
+                        pathname: `/Cartilla/${props.location.state.entidad}/${props.location.state.id}`,
+                        state: props.location.state,
+                      })
+                    }
+                  >
+                    Cancelar
+                  </Button>
+                </Grid>
+                <Grid item xs={2}>
+                  <Button
+                    variant="outlined"
+                    size="medium"
+                    color="primary"
+                    className={classes.margin}
+                    disabled={buttonDisabled}
+                    onClick={() => handleSubmit()}
+                  >
+                    Publicar
+                  </Button>
+                </Grid>
+              </Grid>
+            </>
+          )}
+        </form>
+      </Grid>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Experiencia Publicada 👍 "}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Tu publicación se realizó con éxito!
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="outlined"
+            size="medium"
+            color="primary"
+            className={classes.margin}
+            onClick={handleClose}
+            autoFocus
+          >
+            Aceptar
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
 }
+
+export default AnadirEntidad;
