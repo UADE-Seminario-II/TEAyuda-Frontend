@@ -77,8 +77,9 @@ function Experiencias(props) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [valueNew, setValueNew] = useState();
-    const [open, setOpen] = React.useState(false);
-    const [rating, setRating] = React.useState(0);
+    const [open, setOpen] = useState(false);
+    const [rating, setRating] = useState(0);
+    const [nickname, setNickname] = useState("");
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -96,6 +97,10 @@ function Experiencias(props) {
 
   function handleTitleChange(data) {
     setTitle(data);
+  }
+
+  function handleNicknameChange(data) {
+    setNickname(data);
   }
 
   function handleDescriptionChange(data) {
@@ -150,6 +155,7 @@ function Experiencias(props) {
     console.log("presione publicar");
     let exp = {
         titulo: title,
+        nickname: nickname,
         comentario: description,
         puntaje: rating,
         tipoExperiencia: '',
@@ -157,6 +163,10 @@ function Experiencias(props) {
             idUsuario: 1
         }
     }; 
+
+    if(nickname == ""){
+      exp.nickname = "Anónimo/a";
+    }
     
     if(props.location.state.entidad === "Profesional"){
         exp.profesional = {};
@@ -170,7 +180,7 @@ function Experiencias(props) {
         exp.actividad = {};
         exp.actividad.id = props.location.state.id;
     }
-
+    console.log(exp);
     axios.post(`https://sip2-backend.herokuapp.com/Experiencias`, exp )
       .then(res => {
         console.log(res);
@@ -299,6 +309,16 @@ function Experiencias(props) {
             multiline
             rowsMax={1}
             onChange= {(event) => handleTitleChange(event.target.value)}
+          />
+          </Grid>
+          <Grid item xs = {12}>
+          <TextField style={{ width: 930 }}
+            label="Nickname - Si se deja vacio se guardara como 'Anónimo/a'"
+            value={valueNew}
+            id="standard-multiline-flexible"
+            multiline
+            rowsMax={1}
+            onChange= {(event) => handleNicknameChange(event.target.value)}
           />
           </Grid>
           <Grid item xs = {12}>
