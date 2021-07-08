@@ -12,7 +12,7 @@ import CartasExperiencia from "./components/CartasExperiencia";
 import Rating from "@material-ui/lab/Rating";
 import Avatar from '@material-ui/core/Avatar';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
-import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
+import { Map, GoogleApiWrapper, Marker, InfoWindow} from 'google-maps-react';
 import Modal from 'react-modal';
 export function DetalleCartillaScreen(props) {
   const useStyles = makeStyles((theme) => ({
@@ -198,6 +198,8 @@ export function DetalleCartillaScreen(props) {
   const history = useHistory();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const[infoWindow,setInfoWindow]=useState(false);
+  const[activeMarker,setActiveMarker]=useState(null);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
     setTimeout(() => {
@@ -213,6 +215,15 @@ export function DetalleCartillaScreen(props) {
   }
   const closeModal = () => {
     setIsOpen(false);
+  }
+  const markerClick = (props, marker, e) =>{
+    setActiveMarker(marker)
+    setInfoWindow(true);
+    //console.log(props,marker)
+  }
+  const closeInfoWindow = () =>{
+    setActiveMarker(null);
+    setInfoWindow(false);
   }
   const renderPhotos = (source) => {
     console.log('source: ', source);
@@ -432,13 +443,20 @@ export function DetalleCartillaScreen(props) {
             zoom={15}
             style={{width:"30rem", height:"20rem", marginLeft: "62%", borderRadius:"1rem"}}
             initialCenter={{ lat: -34.579425, lng: -58.490914}}>
-          </Map>:
+          </Map>
+          :
           <Map
             google={props.google}
             zoom={17}
             style={{width:"30rem", height:"20rem", marginLeft: "62%", borderRadius:"1rem"}}
             center={{ lat: entidad.latitud, lng: entidad.longitud}} >
-            <Marker position={{ lat: entidad.latitud, lng: entidad.longitud}} title={entidad.direccion}/>
+            <Marker position={{ lat: entidad.latitud, lng: entidad.longitud}} title={entidad.direccion} onClick={markerClick}/>
+            <InfoWindow visible={infoWindow} marker={activeMarker} onClose={closeInfoWindow}><div>
+            <h6>{entidad.direccion}, {entidad.localidad.localidad}</h6>
+            <div style={{margiin:"0 auto", textAlign:"center"}}>
+              <a href={"https://www.google.com/maps/search/?api=1&query="+entidad.latitud+entidad.longitud} target="_blank">Ver más info</a>
+            </div>
+          </div></InfoWindow>
           </Map>
         }
       </div>
