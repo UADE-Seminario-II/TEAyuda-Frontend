@@ -6,6 +6,7 @@ import Rating from "@material-ui/lab/Rating";
 import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
 
 const CartasExperiencia = (props) => {
+  console.log(props.imagen)
   const useStyles = makeStyles((theme) => ({
     container: {
       backgroundColor: "white",// FONDOBLANCO: #e2eeff  FONDOCELESTE: white
@@ -66,6 +67,11 @@ const CartasExperiencia = (props) => {
             <Typography variant="body2" component="p" style={{fontStyle:"italic"}}>
               {'"' + item.comentario + '"'}
             </Typography>
+            <div>
+              {props.imagen.map((imagen, index) => (
+              imagen.id===item.id?
+                <img style={{width:200, height:200}}src={`data:image/jpeg;base64, ${(imagen.image[0])}`} />:null))}
+            </div>
           </CardContent>
         </Card>
       ))}

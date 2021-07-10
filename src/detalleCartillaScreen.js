@@ -75,6 +75,7 @@ export function DetalleCartillaScreen(props) {
   const [hasInstructives, setHasInstructives] = useState(false);
   const [modalIsOpen, setIsOpen] = React.useState(false);
   let [responseData, setResponseData] = useState([]);
+  let [dataImage] = useState([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -99,12 +100,8 @@ export function DetalleCartillaScreen(props) {
       }
       i++;
     }
-    console.log(entidadd.replace("undefined", "")); //guarde la entidad
     entidadd = entidadd.replace("undefined", "");
     entidadd = entidadd + "es";
-    console.log(entidadd);
-    console.log(idd); //guarde el id
-    console.log(urlback + entidadd + "/" + idd);
     fetch(urlback + entidadd + "/" + idd)
       .then((res) => res.json())
       .then(
@@ -112,7 +109,6 @@ export function DetalleCartillaScreen(props) {
           setIsLoaded(true);
           result.latitud=Number(result.latitud);
           result.longitud= Number(result.longitud)
-          console.log(result)
           setEntidad(result);
         },
         (error) => {
@@ -142,15 +138,14 @@ export function DetalleCartillaScreen(props) {
       }
       i++;
     }
-    console.log(entidadd.replace("undefined", "")); //guarde la entidad
     entidadd = entidadd.replace("undefined", "");
 
       axios.get(
           `https://sip2-backend.herokuapp.com/${entidadd}es/experiencias/${idd}`
         )
         .then((response) => {
-          console.log(response.data);
           setResponseData(response.data);
+          responseImage(response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -177,13 +172,11 @@ export function DetalleCartillaScreen(props) {
       }
       i++;
     }
-    console.log(entidadd.replace("undefined", "")); //guarde la entidad
     entidadd = entidadd.replace("undefined", "");
     axios.get(
       `https://sip2-backend.herokuapp.com/${entidadd}es/${idd}/Instructivo`
     )
     .then((response) => {
-      console.log("Instructivos: ###### ", response.data);
       let data = [];
       if(response.data){
         setHasInstructives(true);
@@ -200,6 +193,24 @@ export function DetalleCartillaScreen(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const[infoWindow,setInfoWindow]=useState(false);
   const[activeMarker,setActiveMarker]=useState(null);
+  const responseImage = (data) =>{
+      data.map((responsedata) =>{
+        axios.get(
+          `https://sip2-backend.herokuapp.com/Experiencias/${responsedata.id}/downloadImages`
+        )
+        .then((response) => {
+          const imagen={
+            id:responsedata.id,
+            image:response.data
+          }
+          console.log(imagen)
+          dataImage.push(imagen)
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      })
+  }
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
     setTimeout(() => {
@@ -520,7 +531,7 @@ export function DetalleCartillaScreen(props) {
       <br></br>
       <br></br>
       <div style={{display:"flex", alignContent:"center", justifyContent:"center"}}>
-        <CartasExperiencia cartas={responseData}></CartasExperiencia>
+        <CartasExperiencia cartas={responseData} imagen={dataImage}></CartasExperiencia>
       </div>
       <div className={classes.footer}>
         <Footer />
